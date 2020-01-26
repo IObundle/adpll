@@ -20,12 +20,18 @@ module dco #(
 
 	     parameter DCO_INIT_DLY = 0)
              (
-              input 	 en, 
-	      input int  dco_in_l,
-	      input int  dco_in_m,
-	      input int  dco_in_s,
-	      output bit ckv);
-
+              input 	  en, 
+	      input [4:0] c_l_r_all,
+	      input [4:0] c_l_row,
+	      input [4:0] c_l_col,
+	      input [15:0] c_m_r_all,
+	      input [15:0] c_m_row,
+	      input [15:0] c_m_col,
+	      input [15:0] c_s_r_all,
+	      input [15:0] c_s_row,
+	      input [15:0] c_s_col,
+	      output reg  ckv);
+   
    parameter real noise_floor_dBc = -140; //noise floor in dBc
    parameter real delta_f_wander =  1.0e6;
    parameter real PN_at_delta_t_dBc =  -100; //phase noise at delta frequency in dBc
@@ -35,16 +41,105 @@ module dco #(
    parameter real SIGMA_JITTER = int'((1.0/(`F_OUT*2.0*pi))*$sqrt(noise_floor*`F_OUT)*1e15);
    parameter real PN_at_delta_t = 10**(PN_at_delta_t_dBc/10.0);
    parameter real SIGMA_WANDER = int'((1.0*delta_f_wander/`F_OUT)*$sqrt(1.0/`F_OUT)*$sqrt(PN_at_delta_t)*1e15); // in fs
+
+   parameter int N_L = 25; // number of large capacitors
+   parameter int N_M = 256; // number of medium capactiors
+   parameter int N_S = 256; // number os small capacitors
+   
+		 
+   int 		  dco_in_l;
    
    real 	  c_l, c_m, c_s, c_total;
    real 	  T_osc_true;
    real 	  rest = 0;
+   /////////////////////////////////////////////////////////////////////////////
+   // Instantiate the c_sel of Large C bank
+   ////////////////////////////////////////////////////////////////////////////
+   wire [N_L-1:0] c_l_val;
+   generate
+      genvar 	  il, jl;  
+      for(il=0; il<5; il = il +1) begin : c_sel_cols_l
+	 for(jl=0; jl < 5; jl = jl+1) begin : c_sel_rows_l	    
+	    c_sel c_sel_l (
+			   // inputs
+			   .r_all(c_l_r_all[il]),
+			   .row(c_l_row[il]),
+			   .col(c_l_col[jl]),
+			   //ouputs
+			   .out(c_l_val[5*jl+il]));	    
+	 end
+      end 
+   endgenerate
+   //sum of all L caps
+   reg [4:0] 	  c_l_val_sum;
+   integer kl;
+   always @c_l_val begin
+      c_l_val_sum = c_l_val[0]; 
+      for(kl=1; kl<N_L; kl=kl+1)
+	c_l_val_sum = c_l_val_sum + c_l_val[kl];
+   end
+ /////////////////////////////////////////////////////////////////////////////
+ // Instantiate the c_sel of Medium C bank
+ ////////////////////////////////////////////////////////////////////////////
+   wire [N_M-1:0] c_m_val;
+   generate
+      genvar 	  im, jm;  
+      for(im=0; im<16; im = im +1) begin : c_sel_cols_m
+	 for(jm=0; jm < 16; jm = jm+1) begin : c_sel_rows_m	    
+	    c_sel c_sel_m (
+			   // inputs
+			   .r_all(c_m_r_all[im]),
+			   .row(c_m_row[im]),
+			   .col(c_m_col[jm]),
+			   //ouputs
+			   .out(c_m_val[16*jm+im]));	    
+	 end
+      end // block: c_sel_cols_m    
+   endgenerate
+   //sum of all M caps
+   reg [8:0] 	  c_m_val_sum;
+   integer km;
+   always @c_m_val begin
+      c_m_val_sum = c_m_val[0]; 
+      for(km=1; km<N_M; km=km+1)
+	c_m_val_sum = c_m_val_sum + c_m_val[km];
+   end
+
+ /////////////////////////////////////////////////////////////////////////////
+ // Instantiate the c_sel of Small C bank
+ ////////////////////////////////////////////////////////////////////////////
+   wire [N_S-1:0] c_s_val;
+   generate
+      genvar 	  is, js;  
+      for(is=0; is<16; is = is +1) begin : c_sel_cols_s
+	 for(js=0; js < 16; js = js+1) begin : c_sel_rows_s	    
+	    c_sel c_sel_s (
+			   // inputs
+			   .r_all(c_s_r_all[is]),
+			   .row(c_s_row[is]),
+			   .col(c_s_col[js]),
+			   //ouputs
+			   .out(c_s_val[16*js+is]));	    
+	 end
+      end 
+   endgenerate
+   //sum of all M caps
+   reg [8:0] 	  c_s_val_sum;
+   integer ks;
+   always @c_s_val begin
+      c_s_val_sum = c_s_val[0]; 
+      for(ks=1; ks<N_S; ks=ks+1)
+	c_s_val_sum = c_s_val_sum + c_s_val[ks];
+   end
    
- 	  
+   /////////////////////////////////////////////////////////////////////////////
    // Calculate total C of tank
-   assign c_l = dco_in_l * C_L_LSB;
-   assign c_m = dco_in_m * C_M_LSB;
-   assign c_s = dco_in_s * C_S_LSB;
+   /////////////////////////////////////////////////////////////////////////////
+   initial  $monitor("c_l_val_sum = %d ,c_m_val_sum = %d, c_s_val_sum = %d ",c_l_val_sum,c_m_val_sum,c_s_val_sum  );
+  
+   assign c_l = c_l_val_sum * C_L_LSB;
+   assign c_m = c_m_val_sum * C_M_LSB;
+   assign c_s = c_s_val_sum * C_S_LSB;
    assign c_total = c_l + c_m + c_s + C_FIXED; // in fF
    // Calculate DCO ideal period
    assign T_osc_true = 2*pi*$sqrt(c_total * L_IND * 1e6 ); // in fs  
@@ -105,7 +200,7 @@ module dco #(
     end 
     else begin
        period_fs = T_osc_true;
-       tref = DCO_INIT_DLY;
+       //tref = DCO_INIT_DLY;
        ckv <= 0;
        #period_fs
        smp <= 1;

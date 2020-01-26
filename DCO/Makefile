@@ -1,8 +1,10 @@
-
 SRC_DIR = .
 
 SRC = \
-	$(SRC_DIR)/dco.sv 
+	$(SRC_DIR)/dco.sv \
+	$(SRC_DIR)/row_col_cod.v \
+	$(SRC_DIR)/row_col_cod_5x5.v \
+	$(SRC_DIR)/c_sel.sv
 
 #Icarus 
 CC = iverilog
