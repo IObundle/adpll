@@ -12,8 +12,9 @@
 
 module dco_tb;
 
-   reg en;
+   reg en,pd;
    wire ckv;
+   wire [1:0] osc_gain;
    longint mat_pdev;
 
    wire [4:0] c_l_r_all, c_l_row, c_l_col;
@@ -64,7 +65,8 @@ module dco_tb;
    // instantiate dco module
    dco dco0(
 	   // Inputs
-	   .en (en),
+	   .pd (pd),
+	    .osc_gain(osc_gain),
 	   .c_l_r_all(c_l_r_all),
 	   .c_l_row(c_l_row),
 	   .c_l_col(c_l_col),
@@ -96,6 +98,7 @@ module dco_tb;
       clk = 0;
       rst = 0;
       en = 1;
+      pd = 0; //dco ON
 
       c_l_word = 8'd28;
       

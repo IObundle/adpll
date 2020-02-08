@@ -11,6 +11,7 @@
 module tdc_tb;
 
    reg 	       en,rst;
+   reg 	       pd, pd_inj;
    reg [31:0]  osc_period_fs;
    reg 	       clk;
    
@@ -18,13 +19,16 @@ module tdc_tb;
    wire [6:0]  ripple_count;
    wire [15:0] phase;
    wire [11:0] tdc_word;
+   wire [2:0]  ctr_freq;
    
    //instantiate tdc_analog
    tdc_analog tdc_analog0(
 		      //Inputs
 			  .osc_period_fs(osc_period_fs),
-			  .en(en),
+			  .pd(pd),
+			  .pd_inj(pd_inj),
 			  .clk(clk),
+			  .ctr_freq(ctr_freq),
 			  //Outputs
 			  .ripple_count(ripple_count),
 			  .phase(phase));
@@ -51,10 +55,16 @@ module tdc_tb;
       rst = 1'b0;
       clk = 1'b0;
       en = 1'b0;
-      osc_period_fs = 32'd400000; //2.5 GHz
+      pd = 1'b1;
+      pd_inj = 1'b1;
+      
+      osc_period_fs = 32'd420000; //2.5 GHz
       #5e8 rst = 1'b1;
       #8e8 rst = 1'b0; 
       #1e9 en = 1'b1;
+      pd = 1'b0;
+      #1e9 pd_inj = 1'b0;
+      
       #1e9 osc_period_fs = 32'd400023; //2 GHz
       /*
       #1e9 osc_period_fs = 32'd400004; //2 GHz

@@ -10,18 +10,19 @@
   
 module tdc_analog_tb;
 
-   reg 	       en;
-   reg [31:0]        osc_period_fs;
-   reg 		     clk;
+   reg 	       pd,pd_inj;
+   reg [31:0]  osc_period_fs;
+   reg 	       clk;
    
 
-   wire [6:0] 	     ripple_count;
-   wire [15:0] 	     phases;
+   wire [6:0]  ripple_count;
+   wire [15:0] phases;
    //instantiate tdc_analog
    tdc_analog tdc_analog0(
 		      //Inputs
 			  .osc_period_fs(osc_period_fs),
-			  .en(en),
+			  .pd(pd),
+			  .pd_inj(pd_inj),
 			  .clk(clk),
 			  //Outputs
 			  .ripple_count(ripple_count),
@@ -33,10 +34,13 @@ module tdc_analog_tb;
       $dumpfile("dump.vcd");
       $dumpvars;
       clk = 1'b0;
-      en = 1'b0;
-      osc_period_fs = 32'd400003; //2.5 GHz
+      pd = 1'b1;
+      pd_inj = 1'b1;
+      osc_period_fs = 32'd420003; //2.5 GHz
       
-      #1e9 en = 1'b1;
+      #1e9 pd = 1'b0;
+      #1e9 pd_inj = 1'b0;
+      
       #1e9 osc_period_fs = 32'd4000003; //2 GHz
       #1e9 osc_period_fs = 32'd4000004; //2 GHz
       #1e9 osc_period_fs = 32'd4000030; //2 GHz

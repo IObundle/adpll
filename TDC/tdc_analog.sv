@@ -10,17 +10,23 @@
 
 module tdc_analog (
 	      input [31:0]  osc_period_fs,
-	      input 	    en,
 	      input 	    clk,
+	      input 	    pd,
+	      input 	    pd_inj,
+	      input [2:0]   ctr_freq,
 	      output [6:0]  ripple_count,
 	      output [15:0] phase);
 
+   wire [31:0] 		    osc_period_fs_aux;
+   //if injection is power down, the RO runs fixed at 2.5GHz
+   assign osc_period_fs_aux = (pd_inj==0)? osc_period_fs : 31'd400000;
+   
  //instantiate ring oscillator
    wire [15:0] osc_phases;
    ring_osc ring_osc0(
 		      //Inputs
-		      .osc_period_fs(osc_period_fs),
-		      .en(en),
+		      .osc_period_fs(osc_period_fs_aux),
+		      .en(~pd),
 		      //Outputs
 		      .inv_out(osc_phases));
 

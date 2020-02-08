@@ -20,17 +20,19 @@ module dco #(
 
 	     parameter DCO_INIT_DLY = 0)
              (
-              input 	  en, 
-	      input [4:0] c_l_r_all,
-	      input [4:0] c_l_row,
-	      input [4:0] c_l_col,
+              input 	   pd,
+	      input [1:0]  osc_gain,
+	      input [4:0]  c_l_r_all,
+	      input [4:0]  c_l_row,
+	      input [4:0]  c_l_col,
 	      input [15:0] c_m_r_all,
 	      input [15:0] c_m_row,
 	      input [15:0] c_m_col,
 	      input [15:0] c_s_r_all,
 	      input [15:0] c_s_row,
 	      input [15:0] c_s_col,
-	      output reg  ckv);
+	      output reg   ckv,
+	      output [31:0] period_fs);
    
    parameter real noise_floor_dBc = -140; //noise floor in dBc
    parameter real delta_f_wander =  1.0e6;
@@ -160,8 +162,8 @@ module dco #(
    int seed = -1;
 
       
-   always @(smp, en) begin
-    if ( !init && en ) begin
+   always @(smp, pd) begin
+    if ( !init && (~pd) ) begin
 
        
        // adjust the next VCO period
