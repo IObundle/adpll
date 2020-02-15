@@ -17,9 +17,9 @@ module dco_tb;
    wire [1:0] osc_gain;
    longint mat_pdev;
 
-   wire [4:0] c_l_r_all, c_l_row, c_l_col;
-   wire [15:0] c_m_r_all, c_m_row, c_m_col;
-   wire [15:0] c_s_r_all, c_s_row, c_s_col;
+   wire [4:0] c_l_rall, c_l_row, c_l_col;
+   wire [15:0] c_m_rall, c_m_row, c_m_col;
+   wire [15:0] c_s_rall, c_s_row, c_s_col;
    reg [7:0] c_s_word, c_m_word;
    reg [4:0] c_l_word; 
    reg 	       clk, rst;
@@ -32,7 +32,7 @@ module dco_tb;
 			    .clk(clk),
 			    .word(c_l_word),
 			    //Outputs
-			    .r_all(c_l_r_all),
+			    .r_all(c_l_rall),
 			    .row(c_l_row),
 			    .col(c_l_col)
 			    );
@@ -44,7 +44,7 @@ module dco_tb;
 			    .clk(clk),
 			    .word(c_m_word),
 			    //Outputs
-			    .r_all(c_m_r_all),
+			    .r_all(c_m_rall),
 			    .row(c_m_row),
 			    .col(c_m_col)
 			    );
@@ -56,28 +56,30 @@ module dco_tb;
 			    .clk(clk),
 			    .word(c_s_word),
 			    //Outputs
-			    .r_all(c_s_r_all),
+			    .r_all(c_s_rall),
 			    .row(c_s_row),
 			    .col(c_s_col)
 			    );
    
+   wire [31:0] osc_period_fs;
    
    // instantiate dco module
    dco dco0(
 	   // Inputs
 	   .pd (pd),
 	    .osc_gain(osc_gain),
-	   .c_l_r_all(c_l_r_all),
+	   .c_l_rall(c_l_rall),
 	   .c_l_row(c_l_row),
 	   .c_l_col(c_l_col),
-	   .c_m_r_all(c_m_r_all),
+	   .c_m_rall(c_m_rall),
 	   .c_m_row(c_m_row),
 	   .c_m_col(c_m_col),
-	   .c_s_r_all(c_s_r_all),
+	   .c_s_rall(c_s_rall),
 	   .c_s_row(c_s_row),
 	   .c_s_col(c_s_col),
 	   // Outputs
-	   .ckv	(ckv)
+	   .ckv	(ckv),
+	   .period_fs(osc_period_fs)
 	   );
 
    integer	  fp1;
@@ -100,22 +102,22 @@ module dco_tb;
       en = 1;
       pd = 0; //dco ON
 
-      c_l_word = 8'd28;
+      c_l_word = 8'd13;
       
-      //c_l_r_all = 5'b11111;
+      //c_l_rall = 5'b11111;
       //c_l_row = 5'b1;
       //c_l_col = 5'b1;
 
-      c_m_word = 8'd255;
+      c_m_word = 8'd128;
       
-      //c_m_r_all = 16'b0111111111111111;
+      //c_m_rall = 16'b0111111111111111;
       //c_m_row = 16'b1000000000000000;
       //c_m_col = 16'b1111111111111111;
 
-      c_s_word = 8'd127;
+      c_s_word = 8'd0;
       
 
-      //c_s_r_all = 16'b0111111111111111;
+      //c_s_rall = 16'b0111111111111111;
       //c_s_row = 16'b1000000000000000;
       //c_s_col = 16'b1111111111111111;
 
@@ -124,7 +126,7 @@ module dco_tb;
       #1E9 rst = 1;
       #1E9 rst = 0;
  
-      #2E9 c_s_word = 8'd50;
+      #2E9 c_s_word = 8'd255;
       //$display(" %e",SIGMA_WANDER);  
    end // initial begin
 

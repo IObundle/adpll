@@ -36,7 +36,7 @@ module tdc_analog_tb;
       clk = 1'b0;
       pd = 1'b1;
       pd_inj = 1'b1;
-      osc_period_fs = 32'd420003; //2.5 GHz
+      osc_period_fs = 32'd4200003; //2.5 GHz
       
       #1e9 pd = 1'b0;
       #1e9 pd_inj = 1'b0;

@@ -6,7 +6,8 @@
 // Project: WSN DCO Model (Non-Synt)
 // Description: ring oscillator with variable delay inverters
 //             oscilator feq = 1/ (inv_delay*2*16)  			 
-//
+// NOTE: the timescale resolution limit generates a f_osc error of 2.5kHz@2.5GHz
+//       this translates into a offset freq error of about 2.5 kHz
 
 module ring_osc (
 		 input 	[31:0]    osc_period_fs,
@@ -49,15 +50,17 @@ module ring_osc (
       //$display("N = %d ",N);
       
       // min inv delay
-      inv_delay_min = $floor(osc_period_fs / 32);
+      //inv_delay_min = $floor(osc_period_fs / 32);
+	  inv_delay_min = $floor(osc_period_fs / 32);
       // max inv delay
       inv_delay_max = inv_delay_min + 1;
      
-      N = $floor((N+N_rest)/2);
-      N_rest = (N+N_rest)%2;
+	  N = $floor(N/2);
+	  //N = $floor((N+N_rest)/2);
+      //N_rest = (N+N_rest)%2;
       
       for(j=0; j<16; j=j+1) begin
-	 if (j< N )
+	 if (j < N )
 	   inv_delay[j]=inv_delay_max;
 	 else
 	   inv_delay[j]=inv_delay_min;

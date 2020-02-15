@@ -98,9 +98,9 @@ module row_col_cod_5x5 #(
 
    always @ (posedge rst, posedge clk) begin 
       if(rst == 1'b1)begin
-	 r_all <= 0;
-	 row <= 0;
-	 col <= 0;
+	 r_all <= 5'd3;
+	 row <= 5'd4;
+	 col <= 5'd7;
       end
       else if(en == 1'b1)begin
 	 r_all <= r_all_nxt;

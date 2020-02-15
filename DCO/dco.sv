@@ -22,21 +22,21 @@ module dco #(
              (
               input 	   pd,
 	      input [1:0]  osc_gain,
-	      input [4:0]  c_l_r_all,
+	      input [4:0]  c_l_rall,
 	      input [4:0]  c_l_row,
 	      input [4:0]  c_l_col,
-	      input [15:0] c_m_r_all,
+	      input [15:0] c_m_rall,
 	      input [15:0] c_m_row,
 	      input [15:0] c_m_col,
-	      input [15:0] c_s_r_all,
+	      input [15:0] c_s_rall,
 	      input [15:0] c_s_row,
 	      input [15:0] c_s_col,
 	      output reg   ckv,
 	      output [31:0] period_fs);
    
-   parameter real noise_floor_dBc = -140; //noise floor in dBc
+   parameter real noise_floor_dBc = -150; //noise floor in dBc
    parameter real delta_f_wander =  1.0e6;
-   parameter real PN_at_delta_t_dBc =  -100; //phase noise at delta frequency in dBc
+   parameter real PN_at_delta_t_dBc =  -120; //phase noise at delta frequency in dBc
    
    parameter real pi = 3.14159;
    parameter real noise_floor = 10**(noise_floor_dBc/10.0);
@@ -64,7 +64,7 @@ module dco #(
 	 for(jl=0; jl < 5; jl = jl+1) begin : c_sel_rows_l	    
 	    c_sel c_sel_l (
 			   // inputs
-			   .r_all(c_l_r_all[il]),
+			   .r_all(c_l_rall[il]),
 			   .row(c_l_row[il]),
 			   .col(c_l_col[jl]),
 			   //ouputs
@@ -90,7 +90,7 @@ module dco #(
 	 for(jm=0; jm < 16; jm = jm+1) begin : c_sel_rows_m	    
 	    c_sel c_sel_m (
 			   // inputs
-			   .r_all(c_m_r_all[im]),
+			   .r_all(c_m_rall[im]),
 			   .row(c_m_row[im]),
 			   .col(c_m_col[jm]),
 			   //ouputs
@@ -117,7 +117,7 @@ module dco #(
 	 for(js=0; js < 16; js = js+1) begin : c_sel_rows_s	    
 	    c_sel c_sel_s (
 			   // inputs
-			   .r_all(c_s_r_all[is]),
+			   .r_all(c_s_rall[is]),
 			   .row(c_s_row[is]),
 			   .col(c_s_col[js]),
 			   //ouputs
@@ -137,15 +137,19 @@ module dco #(
    /////////////////////////////////////////////////////////////////////////////
    // Calculate total C of tank
    /////////////////////////////////////////////////////////////////////////////
-   initial  $monitor("c_l_val_sum = %d ,c_m_val_sum = %d, c_s_val_sum = %d ",c_l_val_sum,c_m_val_sum,c_s_val_sum  );
-  
-   assign c_l = c_l_val_sum * C_L_LSB;
-   assign c_m = c_m_val_sum * C_M_LSB;
-   assign c_s = c_s_val_sum * C_S_LSB;
+   //initial  $monitor("c_l_val_sum = %d ,c_m_val_sum = %d, c_s_val_sum = %d ",c_l_val_sum,c_m_val_sum,c_s_val_sum  );
+
+   //negative c gain
+   assign c_l = (25-c_l_val_sum) * C_L_LSB; 
+   assign c_m = (255-c_m_val_sum) * C_M_LSB;
+   assign c_s = (255-c_s_val_sum) * C_S_LSB;
    assign c_total = c_l + c_m + c_s + C_FIXED; // in fF
    // Calculate DCO ideal period
-   assign T_osc_true = 2*pi*$sqrt(c_total * L_IND * 1e6 ); // in fs  
-
+   assign T_osc_true = 2*pi*$sqrt(c_total * L_IND * 1e6 ); // in fs
+   
+   real freq_dco;
+   assign freq_dco = 1e15/T_osc_true;
+   
    
    /////////////////////////////////////////////////////////////////////////////
    // Period-Controled Oscillator (PCO)
