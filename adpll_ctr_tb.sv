@@ -156,7 +156,13 @@ module adpll_ctr_tb;
 
       #1E8 rst = 1;
       #1E8 rst = 0;
-      #1E8 en = 1;    
+      #1E8 en = 1;
+
+      //#30E9 FCW = int'((2310)*16384); // channel frequency
+      //$display("freq_channel = %f MHz, FCW = %d", 2310, FCW);
+      //#10E9 adpll_mode = 1 ;
+      //#10E9 adpll_mode = 3;
+      
    end 
 
    always @(posedge clk)
