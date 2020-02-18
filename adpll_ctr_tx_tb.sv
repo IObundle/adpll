@@ -1,18 +1,15 @@
 `timescale 1fs / 1fs
 
-//`define ADPLL_MODE 2 //PD = 0, TEST = 1, RX = 2, TX = 3
-//`define FREQ_CHANNEL 2480.000 // Channel freq in MHz
-//`define SIM_TIME 120 //simulation time in us
 
 ///////////////////////////////////////////////////////////////////////////////
 // Date: 17/02/2019
-// Module: adpll_ctr_rx.sv
+// Module: adpll_ctr_tx_tb.sv
 // Project: WSN 
 // Description: Channel locking and then, signal modulation
 //				 
 
 
-module adpll_ctr_tb;
+module adpll_ctr_tx_tb;
 
    reg clk;
    reg rst,en;
@@ -132,8 +129,8 @@ module adpll_ctr_tb;
    
 						  
 /////////////////////////////// Input Parameters //////////////////////////						  
-   parameter real end_time_fs = `SIM_TIME * 1E9;
-   parameter real freq_channel = `FREQ_CHANNEL; //in MHz
+   parameter real end_time_fs = 500E9;
+   parameter real Fout = 2480.000; //in MHz
    // ADPLL operation modes:
    parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
 //////////////////////////////////////////////////////////////////////////
@@ -148,10 +145,10 @@ module adpll_ctr_tb;
       clk = 0;
       rst = 0;
       en = 0;
-      adpll_mode = `ADPLL_MODE; 
+      adpll_mode = TX; 
       data_mod = 0;
-      FCW = int'(freq_channel*16384); // channel frequency
-      $display("freq_channel = %f MHz, FCW = %d", freq_channel, FCW);
+      FCW = int'(Fout*16384); // channel frequency
+      $display("Fin = %f MHz, FCW = %d", Fout, FCW);
       time_count = 0;
 
       #1E8 rst = 1;

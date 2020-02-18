@@ -18,19 +18,52 @@ import pn_calcs_adpll
 
 start_time = time.time()
 
+time_rm_us = 5 ## <-----------INITIAL TRANSIENT REMOVED
+
 ################################################################################
+## Open file of negedge clk time
+with open('clkn_time.txt','r') as myFile:
+        contents = myFile.read()
+clkn_time = np.asarray(contents.split())
+clkn_time = clkn_time.astype(int)
+clkn_time = clkn_time*1e-15;
+aux = np.abs(clkn_time - time_rm_us*1e-6)
+idx = np.where(aux == np.min(aux));
+idx = idx[0][0]
+clkn_time = clkn_time[idx:] #removes initial transient
+
 ## Open file contanining tdc word
 with open('tdc_word.txt','r') as myFile:
         contents = myFile.read()
 tdc_word = np.asarray(contents.split())
-tdc_word = tdc_word[tdc_word != 'x']
+tdc_word = np.where(tdc_word=='x', 0 , tdc_word) 
+##tdc_word = tdc_word[tdc_word != 'x']
 tdc_word = tdc_word.astype(int)
-n_rm = 35*32 #tdc_to remove
-tdc_word = tdc_word[n_rm:] #removes initial transient
+tdc_word = tdc_word[idx:] #removes initial transient
+
 
 tdc_word_mean= np.sum(tdc_word) / len(tdc_word); 
 print("TDC_word_mean = ", tdc_word_mean)
 
+plt.subplot(413)
+plt.plot(clkn_time*1e6,tdc_word)
+plt.ticklabel_format(useOffset=False)
+plt.title('TDC output word vs time in us', fontsize=15)
+plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
+
+## Open file contanining DCO input word of small C bank
+with open('dco_s_word.txt','r') as myFile:
+        contents = myFile.read()
+dco_s_word = np.asarray(contents.split())
+dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word) 
+dco_s_word = dco_s_word.astype(int)
+dco_s_word = dco_s_word[idx:] #removes initial transient
+
+plt.subplot(414)
+plt.plot(clkn_time*1e6,dco_s_word)
+plt.ticklabel_format(useOffset=False)
+plt.title('DCO small cap bank word vs time in us', fontsize=15)
+plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 
 ################################################################################
@@ -40,9 +73,12 @@ with open('dco_ckv_time.txt','r') as myFile:
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)
 t_CKV = t_CKV*1e-15;
-n_rm = 50000 #ckvs to remove
-t_CKV = t_CKV[n_rm:] #removes initial transient
-t_CKV = t_CKV-t_CKV[0] #removes initial transient
+aux = np.abs(t_CKV - time_rm_us*1e-6)
+idx = np.where(aux == np.min(aux));
+idx = idx[0][0]
+t_CKV = t_CKV[idx:] #removes initial transient
+t_CKV_real = t_CKV[1:]
+t_CKV = t_CKV-t_CKV[0] #removes initial transient (for PN calcs)
 
 
 print("--- %s seconds ---" % (time.time() - start_time))
@@ -52,16 +88,13 @@ plt.subplot(412)
 T_dco = t_CKV[1:]-t_CKV[0:-1]
 f_dco = 1/ T_dco
 
-plt.plot(np.arange(len(f_dco)),f_dco)
+plt.plot(t_CKV_real*1e6,f_dco)
 plt.ticklabel_format(useOffset=False)
-plt.title('DCO frequency', fontsize=14)
-plt.xlim(0, len(f_dco)+1)
+plt.title('DCO frequency vs time in us', fontsize=15)
+plt.xlim(time_rm_us, t_CKV_real[-1]*1e6)
 
-plt.subplot(413)
-plt.plot(np.arange(len(T_dco)),np.round(T_dco*1e15))
-plt.ticklabel_format(useOffset=False)
-plt.title('DCO period in fs', fontsize=14)
-plt.xlim(0, len(T_dco)+1)
+
+
 
 ################ Calculates TDEV and PN for CKV_t #################
 

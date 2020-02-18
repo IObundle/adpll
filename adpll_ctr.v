@@ -1,7 +1,7 @@
 `timescale 1fs / 1fs
 
 `define FCWW 26
-`define ACCW 1+`FCWW
+`define ACCW 27
 `define INTW 12
 `define FRAW 14
 
@@ -14,35 +14,37 @@
 //				 
 
 module adpll_ctr(
-    input 	       rst,
-    input 	       en,
-    input 	       clk,
+    input 	      rst,
+    input 	      en,
+    input 	      clk,
     input [`FCWW-1:0] FCW,
-    input [1:0]        adpll_mode,
+    input [1:0]       adpll_mode,
+    output 	      channel_lock,
+    input 	      data_mod, 
     // analog dco interface
-    output 	       dco_pd,
-    output [1:0]       dco_osc_gain,
-    output [4:0]       dco_c_l_rall,
-    output [4:0]       dco_c_l_row,
-    output [4:0]       dco_c_l_col,
-    output [15:0]      dco_c_m_rall,
-    output [15:0]      dco_c_m_row,
-    output [15:0]      dco_c_m_col,
-    output [15:0]      dco_c_s_rall,
-    output [15:0]      dco_c_s_row,
-    output [15:0]      dco_c_s_col,
+    output 	      dco_pd,
+    output [1:0]      dco_osc_gain,
+    output [4:0]      dco_c_l_rall,
+    output [4:0]      dco_c_l_row,
+    output [4:0]      dco_c_l_col,
+    output [15:0]     dco_c_m_rall,
+    output [15:0]     dco_c_m_row,
+    output [15:0]     dco_c_m_col,
+    output [15:0]     dco_c_s_rall,
+    output [15:0]     dco_c_s_row,
+    output [15:0]     dco_c_s_col,
     //analog tdc interface
-    output  	       tdc_pd,
-    output  	       tdc_pd_inj,
-    output [2:0]       tdc_ctr_freq,
-    input [6:0]        tdc_ripple_count,
-    input [15:0]       tdc_phase,
+    output 	      tdc_pd,
+    output 	      tdc_pd_inj,
+    output [2:0]      tdc_ctr_freq,
+    input [6:0]       tdc_ripple_count,
+    input [15:0]      tdc_phase,
 			      //CPU interface
-    input 	       select,
-    input 	       write,
-    input [4:0]        adress,
-    input [31:0]       data_in,
-    input [31:0]       data_out			      
+    input 	      select,
+    input 	      write,
+    input [4:0]       adress,
+    input [31:0]      data_in,
+    input [31:0]      data_out			      
 			      );
 
    wire signed [4:0] 	      dco_c_l_word;
@@ -56,18 +58,37 @@ module adpll_ctr(
    ///////////////////////////////////////////////////////////////////
    /// List o accesible registers
    ///////////////////////////////////////////////////////////////////
-   reg [3:0] 		      alpha_l, alpha_m, alpha_s; //write
-
+   reg [3:0] 		      alpha_l, alpha_m;
+   reg [3:0] 		      alpha_s_rx, alpha_s_tx; 
+   reg [3:0] 		      beta;
+   reg [2:0] 		      lambda_rx, lambda_tx;
+   reg [1:0] 		      iir_n_rx, iir_n_tx;
+   reg [4:0] 		      FCW_mod;
+      
    always @ (posedge clk, posedge rst)
      if(rst == 1'b1)begin
-	alpha_l <= 4'd14;
-	alpha_m <= 4'd8;
-	alpha_s <= 4'd7;
+	alpha_l <= 4'd0;
+	alpha_m <= 4'd0;
+	alpha_s_rx <= 4'd0;
+	alpha_s_tx <= 4'd0;
+	beta <= 4'd0;
+	lambda_rx <= 3'd0;
+	lambda_tx <= 3'd0;
+	iir_n_rx <= 2'd0;
+	iir_n_tx <= 2'd0;
+	FCW_mod <= 5'd0;
      end
      else if(en == 1'b1) begin
 	alpha_l <= 4'd14;
 	alpha_m <= 4'd8;
-	alpha_s <= 4'd7;
+	alpha_s_rx <= 4'd7;
+	alpha_s_tx <= 4'd4;
+	beta <= 4'd0;
+	lambda_rx <= 3'd2;
+	lambda_tx <= 3'd2;
+	iir_n_rx <= 2'd3;
+	iir_n_tx <= 2'd2;
+	FCW_mod <= 5'b01001;//298kHz
      end
    ///////////////////////////////////////////////////////////////////
    /// Decoders Intantiation
@@ -131,7 +152,7 @@ module adpll_ctr(
    ///////////////////////////////////////////////////////////////////
 
    reg [3:0] alpha;
-   reg [5:0] time_count, time_count_nxt;
+   reg [8:0] time_count, time_count_nxt;
    reg 	     dco_pd, dco_pd_nxt;
    reg 	     tdc_pd, tdc_pd_nxt;
    reg 	     tdc_pd_inj, tdc_pd_inj_nxt;
@@ -140,35 +161,102 @@ module adpll_ctr(
    reg [4:0] c_l_word_freeze;
    reg 	     rst_lock_detect_nxt, rst_lock_detect;
    reg 	     en_lock_detect_nxt, en_lock_detect;
-   
+   reg 	     channel_lock, channel_lock_nxt;
+   reg 	     en_integral, en_integral_nxt;
+   reg 	     en_mod,en_mod_nxt;
+         
+      
    parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
+   parameter  RX = 2'd2, TX = 2'd3;
 
    reg signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
    reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
    reg signed [7:0] 		otw_s_fixed, otw_s_fixed_nxt;
 
-   // phase difference and accumulator
+   ///// Phase Diference and Accumulator /////
    wire signed [`ACCW-1:0] 	      ph_diff;
    wire signed [`ACCW-1:0] 	      ph_diff_accum;
    reg signed [`ACCW-1:0] 	ph_diff_accum_last;
-   
+   wire signed [`ACCW-1:0] 	ph_diff_mod;
+   wire signed [`ACCW-1:0] 	freq_dev;
+
+      
    assign ph_diff = FCW - {tdc_word,{{(`FRAW){1'b0}}}};
-   assign ph_diff_accum= ph_diff_accum_last + ph_diff;
 
-    always @ (negedge clk, posedge (rst|rst_accum) )
-      if((rst|rst_accum) == 1'b1)
-	 ph_diff_accum_last <= `ACCW'd0;
+   ////// Modulation /////
+   assign freq_dev = (data_mod == 1'b1)? 
+		     {{{(`INTW+1){1'b0}}},FCW_mod,{{(`FRAW-5){1'b0}}}}:
+		     ~{{{(`INTW+1){1'b0}}},FCW_mod,{{(`FRAW-5){1'b0}}}}+1;
+	
+   assign ph_diff_mod = (en_mod==1'b0)? ph_diff: ph_diff + freq_dev;
+   
+   assign ph_diff_accum = ph_diff_accum_last + ph_diff_mod;
+
+   always @ (negedge clk, posedge rst|rst_accum )
+     if(rst|rst_accum == 1'b1)
+       ph_diff_accum_last <= `ACCW'd0;
+     else if(en == 1'b1)
+       ph_diff_accum_last <= ph_diff_accum;
+   
+
+   ///// Integral Filter Accumulator /////
+   wire signed [`ACCW-1:0] 	integral;
+   wire signed [`ACCW-1:0] 	integral_beta;
+   reg signed [`ACCW-1:0] 	integral_last;
+   
+   assign integral = iir_out + integral_last;
+   assign integral_beta = integral >>> beta;
+   always @ (negedge clk, posedge rst)
+      if(rst|rst_accum == 1'b1)
+	 integral_last <= iir_out;
       else if(en == 1'b1)
-	 ph_diff_accum_last <= ph_diff_accum;
+	 integral_last <= integral;
 
+    ///// IIR filters /////
+   reg [1:0] 			iir_n;
+   reg [2:0] 			lambda;
+   wire signed [`ACCW-1:0] 	iir_out;
+   wire signed [`ACCW-1:0] 	iir1_in, iir2_in, iir3_in;
+   wire signed [`ACCW-1:0] 	iir1_out, iir2_out, iir3_out;
+   reg signed [`ACCW-1:0] 	iir1_out_last, iir2_out_last, iir3_out_last;
 
+   assign iir1_in = ph_diff_accum;
+   assign iir1_out = (iir1_in>>>lambda)-(iir1_out_last>>>lambda)+iir1_out_last;
+   assign iir2_in = iir1_out;
+   assign iir2_out = (iir2_in>>>lambda)-(iir2_out_last>>>lambda)+iir2_out_last;
+   assign iir3_in = iir2_out;
+   assign iir3_out = (iir3_in>>>lambda)-(iir3_out_last>>>lambda)+iir3_out_last;
+   
+   //assign iir_out = ph_diff_accum;
+   //4->1 mux
+   assign iir_out = iir_n[1] ? (iir_n[0] ? iir3_out : iir2_out) :
+		    (iir_n[0] ? iir1_out : iir1_in);
+
+   always @ (negedge clk, posedge rst )
+     if(rst|rst_accum == 1'b1) begin
+	iir1_out_last <= `ACCW'd0;
+	iir2_out_last <= `ACCW'd0;
+	iir3_out_last <= `ACCW'd0;
+     end
+     else if(en == 1'b1) begin
+	iir1_out_last <= iir1_out;
+	iir2_out_last <= iir2_out;
+	iir3_out_last <= iir3_out;
+     end 
+
+   wire signed [`ACCW-1:0] 	ntw;
    wire signed [`ACCW-1:0] 	otw;
    wire [`FRAW-1:0] 		otw_frac;
    wire signed [`ACCW-1-`FRAW:0] otw_int;
    wire signed [`ACCW-1-`FRAW:0] otw_int_round; 
+  
+        
+   assign ntw = (en_integral == 1'b1)? integral_beta + (iir_out >>> alpha) :
+		iir_out >>> alpha;
    
-   assign otw = (alpha >= 8) ? (ph_diff_accum >>> (alpha-8)) : (ph_diff_accum << (8-alpha)); //divide por 256 e não por 200! KDCO dos small bank
+   assign otw = (ntw << 7) + (ntw << 6);
+   
    assign otw_int = otw[`ACCW-1:`FRAW];
     //round of decimal part (otw_frac width = 14)
    assign otw_int_round = (otw[13]) ? otw_int + 1 : otw_int;
@@ -198,16 +286,21 @@ module adpll_ctr(
       rst_accum_nxt = rst_accum;
       rst_lock_detect_nxt = rst_lock_detect;
       en_lock_detect_nxt = en_lock_detect;
-      alpha = alpha_s;
-      
+      alpha = alpha_s_rx;
+      channel_lock_nxt = channel_lock;
+      en_integral_nxt = en_integral;
+      lambda = lambda_rx;
+      iir_n = 2'd0;
+      en_mod_nxt = en_mod;
+                
       
       case(state_rx)
 	IDLE:
-	  if(adpll_mode == 2'd2)
+	  if(adpll_mode == 2'd2 || adpll_mode == 2'd3 )
 	    state_rx_nxt = PU;
 	PU://power up of analog blocks
 	  begin
-	     time_count_nxt = time_count + 6'd1;
+	     time_count_nxt = time_count + 9'd1;
 	     dco_pd_nxt = 1'b0;
 	     case(time_count)
 	       6'd16: tdc_pd_nxt = 1'b0;
@@ -216,6 +309,7 @@ module adpll_ctr(
 		 begin 
 		    state_rx_nxt = C_L;
 		    rst_accum_nxt = 1'b1;
+		    time_count_nxt = 9'd0; 
 		 end
 	     endcase
 	  end 
@@ -225,7 +319,7 @@ module adpll_ctr(
 	     alpha = alpha_l;
 	     en_lock_detect_nxt = 1'b1;
 	     if(lock_detect==1'b1)begin
-		$display("C_L bank LOCKED");
+		//$display("C_L bank LOCKED");
 		state_rx_nxt = C_M;
 		rst_accum_nxt = 1'b1;
 		rst_lock_detect_nxt = 1'b1;
@@ -237,29 +331,54 @@ module adpll_ctr(
 	     rst_lock_detect_nxt = 1'b0;
 	     alpha = alpha_m;
 	     if(lock_detect==1'b1)begin
-		$display("C_M bank LOCKED");
+		//$display("C_M bank LOCKED");
 		state_rx_nxt = C_S;
 		rst_accum_nxt = 1'b1;
-		rst_lock_detect_nxt = 1'b1;
 		en_lock_detect_nxt = 1'b0;
 	     end
 	  end //
 	C_S: // Small C bank operation
 	  begin
-	     rst_accum_nxt = 1'b0;
-	     rst_lock_detect_nxt = 1'b0;
-	     alpha = alpha_s;
-	     if(lock_detect==1'b1)begin
-
-	     end
+	     case(adpll_mode)
+	       RX: 
+		 begin
+		    rst_accum_nxt = 1'b0;
+		    alpha = alpha_s_rx;
+		    iir_n = iir_n_rx;
+		    lambda = lambda_rx;
+		    time_count_nxt = time_count + 9'd1;
+		    if(beta > 4'd0)
+		       en_integral_nxt = 1'b1;
+		    
+		    case(time_count)
+		      9'd480: channel_lock_nxt = 1'b1;  // 15us	    
+		    endcase 
+		 end 
+	       TX:
+		 begin
+		    rst_accum_nxt = 1'b0;
+		    alpha = alpha_s_tx;
+		    iir_n = iir_n_tx;
+		    lambda = lambda_tx;
+		    time_count_nxt = time_count + 9'd1;
+		    case(time_count)
+		      9'd480: channel_lock_nxt = 1'b1;  // 15us
+		    endcase
+		    if(channel_lock == 1'b1) 
+		      en_mod_nxt = 1'b1;
+		    
+		 end
+	     endcase
 	  end
+
+
       endcase // case (state_rx)
    end
    
    always @ (negedge clk, posedge rst)
      if(rst == 1'b1)begin
 	state_rx <= IDLE;
-	time_count <= 6'd0;
+	time_count <= 9'd0;
 	dco_pd <= 1'b1;
 	tdc_pd <= 1'b1;
 	tdc_pd_inj <= 1'b1;
@@ -269,7 +388,9 @@ module adpll_ctr(
 	otw_s_fixed <= 8'sd0;
 	en_lock_detect <= 1'b0;
 	rst_lock_detect <= 1'b0;
-		
+	channel_lock <= 1'b0;
+	en_integral <= 1'b0;
+	en_mod <= 1'b0;
      end
      else if(en == 1'b1)begin
 	state_rx <= state_rx_nxt;
@@ -282,7 +403,12 @@ module adpll_ctr(
 	otw_m_fixed <= otw_m_fixed_nxt;
 	en_lock_detect <= en_lock_detect_nxt;
 	rst_lock_detect <= rst_lock_detect_nxt ;
-     end
+	channel_lock <= channel_lock_nxt;
+	en_integral <= en_integral_nxt;
+	en_mod <= en_mod_nxt;
+     end 
+
+   
 
    ///////////////////////////////////////////////////////////////////
    /// DEBUG MODE

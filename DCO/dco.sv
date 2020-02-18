@@ -1,7 +1,7 @@
 `timescale 1fs / 1fs
 
-`define F_OUT 2448e6
-
+//`define FREQ_CHANNEL 2448e6
+//`define DCO_PN 0
 
 ///////////////////////////////////////////////////////////////////////////////
 // Date: 22/01/2019
@@ -34,15 +34,15 @@ module dco #(
 	      output reg   ckv,
 	      output [31:0] period_fs);
    
-   parameter real noise_floor_dBc = -150; //noise floor in dBc
+   parameter real noise_floor_dBc = -160; //noise floor in dBc
    parameter real delta_f_wander =  1.0e6;
    parameter real PN_at_delta_t_dBc =  -120; //phase noise at delta frequency in dBc
    
    parameter real pi = 3.14159;
    parameter real noise_floor = 10**(noise_floor_dBc/10.0);
-   parameter real SIGMA_JITTER = int'((1.0/(`F_OUT*2.0*pi))*$sqrt(noise_floor*`F_OUT)*1e15);
+   parameter real SIGMA_JITTER = int'((1.0/((`FREQ_CHANNEL*1e6)*2.0*pi))*$sqrt(noise_floor*(`FREQ_CHANNEL*1e6))*1e15)*`DCO_PN;
    parameter real PN_at_delta_t = 10**(PN_at_delta_t_dBc/10.0);
-   parameter real SIGMA_WANDER = int'((1.0*delta_f_wander/`F_OUT)*$sqrt(1.0/`F_OUT)*$sqrt(PN_at_delta_t)*1e15); // in fs
+   parameter real SIGMA_WANDER = int'((1.0*delta_f_wander/(`FREQ_CHANNEL*1e6))*$sqrt(1.0/(`FREQ_CHANNEL*1e6))*$sqrt(PN_at_delta_t)*1e15)*`DCO_PN; // in fs
 
    parameter int N_L = 25; // number of large capacitors
    parameter int N_M = 256; // number of medium capactiors
@@ -165,6 +165,7 @@ module dco #(
    int wander = 0;
    int seed = -1;
 
+   int period_rest;
       
    always @(smp, pd) begin
     if ( !init && (~pd) ) begin
@@ -197,10 +198,11 @@ module dco #(
 	  period_fs = period_fs + wander;
        end
 
-	
-       #(period_fs/2.0)
+	   period_rest = (period_fs%2);
+       #((period_fs-period_rest)/2)
+	   
        ckv <= 0;
-       #(period_fs/2.0) 
+       #($floor(period_fs/2) + period_rest) 
        ckv <= 1;
        smp <= ~smp;
     end 

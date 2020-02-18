@@ -1,3 +1,10 @@
+ADPLL_MODE = 3 # PD = 0, TEST = 1, RX = 2, TX = 3
+FREQ_CHANNEL = 2480.000 # Channel freq in MHz
+SIM_TIME = 250 # simulation time in us
+DCO_PN = 0 # dco phase noise flag
+
+DEFINE = -DADPLL_MODE=$(ADPLL_MODE) -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN)
+
 SRC_DIR = .
 
 SRC = \
@@ -20,12 +27,14 @@ CC = iverilog
 CFLAGS = -W all -g2005-sv 
 
 
-adpll_ctr:  
-	$(CC) $(CFLAGS) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr.v $(SRC_DIR)/adpll_ctr_tb.sv
+adpll_ctr_tb:
+	$(CC) $(CFLAGS) $(DEFINE) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr.v $(SRC_DIR)/adpll_ctr_tb.sv
 	./a.out
+	if [ $(ADPLL_MODE) -eq 2 ]; then python3 pn_calc.py; fi;
+	if [ $(ADPLL_MODE) -eq 3 ]; then python3 eye_calc.py; fi;
 
 clean:
 	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt
 
-.PHONY: dco clean
+.PHONY: adpll_ctr_tb clean
 
