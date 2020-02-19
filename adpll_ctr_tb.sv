@@ -19,6 +19,12 @@ module adpll_ctr_tb;
    reg data_mod;
    reg [25:0] FCW; // word in MHz
    reg [4:0]	      time_count;
+
+   //cpu reg
+   reg 		      sel, write;
+   reg [4:0] 	      address;
+   reg [31:0] 	      data_in;
+   wire 	      ready;
    
 
    wire        dco_pd;
@@ -127,7 +133,13 @@ module adpll_ctr_tb;
 		    //tdc interface
 		    .tdc_pd(tdc_pd),
 		    .tdc_pd_inj(tdc_pd_inj),
-		    .tdc_ctr_freq(tdc_ctr_freq)
+		    .tdc_ctr_freq(tdc_ctr_freq),
+		    //CPU interface
+		    .sel(sel),
+		    .ready(ready),
+		    .write(write),
+		    .address(address),
+		    .data_in(data_in)
 		    );
    
 						  
@@ -144,7 +156,12 @@ module adpll_ctr_tb;
    initial begin
       $dumpfile("dump.vcd");
       $dumpvars;
-				  
+
+      write = 0;
+      sel = 0;
+      address = 5'd0;
+      data_in = 32'd0;
+      
       clk = 0;
       rst = 0;
       en = 0;

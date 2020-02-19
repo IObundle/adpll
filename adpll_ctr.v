@@ -1,4 +1,5 @@
 `timescale 1fs / 1fs
+`include "adpll.vh"
 
 `define FCWW 26
 `define ACCW 27
@@ -39,22 +40,35 @@ module adpll_ctr(
     output [2:0]      tdc_ctr_freq,
     input [6:0]       tdc_ripple_count,
     input [15:0]      tdc_phase,
-			      //CPU interface
-    input 	      select,
+    //CPU interface
+    input 	      sel,
+    output reg 	      ready,
     input 	      write,
-    input [4:0]       adress,
-    input [31:0]      data_in,
-    input [31:0]      data_out			      
-			      );
+    input [4:0]       address,
+    input [31:0]      data_in			      
+		 );
 
-   wire signed [4:0] 	      dco_c_l_word;
-   wire signed [7:0] 	      dco_c_m_word;
-   wire signed [7:0] 	      dco_c_s_word;
+   wire signed [4:0]  dco_c_l_word;
+   wire signed [7:0]  dco_c_m_word;
+   wire signed [7:0]  dco_c_s_word;
    wire [11:0] 	      tdc_word;
-
+   
+   // reset
+   wire 	      rst_int;
+   reg 		      rst_soft, rst_soft_en;
+   //soft reset pulse
+   always @(posedge clk, posedge rst)
+     if(rst)
+       rst_soft <= 1'b0;
+     else if (rst_soft_en)
+       rst_soft <= data_in[0];
+     else
+       rst_soft <= 1'b0;
+   
+   assign rst_int = rst | rst_soft;
    
    ///////////////////////////////////////////////////////////////////
-   /// List o accesible registers
+   /// List of accesible registers
    ///////////////////////////////////////////////////////////////////
    reg [3:0] 		      alpha_l, alpha_m;
    reg [3:0] 		      alpha_s_rx, alpha_s_tx; 
@@ -69,28 +83,7 @@ module adpll_ctr(
    reg [1:0] 		      dco_osc_gain;
          
    always @ (posedge clk, posedge rst)
-     if(rst == 1'b1)begin
-	alpha_l <= 4'd0;
-	alpha_m <= 4'd0;
-	alpha_s_rx <= 4'd0;
-	alpha_s_tx <= 4'd0;
-	beta <= 4'd0;
-	lambda_rx <= 3'd0;
-	lambda_tx <= 3'd0;
-	iir_n_rx <= 2'd0;
-	iir_n_tx <= 2'd0;
-	FCW_mod <= 5'd0;
-	dco_c_l_word_test <= 5'sd0;
-	dco_c_m_word_test <= 8'sd0;
-	dco_c_s_word_test <= 8'sd0;
-	dco_pd_test <= 1'b1;
-	tdc_pd_test <= 1'b1;
-	tdc_pd_inj_test <= 1'b1;
-	tdc_ctr_freq <= 3'b100;
-	dco_osc_gain <= 2'b10;
-	// adpll rst
-     end
-     else if(en == 1'b1) begin
+     if(rst_int == 1'b1)begin
 	alpha_l <= 4'd14;
 	alpha_m <= 4'd8;
 	alpha_s_rx <= 4'd7;
@@ -110,8 +103,94 @@ module adpll_ctr(
 	tdc_ctr_freq <= 3'b100;
 	dco_osc_gain <= 2'b10;
      end
+     else begin
+	if(alpha_l_en) alpha_l <= data_in[3:0];
+	if(alpha_m_en) alpha_m <= data_in[3:0];
+	if(alpha_s_rx_en) alpha_s_rx <= data_in[3:0];
+	if(alpha_s_tx_en) alpha_s_tx <= data_in[3:0];
+	if(beta_en) beta <= data_in[3:0];
+	if(lambda_rx_en) lambda_rx <= data_in[2:0];
+	if(lambda_tx_en) lambda_tx <= data_in[2:0];
+	if(iir_n_rx_en) iir_n_rx <= data_in[1:0];
+	if(iir_n_tx_en) iir_n_tx <= data_in[1:0];
+	if(FCW_mod_en) FCW_mod <= data_in[4:0];
+	if(dco_c_l_word_test_en) dco_c_l_word_test <= data_in[4:0];
+	if(dco_c_m_word_test_en) dco_c_m_word_test <= data_in[7:0];
+	if(dco_c_s_word_test_en) dco_c_s_word_test <= data_in[7:0];
+	if(dco_pd_test_en) dco_pd_test <= data_in[0];
+	if(tdc_pd_test_en) tdc_pd_test <= data_in[0];
+	if(tdc_pd_inj_test_en) tdc_pd_inj_test <= data_in[0];
+	if(tdc_ctr_freq_en) tdc_ctr_freq <= data_in[2:0];
+	if(dco_osc_gain_en) dco_osc_gain <= data_in[1:0];
+     end // if (en == 1'b1)
+   
    ///////////////////////////////////////////////////////////////////
-   /// Decoders Intantiation
+   /// CPU Adress decoder 
+   ///////////////////////////////////////////////////////////////////
+   reg alpha_l_en, alpha_m_en, alpha_s_rx_en, alpha_s_tx_en, beta_en;
+   reg lambda_rx_en, lambda_tx_en, iir_n_rx_en, iir_n_tx_en, FCW_mod_en;
+   reg dco_c_l_word_test_en, dco_c_m_word_test_en, dco_c_s_word_test_en;
+   reg dco_pd_test_en, tdc_pd_test_en, tdc_pd_inj_test_en;
+   reg tdc_ctr_freq_en, dco_osc_gain_en;
+   
+   // cpu interface ready signal
+   always @(posedge clk, posedge rst)
+     if(rst)
+       ready <= 1'b0;
+     else 
+       ready <= sel;
+   // Write
+   always @* begin
+
+      alpha_l_en = 1'b0;
+      alpha_m_en = 1'b0;
+      alpha_s_rx_en = 1'b0;
+      alpha_s_tx_en = 1'b0;
+      beta_en = 1'b0;
+      lambda_rx_en = 1'b0;
+      lambda_tx_en = 1'b0;
+      iir_n_rx_en = 1'b0;
+      iir_n_tx_en = 1'b0;
+      FCW_mod_en = 1'b0;
+      dco_c_l_word_test_en = 1'b0;
+      dco_c_m_word_test_en = 1'b0;
+      dco_c_s_word_test_en = 1'b0;
+      dco_pd_test_en = 1'b0;
+      tdc_pd_test_en = 1'b0;
+      tdc_pd_inj_test_en = 1'b0;
+      tdc_ctr_freq_en = 1'b0;
+      dco_osc_gain_en = 1'b0;
+      rst_soft_en = 1'b0;
+            
+      if(sel & write)
+        case (address)
+          `ALPHA_L: alpha_l_en = 1'b1;
+          `ALPHA_M: alpha_m_en = 1'b1;
+          `ALPHA_S_RX: alpha_s_rx_en = 1'b1;
+          `ALPHA_S_TX: alpha_s_tx_en = 1'b1;
+	  `BETA: beta_en = 1'b1;
+          `LAMBDA_RX: lambda_rx_en = 1'b1;
+          `LAMBDA_TX: lambda_tx_en = 1'b1;
+          `IIR_N_RX: iir_n_rx_en = 1'b1;
+	  `IIR_N_TX: iir_n_tx_en = 1'b1;
+          `FCW_MOD: FCW_mod_en = 1'b1;
+          `DCO_C_L_WORD_TEST: dco_c_l_word_test_en = 1'b1;
+          `DCO_C_M_WORD_TEST: dco_c_m_word_test_en = 1'b1;
+	  `DCO_C_S_WORD_TEST: dco_c_s_word_test_en = 1'b1;
+          `DCO_PD_TEST: dco_pd_test_en = 1'b1;
+          `TDC_PD_TEST: tdc_pd_test_en = 1'b1;
+          `TDC_PD_INJ_TEST: tdc_pd_inj_test_en = 1'b1;
+	  `TDC_CTR_FREQ: tdc_ctr_freq_en = 1'b1;
+          `DCO_OSC_GAIN: dco_osc_gain_en = 1'b1;
+          `ADPLL_SOFT_RST: rst_soft_en = 1'b1;
+          default:;
+        endcase
+   end // always @ *
+
+  
+   
+   ///////////////////////////////////////////////////////////////////
+   /// Col-Row Decoders Instantiation
    ///////////////////////////////////////////////////////////////////
    // instantiate row_col_coder of Large c bank
    row_col_cod_5x5 row_col_cod_l(
@@ -303,8 +382,11 @@ module adpll_ctr(
 			 otw_s_fixed);
    
    
-   always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat) begin
+   always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat, lock_detect) begin
       state_rx_nxt = state_rx;
+      otw_l_fixed_nxt = otw_l_fixed;
+      otw_m_fixed_nxt = otw_m_fixed;
+      otw_s_fixed_nxt = otw_s_fixed;
       time_count_nxt = time_count;
       dco_pd_state_nxt = dco_pd_state;
       tdc_pd_state_nxt = tdc_pd_state;
@@ -319,7 +401,7 @@ module adpll_ctr(
       iir_n = 2'd0;
       en_mod_nxt = en_mod;
       
-      // Soft reset if FCW or adpll_mode change         
+      // Detection FCW or adpll_mode change         
       if( (FCW != FCW_last) || (adpll_mode != adpll_mode_last))
 	state_rx_nxt = IDLE;
       else
@@ -365,8 +447,8 @@ module adpll_ctr(
 	       rst_lock_detect_nxt = 1'b0;
 	       alpha = alpha_l;
 	       en_lock_detect_nxt = 1'b1;
-	       if(lock_detect==1'b1)begin
-		  //$display("C_L bank LOCKED");
+	       if(lock_detect)begin
+		  otw_l_fixed_nxt = lock_detect_word;	      
 		  state_rx_nxt = C_M;
 		  rst_accum_nxt = 1'b1;
 		  rst_lock_detect_nxt = 1'b1;
@@ -375,17 +457,17 @@ module adpll_ctr(
 	  C_M: // Medium C bank operation
 	    begin
 	       rst_accum_nxt = 1'b0;
-	       rst_lock_detect_nxt = 1'b0;
 	       alpha = alpha_m;
-	       if(lock_detect==1'b1)begin
-		  //$display("C_M bank LOCKED");
+	       rst_lock_detect_nxt = 1'b0;
+	       if(lock_detect)begin		  
+		  otw_m_fixed_nxt = lock_detect_word;  
 		  state_rx_nxt = C_S;
 		  rst_accum_nxt = 1'b1;
 		  en_lock_detect_nxt = 1'b0;
 	       end
 	    end //
 	  C_S: // Small C bank operation
-	    begin
+	    begin 
 	       case(adpll_mode)
 		 RX: 
 		   begin
@@ -423,7 +505,7 @@ module adpll_ctr(
    end
    
    always @ (negedge clk, posedge rst)
-     if(rst == 1'b1)begin
+     if(rst_int == 1'b1)begin
 	state_rx <= IDLE;
 	time_count <= 9'd0;
 	dco_pd_state <= 1'b1;
@@ -450,6 +532,7 @@ module adpll_ctr(
    	rst_accum <= rst_accum_nxt;
 	otw_l_fixed <= otw_l_fixed_nxt;
 	otw_m_fixed <= otw_m_fixed_nxt;
+	otw_s_fixed <= otw_s_fixed_nxt;
 	en_lock_detect <= en_lock_detect_nxt;
 	rst_lock_detect <= rst_lock_detect_nxt ;
 	channel_lock <= channel_lock_nxt;
@@ -459,35 +542,16 @@ module adpll_ctr(
 	adpll_mode_last <= adpll_mode;
      end 
 
-   
-
-   ///////////////////////////////////////////////////////////////////
-   /// DEBUG MODE
-   ///////////////////////////////////////////////////////////////////
-
-   // used in debug mode
-   wire [`INTW-1:0] 		      FCW_int;
-   wire [`FRAW-1:0] 		      FCW_frac;
-   assign FCW_int = FCW[`FCWW-1:`FRAW];
-   assign FCW_frac = FCW[`FRAW-1:0];
-   
-   wire signed [`INTW:0] 	      ph_diff_int; 
-   assign ph_diff_int = FCW_int - tdc_word; 
-   
-   
-
-   
-   
-   
+      
    //////////////////////////////////////////////////////////////////////////
    ////// Fine frequency lock detector 
    //////////////////////////////////////////////////////////////////////////
-   //reg				rst_lock_detect;
-   //initial rst_lock_detect = 0;
+
    reg signed [`ACCW-1-`FRAW:0]      aux1, aux1_nxt, aux2, aux2_nxt;
    reg [3:0] 			      aux1_count, aux1_count_nxt, aux2_count, aux2_count_nxt;
    reg 				      lock_detect, lock_detect_nxt;
-
+   reg signed [`ACCW-1-`FRAW:0]       lock_detect_word, lock_detect_word_nxt;
+   				      
    
    always @ (otw_int_round_sat, lock_detect) begin
       
@@ -496,18 +560,13 @@ module adpll_ctr(
       aux1_count_nxt = aux1_count;
       aux2_count_nxt = aux2_count;
       lock_detect_nxt = lock_detect;
-      otw_l_fixed_nxt = otw_l_fixed;
-      otw_m_fixed_nxt = otw_m_fixed;
-      
+      lock_detect_word_nxt = lock_detect_word;
+            
       if(otw_int_round_sat == aux1) begin
 	 aux1_count_nxt = aux1_count_nxt + 4'd1;
 	 if(aux1_count_nxt == 13'd8)begin
 	    lock_detect_nxt = 1'b1;
-	    if(state_rx == C_L)
-	      otw_l_fixed_nxt = aux1;
-	    if(state_rx == C_M)
-	      otw_m_fixed_nxt = aux1;
-	    
+	    lock_detect_word_nxt = aux1;
 	 end
       end
       else 
@@ -515,10 +574,7 @@ module adpll_ctr(
 	   aux2_count_nxt = aux2_count_nxt + 4'd1;
 	   if(aux2_count_nxt == 13'd8)begin
 	      lock_detect_nxt = 1'b1;
-	      if(state_rx == C_L)
-		otw_l_fixed_nxt = aux2;
-	      if(state_rx == C_M)
-		otw_m_fixed_nxt = aux2;
+	      lock_detect_word_nxt = aux2;   
 	   end	   
 	end
 	else begin
@@ -530,24 +586,38 @@ module adpll_ctr(
 
 
    end 
-       always @ (negedge clk, posedge rst|rst_lock_detect )
-      if(rst|rst_lock_detect)begin
-	 aux1 <= {(`ACCW-`FRAW){1'b1}};
-	 aux2 <= {(`ACCW-`FRAW){1'b1}};
-	 aux1_count <=4'h0;
-	 aux2_count <= 4'h0;
-	 lock_detect<= 1'b0;
-      end
-      else if(en & en_lock_detect)begin
-	 aux1 <= aux1_nxt;
-	 aux2 <= aux2_nxt;
-	 aux1_count <= aux1_count_nxt;
-	 aux2_count <= aux2_count_nxt;
-	 lock_detect <= lock_detect_nxt;
-      end
+   always @ (negedge clk, posedge rst|rst_lock_detect )
+     if(rst|rst_lock_detect)begin
+	aux1 <= {(`ACCW-`FRAW){1'b1}};
+     aux2 <= {(`ACCW-`FRAW){1'b1}};
+     aux1_count <=4'h0;
+     aux2_count <= 4'h0;
+     lock_detect <= 1'b0;
+     lock_detect_word <= {(`ACCW-`FRAW){1'b1}};
+  end
+     else if(en & en_lock_detect)begin
+	aux1 <= aux1_nxt;
+	aux2 <= aux2_nxt;
+	aux1_count <= aux1_count_nxt;
+	aux2_count <= aux2_count_nxt;
+	lock_detect <= lock_detect_nxt;
+	lock_detect_word <= lock_detect_word_nxt;
+     end
+
+   ///////////////////////////////////////////////////////////////////
+   /// DEBUG MODE
+   ///////////////////////////////////////////////////////////////////
+/*
+   // used in debug mode
+   wire [`INTW-1:0] 		      FCW_int;
+   wire [`FRAW-1:0] 		      FCW_frac;
+   assign FCW_int = FCW[`FCWW-1:`FRAW];
+   assign FCW_frac = FCW[`FRAW-1:0];
    
- 
-      
+   wire signed [`INTW:0] 	      ph_diff_int; 
+   assign ph_diff_int = FCW_int - tdc_word; 
+*/  
+   
    
 endmodule 
 
