@@ -1,8 +1,8 @@
 ################################################################################
 ###
-###   Calculations for PN display of
-###   'Event-Driven Simulation and Modeling of Phase Noise of a DCOL' TCASII 2005
-###
+###  Calculations to get PN performance and transient behavior
+###  Done by: Marco Silva-Pereira (marco.silva.pereira@tecnico.utl.pt)
+###  Feb 2020
 ###
 #system
 import time

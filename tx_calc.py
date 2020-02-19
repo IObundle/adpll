@@ -1,6 +1,8 @@
 ################################################################################
 ###
-###   Calculations for TX EYE diagram and TX settling time behaviour
+###   Calculations for TX EYE diagram and TX settling time behavior
+###   Done by: Marco Silva-Pereira (marco.silva.pereira@tecnico.utl.pt)
+###   Feb 2020
 ###
 #system
 import time
