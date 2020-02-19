@@ -17,8 +17,8 @@ import eye_calcs as eye
 
 start_time = time.time()
 
-time_rm_us = 20 ## <-----------INITIAL TRANSIENT REMOVED
-
+#time_rm_us = 20 ## <-----------INITIAL TRANSIENT REMOVED
+time_rm_us = float(sys.argv[1])
 ################################################################################
 ## Open file of negedge clk time
 with open('clkn_time.txt','r') as myFile:
@@ -100,7 +100,8 @@ plt.xlim(time_rm_us, t_CKV_real[-1]*1e6)
     
 ################## Spectrum calculation using Lomb-Scarglet Method #############
 # Spectrum calculation using Lomb Scarglet Method
-Fchannel = 2480e6
+#Fchannel = 2480e6
+Fchannel = float(sys.argv[2])*1e6
 spectrum_f = np.linspace(Fchannel-4e6, Fchannel+4e6,80000)
 #pgram = signal.lombscargle(t_CKV2,CKV2,wf,normalize=True)
 from astropy.timeseries import LombScargle

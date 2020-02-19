@@ -18,7 +18,8 @@ import pn_calcs_adpll
 
 start_time = time.time()
 
-time_rm_us = 5 ## <-----------INITIAL TRANSIENT REMOVED
+#time_rm_us = 5 ## <-----------INITIAL TRANSIENT REMOVED
+time_rm_us = float(sys.argv[1])
 
 ################################################################################
 ## Open file of negedge clk time

@@ -154,9 +154,10 @@ module adpll_ctr_tb;
    always #15625000 clk = ~clk; 
    
    initial begin
-      $dumpfile("dump.vcd");
-      $dumpvars;
+      //$dumpfile("dump.vcd");
+      //$dumpvars;
 
+      
       write = 0;
       sel = 0;
       address = 5'd0;
