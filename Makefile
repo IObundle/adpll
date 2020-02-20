@@ -1,6 +1,6 @@
 ADPLL_MODE = 3 # PD = 0, TEST = 1, RX = 2, TX = 3
 FREQ_CHANNEL = 2480.000 # Channel freq in MHz
-SIM_TIME = 50 # simulation time in us
+SIM_TIME = 10 # simulation time in us
 DCO_PN = 0 # dco phase noise flag
 INIT_TIME_RM = 5 # initial transient time to remove in us (display purposes)
 

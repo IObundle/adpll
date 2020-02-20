@@ -12,9 +12,14 @@ from scipy import signal #pwelch
 import matplotlib.pyplot as plt
 import numpy as np
 #local
-import sys
-sys.path.append('/mnt/c/Users/marco/Desktop/WSN-Project/ADPLL/utils/py')
+#import sys
+#sys.path.append('/mnt/c/Users/marco/Desktop/WSN-Project/ADPLL/utils/py')
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir + str('/utils_py')) 
 import pn_calcs_adpll
+
 
 start_time = time.time()
 
