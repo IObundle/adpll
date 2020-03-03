@@ -1,10 +1,10 @@
-ADPLL_MODE = 3 # PD = 0, TEST = 1, RX = 2, TX = 3
+ADPLL_OPERATION = 3 # PD = 0, TEST = 1, RX = 2, TX = 3
 FREQ_CHANNEL = 2480.000 # Channel freq in MHz
-SIM_TIME = 10 # simulation time in us
+SIM_TIME = 50 # simulation time in us
 DCO_PN = 0 # dco phase noise flag
 INIT_TIME_RM = 5 # initial transient time to remove in us (display purposes)
 
-DEFINE = -DADPLL_MODE=$(ADPLL_MODE) -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN)
+DEFINE = -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN) -DADPLL_OPERATION=$(ADPLL_OPERATION)
 
 SRC_DIR = .
 
@@ -28,11 +28,11 @@ CC = iverilog
 CFLAGS = -W all -g2005-sv 
 
 
-adpll_ctr_tb:
-	$(CC) $(CFLAGS) $(DEFINE) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr.v $(SRC_DIR)/adpll_ctr_tb.sv
+adpll_ctr0_tb:
+	$(CC) $(CFLAGS) $(DEFINE) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr0_tb.sv
 	./a.out
-	if [ $(ADPLL_MODE) -eq 2 ]; then python3 rx_calc.py $(INIT_TIME_RM); fi;
-	if [ $(ADPLL_MODE) -eq 3 ]; then python3 tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) ; fi;
+	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 rx_calc.py $(INIT_TIME_RM); fi;
+	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) ; fi;
 
 clean:
 	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt

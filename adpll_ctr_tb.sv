@@ -1,29 +1,32 @@
 `timescale 1fs / 1fs
 
-//`define ADPLL_MODE 2 //PD = 0, TEST = 1, RX = 2, TX = 3
+//`define ADPLL_OPERATION 2 //PD = 0, TEST = 1, RX = 2, TX = 3
 //`define FREQ_CHANNEL 2480.000 // Channel freq in MHz
 //`define SIM_TIME 120 //simulation time in us
 
 ///////////////////////////////////////////////////////////////////////////////
-// Date: 17/02/2019
+// Date: 03/03/2020
 // Module: adpll_ctr_rx.sv
 // Project: WSN 
-// Description: Channel locking and then, signal modulation
+// Description: Testbench for the adpll_ctr (with CPU interface)
 //				 
 
 
 module adpll_ctr_tb;
 
    reg clk;
-   reg rst,en;
+   reg rst;
    reg data_mod;
    reg [25:0] FCW; // word in MHz
    reg [4:0]	      time_count;
 
    //cpu reg
-   reg 		      sel, write;
+   reg 		      sel;
+   reg 		      write;
    reg [4:0] 	      address;
    reg [31:0] 	      data_in;
+   
+   wire [31:0] 	      data_out;
    wire 	      ready;
    
 
@@ -39,7 +42,7 @@ module adpll_ctr_tb;
    wire [15:0] dco_c_s_row;   
    wire [15:0] dco_c_s_col;
    wire        ckv;
-   wire [31:0] osc_period_fs;
+   real osc_period_fs;
    
  
    // instantiate dco module
@@ -101,50 +104,38 @@ module adpll_ctr_tb;
 			  .phase(tdc_phase));
 
    //instantiate adpll control
-   reg [1:0]  adpll_mode;
-   wire       channel_lock;
-   adpll_ctr adpll0(
-		    ///// Inputs
-		    //general
-		    .rst(rst),
-		    .en(en),
-		    .clk(clk),
-		    .FCW(FCW),
-		    .adpll_mode(adpll_mode),
-		    .data_mod(data_mod),
-		    //tdc_interface
-		    .tdc_ripple_count(tdc_ripple_count),
-		    .tdc_phase(tdc_phase),
-		    ////// Outputs
-		    //general
-		    .channel_lock(channel_lock),
-		    // dco interface
-		    .dco_pd(dco_pd),
-		    .dco_osc_gain(dco_osc_gain),
-		    .dco_c_l_rall(dco_c_l_rall),
-		    .dco_c_l_row(dco_c_l_row),
-		    .dco_c_l_col(dco_c_l_col),
-		    .dco_c_m_rall(dco_c_m_rall),
-		    .dco_c_m_row(dco_c_m_row),
-		    .dco_c_m_col(dco_c_m_col),
-		    .dco_c_s_rall(dco_c_s_rall),
-		    .dco_c_s_row(dco_c_s_row),
-		    .dco_c_s_col(dco_c_s_col),
-		    //tdc interface
-		    .tdc_pd(tdc_pd),
-		    .tdc_pd_inj(tdc_pd_inj),
-		    .tdc_ctr_freq(tdc_ctr_freq),
-		    //CPU interface
-		    .sel(sel),
-		    .ready(ready),
-		    .write(write),
-		    .address(address),
-		    .data_in(data_in)
-		    );
+   adpll_ctr adpll0(/*AUTOINST*/
+		    // Outputs
+		    .ready		(ready),
+		    .data_out		(data_out[31:0]),
+		    .dco_pd		(dco_pd),
+		    .dco_osc_gain	(dco_osc_gain[1:0]),
+		    .dco_c_l_rall	(dco_c_l_rall[4:0]),
+		    .dco_c_l_row	(dco_c_l_row[4:0]),
+		    .dco_c_l_col	(dco_c_l_col[4:0]),
+		    .dco_c_m_rall	(dco_c_m_rall[15:0]),
+		    .dco_c_m_row	(dco_c_m_row[15:0]),
+		    .dco_c_m_col	(dco_c_m_col[15:0]),
+		    .dco_c_s_rall	(dco_c_s_rall[15:0]),
+		    .dco_c_s_row	(dco_c_s_row[15:0]),
+		    .dco_c_s_col	(dco_c_s_col[15:0]),
+		    .tdc_pd		(tdc_pd),
+		    .tdc_pd_inj	(tdc_pd_inj),
+		    .tdc_ctr_freq	(tdc_ctr_freq[2:0]),
+		    // Inputs
+		    .rst		(rst),
+		    .clk		(clk),
+		    .sel		(sel),
+		    .write		(write),
+		    .address		(address[`ADPLL_ADDR_W-1:0]),
+		    .data_in		(data_in[31:0]),
+		    .data_mod		(data_mod),
+		    .tdc_ripple_count	(tdc_ripple_count[6:0]),
+		    .tdc_phase		(tdc_phase[15:0]));
    
 						  
 /////////////////////////////// Input Parameters //////////////////////////						  
-   parameter real end_time_fs = `SIM_TIME * 1E9;
+   parameter real end_time_fs = `SIM_TIME * 1E9
    parameter real freq_channel = `FREQ_CHANNEL; //in MHz
    // ADPLL operation modes:
    parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
@@ -157,6 +148,7 @@ module adpll_ctr_tb;
       //$dumpfile("dump.vcd");
       //$dumpvars;
 
+      // CPU makes rst
       
       write = 0;
       sel = 0;
