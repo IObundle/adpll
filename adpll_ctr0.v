@@ -1,5 +1,5 @@
 `timescale 1fs / 1fs
-`include "adpll_defines.v"
+//`include "adpll_defines.v"
 
 `define FCWW 26 // FCW word width
 `define ACCW 27 // Phase Accumulator width
