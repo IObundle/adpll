@@ -20,7 +20,7 @@ module adpll_ctr0(
     input 	      clk,
     input [`FCWW-1:0] FCW,
     input [1:0]       adpll_mode,
-    output 	      channel_lock,
+    output reg	      channel_lock,
     input 	      data_mod,
     // analog dco interface
     output 	      dco_pd,
@@ -77,12 +77,11 @@ module adpll_ctr0(
    reg [4:0] 	   c_l_word_freeze;
    reg 		   rst_lock_detect_nxt, rst_lock_detect;
    reg 		   en_lock_detect_nxt, en_lock_detect;
-   reg 		   channel_lock, channel_lock_nxt;
+   reg 		   channel_lock_nxt;
    reg 		   en_integral, en_integral_nxt;
    reg 		   en_mod,en_mod_nxt;
          
       
-
 
    reg signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
@@ -95,6 +94,26 @@ module adpll_ctr0(
    reg signed [`ACCW-1:0] 	ph_diff_accum_last;
    wire signed [`ACCW-1:0] 	ph_diff_mod;
    wire signed [`ACCW-1:0] 	freq_dev;
+   
+   ///// Integral Filter Accum /////
+   wire signed [`ACCW-1:0] 	integral;
+   wire signed [`ACCW-1:0] 	integral_beta;
+   reg signed [`ACCW-1:0] 	integral_last;
+   
+   ///// IIR Filters /////
+   reg [1:0] 			iir_n;
+   reg [2:0] 			lambda;
+   wire signed [`ACCW-1:0] 	iir_out;
+   wire signed [`ACCW-1:0] 	iir1_in, iir2_in, iir3_in;
+   wire signed [`ACCW-1:0] 	iir1_out, iir2_out, iir3_out;
+   reg signed [`ACCW-1:0] 	iir1_out_last, iir2_out_last, iir3_out_last;
+   
+   
+   /////Fine frequency lock detector ///// 
+   reg signed [`ACCW-1-`FRAW:0]      aux1, aux1_nxt, aux2, aux2_nxt;
+   reg [3:0] 			      aux1_count, aux1_count_nxt, aux2_count, aux2_count_nxt;
+   reg 				      lock_detect, lock_detect_nxt;
+   reg signed [`ACCW-1-`FRAW:0]       lock_detect_word, lock_detect_word_nxt;
    
    ///////////////////////////////////////////////////////////////////
    /// Col-Row Decoders Instantiation
@@ -180,11 +199,7 @@ module adpll_ctr0(
        ph_diff_accum_last <= ph_diff_accum;
    
 
-   ///// Integral Filter Accumulator /////
-   wire signed [`ACCW-1:0] 	integral;
-   wire signed [`ACCW-1:0] 	integral_beta;
-   reg signed [`ACCW-1:0] 	integral_last;
-   
+   ///// Integral Filter Accumulator /////   
    assign integral = iir_out + integral_last;
    assign integral_beta = integral >>> beta;
    always @ (negedge clk, posedge rst)
@@ -194,12 +209,7 @@ module adpll_ctr0(
 	 integral_last <= integral;
 
     ///// IIR filters /////
-   reg [1:0] 			iir_n;
-   reg [2:0] 			lambda;
-   wire signed [`ACCW-1:0] 	iir_out;
-   wire signed [`ACCW-1:0] 	iir1_in, iir2_in, iir3_in;
-   wire signed [`ACCW-1:0] 	iir1_out, iir2_out, iir3_out;
-   reg signed [`ACCW-1:0] 	iir1_out_last, iir2_out_last, iir3_out_last;
+ 
 
    assign iir1_in = ph_diff_accum;
    assign iir1_out = (iir1_in>>>lambda)-(iir1_out_last>>>lambda)+iir1_out_last;
@@ -423,11 +433,6 @@ module adpll_ctr0(
    //////////////////////////////////////////////////////////////////////////
    ////// Fine frequency lock detector 
    //////////////////////////////////////////////////////////////////////////
-
-   reg signed [`ACCW-1-`FRAW:0]      aux1, aux1_nxt, aux2, aux2_nxt;
-   reg [3:0] 			      aux1_count, aux1_count_nxt, aux2_count, aux2_count_nxt;
-   reg 				      lock_detect, lock_detect_nxt;
-   reg signed [`ACCW-1-`FRAW:0]       lock_detect_word, lock_detect_word_nxt;
    				      
    
    always @ (otw_int_round_sat, lock_detect) begin
