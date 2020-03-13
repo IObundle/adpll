@@ -14,7 +14,7 @@ module tdc_digital (
 		    input 	  clk,
 		    input [6:0]  counter_in,
 		    input [15:0] phase_in,
-		    output reg [11:0] tdc_word);
+		    output [11:0] tdc_word);
 
   
    reg [6:0]				      counter;
