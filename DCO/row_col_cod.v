@@ -10,7 +10,8 @@
 // Change history: 12/12/19 - 
 module row_col_cod #(
 		     parameter WORD_W = 8,
-		     parameter ROW_W = 4 //2^ number of rows = 2^ number of col
+		     parameter ROW_W = 4, //2^ number of rows = 2^ number of col
+			 parameter SIZE = (1<<ROW_W)
 		     )
    (
     input 		  rst,
@@ -21,7 +22,7 @@ module row_col_cod #(
     output reg [SIZE-1:0] row,
     output reg [SIZE-1:0] col);
 
-    parameter SIZE = (1<<ROW_W); // number of rows = number of cols
+    //parameter SIZE = (1<<ROW_W); // number of rows = number of cols
    integer 		  i;
    
    reg [SIZE-1:0] 	  r_all_nxt, row_nxt, col_nxt;
