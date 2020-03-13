@@ -65,6 +65,37 @@ module adpll_ctr0(
    parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
    parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
    
+   reg [`FCWW-1:0] FCW_last;
+   reg [1:0] 	   adpll_mode_last;
+   reg [3:0] 	   alpha;
+   reg [8:0] 	   time_count, time_count_nxt;
+   reg 		   dco_pd_state, dco_pd_state_nxt;
+   reg 		   tdc_pd_state, tdc_pd_state_nxt;
+   reg 		   tdc_pd_inj_state, tdc_pd_inj_state_nxt;
+   reg [2:0] 	   state_rx, state_rx_nxt;
+   reg 		   rst_accum, rst_accum_nxt;
+   reg [4:0] 	   c_l_word_freeze;
+   reg 		   rst_lock_detect_nxt, rst_lock_detect;
+   reg 		   en_lock_detect_nxt, en_lock_detect;
+   reg 		   channel_lock, channel_lock_nxt;
+   reg 		   en_integral, en_integral_nxt;
+   reg 		   en_mod,en_mod_nxt;
+         
+      
+
+
+   reg signed [7:0] 		otw_int_round_sat;
+   reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
+   reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
+   reg signed [7:0] 		otw_s_fixed, otw_s_fixed_nxt;
+
+   ///// Phase Diference and Accumulator /////
+   wire signed [`ACCW-1:0] 	      ph_diff;
+   wire signed [`ACCW-1:0] 	      ph_diff_accum;
+   reg signed [`ACCW-1:0] 	ph_diff_accum_last;
+   wire signed [`ACCW-1:0] 	ph_diff_mod;
+   wire signed [`ACCW-1:0] 	freq_dev;
+   
    ///////////////////////////////////////////////////////////////////
    /// Col-Row Decoders Instantiation
    ///////////////////////////////////////////////////////////////////
@@ -128,36 +159,7 @@ module adpll_ctr0(
    ///////////////////////////////////////////////////////////////////
    /// ADPLL state machine
    ///////////////////////////////////////////////////////////////////
-   reg [`FCWW-1:0] FCW_last;
-   reg [1:0] 	   adpll_mode_last;
-   reg [3:0] 	   alpha;
-   reg [8:0] 	   time_count, time_count_nxt;
-   reg 		   dco_pd_state, dco_pd_state_nxt;
-   reg 		   tdc_pd_state, tdc_pd_state_nxt;
-   reg 		   tdc_pd_inj_state, tdc_pd_inj_state_nxt;
-   reg [2:0] 	   state_rx, state_rx_nxt;
-   reg 		   rst_accum, rst_accum_nxt;
-   reg [4:0] 	   c_l_word_freeze;
-   reg 		   rst_lock_detect_nxt, rst_lock_detect;
-   reg 		   en_lock_detect_nxt, en_lock_detect;
-   reg 		   channel_lock, channel_lock_nxt;
-   reg 		   en_integral, en_integral_nxt;
-   reg 		   en_mod,en_mod_nxt;
-         
-      
-
-
-   reg signed [7:0] 		otw_int_round_sat;
-   reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
-   reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
-   reg signed [7:0] 		otw_s_fixed, otw_s_fixed_nxt;
-
-   ///// Phase Diference and Accumulator /////
-   wire signed [`ACCW-1:0] 	      ph_diff;
-   wire signed [`ACCW-1:0] 	      ph_diff_accum;
-   reg signed [`ACCW-1:0] 	ph_diff_accum_last;
-   wire signed [`ACCW-1:0] 	ph_diff_mod;
-   wire signed [`ACCW-1:0] 	freq_dev;
+  
 
       
    assign ph_diff = FCW - {tdc_word,{{(`FRAW){1'b0}}}};
