@@ -83,7 +83,7 @@ module adpll_ctr0(
          
       
 
-   reg signed [7:0] 		otw_int_round_sat;
+   wire signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
    reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
    reg signed [7:0] 		otw_s_fixed, otw_s_fixed_nxt;
