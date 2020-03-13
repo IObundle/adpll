@@ -62,6 +62,8 @@ module adpll_ctr0(
    wire signed [7:0]  dco_c_s_word;
    wire [11:0] 	      tdc_word;
    
+   parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
+   parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
    
    ///////////////////////////////////////////////////////////////////
    /// Col-Row Decoders Instantiation
@@ -143,8 +145,7 @@ module adpll_ctr0(
    reg 		   en_mod,en_mod_nxt;
          
       
-   parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
-   parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
+
 
    reg signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
