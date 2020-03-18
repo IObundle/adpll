@@ -26,3 +26,8 @@
 `define TDC_CTR_FREQ (`ADPLL_ADDR_W'd21) //write
 `define DCO_OSC_GAIN (`ADPLL_ADDR_W'd22) //write
 
+`define FCWW 26 // FCW word width
+`define ACCW 27 // Phase Accumulator width
+`define INTW 12 // FCW integer part word width
+`define FRAW 14 // FCW fractional part word width
+

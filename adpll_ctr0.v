@@ -1,11 +1,11 @@
 `timescale 1fs / 1fs
 //`include "adpll_defines.v"
-
+/*
 `define FCWW 26 // FCW word width
 `define ACCW 27 // Phase Accumulator width
 `define INTW 12 // FCW integer part word width
 `define FRAW 14 // FCW fractional part word width
-
+*/
 ///////////////////////////////////////////////////////////////////////////////
 // Date: 08/02/2020
 // Module: adpll_ctr0.v
