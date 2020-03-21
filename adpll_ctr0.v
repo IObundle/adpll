@@ -116,6 +116,21 @@ module adpll_ctr0(
    reg 				      lock_detect, lock_detect_nxt;
    reg signed [`ACCW-1-`FRAW:0]       lock_detect_word, lock_detect_word_nxt;
    
+   `ifdef DEBUG_CAD
+   
+		integer	  fp2;  
+		initial fp2 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/tdc_word.txt","w");
+		always @ (negedge clk) $fwrite(fp2, "%0d ", tdc_word);
+
+		integer	  fp3;  
+		initial fp3 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/clkn_time.txt","w");
+		always @ (negedge clk) $fwrite(fp3, "%0d ", $time);
+
+		integer	  fp4;  
+		initial fp4 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/dco_s_word.txt","w");
+		always @ (negedge clk) $fwrite(fp4, "%0d ", dco_c_s_word);
+	`endif
+   
    ///////////////////////////////////////////////////////////////////
    /// Col-Row Decoders Instantiation
    ///////////////////////////////////////////////////////////////////

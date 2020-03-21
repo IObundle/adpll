@@ -31,3 +31,6 @@
 `define INTW 12 // FCW integer part word width
 `define FRAW 14 // FCW fractional part word width
 
+
+`define DEBUG_CAD //if enabled, debug flags can be visualized
+
