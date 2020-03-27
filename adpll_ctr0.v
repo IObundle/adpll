@@ -75,7 +75,6 @@ module adpll_ctr0(
    reg 		   tdc_pd_inj_state, tdc_pd_inj_state_nxt;
    reg [2:0] 	   state_rx, state_rx_nxt;
    reg 		   rst_accum, rst_accum_nxt;
-   reg [4:0] 	   c_l_word_freeze;
    reg 		   rst_lock_detect_nxt, rst_lock_detect;
    reg 		   en_lock_detect_nxt, en_lock_detect;
    reg 		   channel_lock_nxt;
@@ -112,7 +111,7 @@ module adpll_ctr0(
    
    /////Fine frequency lock detector ///// 
    reg signed [`ACCW-1-`FRAW:0]      aux1, aux1_nxt, aux2, aux2_nxt;
-   reg [3:0] 			      aux1_count, aux1_count_nxt, aux2_count, aux2_count_nxt;
+   reg [4:0] 			      aux1_count, aux1_count_nxt, aux2_count, aux2_count_nxt;
    reg 				      lock_detect, lock_detect_nxt;
    reg signed [`ACCW-1-`FRAW:0]       lock_detect_word, lock_detect_word_nxt;
    
@@ -129,6 +128,14 @@ module adpll_ctr0(
 		integer	  fp4;  
 		initial fp4 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/dco_s_word.txt","w");
 		always @ (negedge clk) $fwrite(fp4, "%0d ", dco_c_s_word);
+		
+		integer	  fp5;  
+		initial fp5 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/dco_m_word.txt","w");
+		always @ (negedge clk) $fwrite(fp5, "%0d ", dco_c_m_word);
+		
+		integer	  fp6;  
+		initial fp6 = $fopen("/home/user16/CADENCE/UMC130_A02_PB/ADPLL_WSN2/AMS_TIME_RESULTS/dco_l_word.txt","w");
+		always @ (negedge clk) $fwrite(fp6, "%0d ", dco_c_l_word);
 	`endif
    
    ///////////////////////////////////////////////////////////////////
@@ -462,7 +469,7 @@ module adpll_ctr0(
             
       if(otw_int_round_sat == aux1) begin
 	 aux1_count_nxt = aux1_count_nxt + 4'd1;
-	 if(aux1_count_nxt == 13'd8)begin
+	 if(aux1_count_nxt == 5'd31 || (state_rx == C_L && aux1_count_nxt == 5'd8 )  )begin
 	    lock_detect_nxt = 1'b1;
 	    lock_detect_word_nxt = aux1;
 	 end
@@ -470,7 +477,7 @@ module adpll_ctr0(
       else 
 	if(otw_int_round_sat == aux2) begin
 	   aux2_count_nxt = aux2_count_nxt + 4'd1;
-	   if(aux2_count_nxt == 13'd8)begin
+	   if(aux2_count_nxt == 5'd31 || (state_rx == C_L && aux1_count_nxt == 5'd8 ) )begin
 	      lock_detect_nxt = 1'b1;
 	      lock_detect_word_nxt = aux2;   
 	   end	   
