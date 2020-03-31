@@ -22,6 +22,7 @@ module adpll_ctr0(
     input [`FCWW-1:0] FCW,
     input [1:0]       adpll_mode,
     output reg	      channel_lock,
+	output reg		  channel_sat,
     input 	      data_mod,
     // analog dco interface
     output 	      dco_pd,
@@ -80,7 +81,7 @@ module adpll_ctr0(
    reg 		   channel_lock_nxt;
    reg 		   en_integral, en_integral_nxt;
    reg 		   en_mod,en_mod_nxt;
-         
+   reg         channel_sat_nxt;
       
 
    wire signed [7:0] 		otw_int_round_sat;
@@ -268,7 +269,8 @@ module adpll_ctr0(
    assign ntw = (en_integral == 1'b1)? integral_beta + (iir_out >>> alpha) :
 		iir_out >>> alpha;
    
-   assign otw = (ntw << 7) + (ntw << 6);
+   // note that FCW is 32 times higher than the typical FCW related to the FREF -->1MHz/K_dco
+   assign otw = (ntw << 7);
    
    assign otw_int = otw[`ACCW-1:`FRAW];
     //round of decimal part (otw_frac width = 14)
@@ -310,6 +312,7 @@ module adpll_ctr0(
       lambda = lambda_rx;
       iir_n = 2'd0;
       en_mod_nxt = en_mod;
+	  channel_sat_nxt	= channel_sat;
       
       // Detection FCW or adpll_mode change         
       if( (FCW != FCW_last) || (adpll_mode != adpll_mode_last))
@@ -342,8 +345,8 @@ module adpll_ctr0(
 	       dco_pd_state_nxt = 1'b0;
 	       case(time_count)
 		 6'd16: tdc_pd_state_nxt = 1'b0;
-		 6'd32: tdc_pd_inj_state_nxt = 1'b0;
-		 6'd48:
+		 6'd48: tdc_pd_inj_state_nxt = 1'b0;
+		 6'd112:
 		   begin 
 		      state_rx_nxt = C_L;
 		      rst_accum_nxt = 1'b1;
@@ -407,6 +410,12 @@ module adpll_ctr0(
 			en_mod_nxt = 1'b1;
 		      
 		   end
+		 // check if channel frequency is saturated
+		 if(dco_c_s_word == 8'sd127 || dco_c_s_word == -8'sd128)
+			channel_sat_nxt	= 1'b1;
+		 else
+		    channel_sat_nxt	= 1'b0;
+		 
 	       endcase
 	    end
 
@@ -432,6 +441,7 @@ module adpll_ctr0(
 	en_mod <= 1'b0;
 	FCW_last <= FCW;
 	adpll_mode_last <= adpll_mode;
+	channel_sat <=1'b0;
      end
      else if(en == 1'b1)begin
 	state_rx <= state_rx_nxt;
@@ -450,6 +460,7 @@ module adpll_ctr0(
 	en_mod <= en_mod_nxt;
 	FCW_last <= FCW;
 	adpll_mode_last <= adpll_mode;
+	channel_sat <= channel_sat_nxt;
      end 
 
       
@@ -469,7 +480,7 @@ module adpll_ctr0(
             
       if(otw_int_round_sat == aux1) begin
 	 aux1_count_nxt = aux1_count_nxt + 4'd1;
-	 if(aux1_count_nxt == 5'd31 || (state_rx == C_L && aux1_count_nxt == 5'd8 )  )begin
+	 if(aux1_count_nxt == 4'd15 || (state_rx == C_L && aux1_count_nxt == 5'd8 )  )begin
 	    lock_detect_nxt = 1'b1;
 	    lock_detect_word_nxt = aux1;
 	 end
@@ -477,7 +488,7 @@ module adpll_ctr0(
       else 
 	if(otw_int_round_sat == aux2) begin
 	   aux2_count_nxt = aux2_count_nxt + 4'd1;
-	   if(aux2_count_nxt == 5'd31 || (state_rx == C_L && aux1_count_nxt == 5'd8 ) )begin
+	   if(aux2_count_nxt == 4'd15 || (state_rx == C_L && aux1_count_nxt == 5'd8 ) )begin
 	      lock_detect_nxt = 1'b1;
 	      lock_detect_word_nxt = aux2;   
 	   end	   
