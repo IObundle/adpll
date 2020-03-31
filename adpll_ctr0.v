@@ -346,7 +346,7 @@ module adpll_ctr0(
 	       case(time_count)
 		 6'd16: tdc_pd_state_nxt = 1'b0;
 		 6'd48: tdc_pd_inj_state_nxt = 1'b0;
-		 6'd112:
+		 7'd112:
 		   begin 
 		      state_rx_nxt = C_L;
 		      rst_accum_nxt = 1'b1;
@@ -409,14 +409,13 @@ module adpll_ctr0(
 		      if(channel_lock == 1'b1) 
 			en_mod_nxt = 1'b1;
 		      
-		   end
-		 // check if channel frequency is saturated
-		 if(dco_c_s_word == 8'sd127 || dco_c_s_word == -8'sd128)
-			channel_sat_nxt	= 1'b1;
-		 else
-		    channel_sat_nxt	= 1'b0;
-		 
+		   end	 
 	       endcase
+	       // check if channel frequency is saturated
+	       if(dco_c_s_word == 8'sd127 || dco_c_s_word == -8'sd128)
+		 channel_sat_nxt	= 1'b1;
+	       else
+		 channel_sat_nxt	= 1'b0;
 	    end
 
 
