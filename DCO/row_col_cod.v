@@ -7,7 +7,7 @@
 // Description:  Number of row/col must be a power of 2. Codes binary into
 //               col/row selector
 //				 
-// Change history: 12/12/19 - 
+// Change history: 4/2/2021 - rall is now zero active
 module row_col_cod #(
 		     parameter WORD_W = 8,
 		     parameter ROW_W = 4, //2^ number of rows = 2^ number of col
@@ -39,9 +39,9 @@ module row_col_cod #(
       //binary to therm convertion
       for(i = 0; i < SIZE ; i=i+1)begin
 	 if( i < r_all_bin)
-	   r_all_nxt[i] = 1'b1;
-	 else
 	   r_all_nxt[i] = 1'b0;
+	 else
+	   r_all_nxt[i] = 1'b1;
 	 if(i == r_all_bin)
 	   row_nxt[i] = 1'b1;
 	 else
@@ -73,7 +73,8 @@ module row_col_cod #(
    always @ (posedge rst, posedge clk) begin 
       if(rst == 1'b1)begin
 	 //reset for 16x16 c bank with half on and half off
-	 r_all <= 16'd255;
+	 //r_all <= 16'd255;
+	 r_all <= 16'd65280;
 	 row <= 16'd256;
 	 col <= 16'd0;
       end

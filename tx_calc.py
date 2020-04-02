@@ -20,6 +20,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir + str('/utils_py')) 
 import pn_calcs_adpll
 import eye_calcs as eye
+import mplcursors
 
 start_time = time.time()
 
@@ -55,7 +56,7 @@ F_REF = 32E6
 F_SYM = 1e6
 
 ############# Shows EYE diagram #############
-eye.eye_diagram(dco_s_word-dco_s_word_mean,F_REF,F_SYM,fig_number = 1)
+eye.eye_diagram(dco_s_word-dco_s_word_mean,F_REF,F_SYM,fig_number = 1,ampl_gain = 7500)
 
 ############# Shows dco input word transient ############
 plt.figure(2)
@@ -140,4 +141,5 @@ print(channel2_f/1e6,"MHz Channel Power =", channel2_power_dBc,"dBc")
 
 
 print("--- %s seconds ---" % (time.time() - start_time))
+mplcursors.cursor()
 plt.show()

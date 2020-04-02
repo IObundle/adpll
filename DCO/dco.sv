@@ -14,7 +14,7 @@
 module dco #(
 	     parameter real C_L_LSB = 19.14, // in fF
 	     parameter real C_M_LSB = 0.18078, // in fF
-	     parameter real C_S_LSB = 0.00434, // in fF
+	     parameter real C_S_LSB = 0.006545, // in fF
 	     parameter real C_FIXED = 784, // in fF
 	     parameter real L_IND = 4, //in nH
 

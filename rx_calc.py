@@ -19,6 +19,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir + str('/utils_py')) 
 import pn_calcs_adpll
+import mplcursors
 
 
 start_time = time.time()
@@ -173,4 +174,5 @@ print("Pwelch PN_dBc_Hz = ", PN_dBc_Hz)
 
 
 print("--- %s seconds ---" % (time.time() - start_time))
+mplcursors.cursor()
 plt.show()

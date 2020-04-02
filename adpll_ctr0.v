@@ -21,8 +21,8 @@ module adpll_ctr0(
     input 	      clk,
     input [`FCWW-1:0] FCW,
     input [1:0]       adpll_mode,
-    output reg	      channel_lock,
-	output reg		  channel_sat,
+    output reg 	      channel_lock,
+    output 	      channel_sat,
     input 	      data_mod,
     // analog dco interface
     output 	      dco_pd,
@@ -81,7 +81,6 @@ module adpll_ctr0(
    reg 		   channel_lock_nxt;
    reg 		   en_integral, en_integral_nxt;
    reg 		   en_mod,en_mod_nxt;
-   reg         channel_sat_nxt;
       
 
    wire signed [7:0] 		otw_int_round_sat;
@@ -292,7 +291,11 @@ module adpll_ctr0(
    assign dco_c_s_word = (adpll_mode == TEST)? dco_c_s_word_test :
 			 (((state_rx == C_S) && ~rst_accum )? otw_int_round_sat :
 			 otw_s_fixed);
-   
+
+   // verifies if the small cap bank is saturated
+   assign channel_sat = ((dco_c_s_word == -8'sd128) || (dco_c_s_word == 8'sd127))? 1'b1 :
+			 1'b0;
+
    
    always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat, lock_detect) begin
       state_rx_nxt = state_rx;
@@ -312,7 +315,6 @@ module adpll_ctr0(
       lambda = lambda_rx;
       iir_n = 2'd0;
       en_mod_nxt = en_mod;
-	  channel_sat_nxt	= channel_sat;
       
       // Detection FCW or adpll_mode change         
       if( (FCW != FCW_last) || (adpll_mode != adpll_mode_last))
@@ -411,11 +413,8 @@ module adpll_ctr0(
 		      
 		   end	 
 	       endcase
-	       // check if channel frequency is saturated
-	       if(dco_c_s_word == 8'sd127 || dco_c_s_word == -8'sd128)
-		 channel_sat_nxt	= 1'b1;
-	       else
-		 channel_sat_nxt	= 1'b0;
+
+	       
 	    end
 
 
@@ -440,7 +439,6 @@ module adpll_ctr0(
 	en_mod <= 1'b0;
 	FCW_last <= FCW;
 	adpll_mode_last <= adpll_mode;
-	channel_sat <=1'b0;
      end
      else if(en == 1'b1)begin
 	state_rx <= state_rx_nxt;
@@ -459,7 +457,6 @@ module adpll_ctr0(
 	en_mod <= en_mod_nxt;
 	FCW_last <= FCW;
 	adpll_mode_last <= adpll_mode;
-	channel_sat <= channel_sat_nxt;
      end 
 
       

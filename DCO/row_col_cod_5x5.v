@@ -7,7 +7,7 @@
 // Description:  Number of row/col must be 5x5
 //               col/row selector
 //				 
-// Change history: 12/12/19 - 
+// Change history: 4/2/2021 - rall is now zero active
 module row_col_cod_5x5 #(
 		     parameter MAX = 25 // max input word value
 		     )
@@ -65,9 +65,9 @@ module row_col_cod_5x5 #(
 	 //binary to therm convertion
 	 for(i = 0; i < SIZE ; i=i+1)begin
 	    if( i < r_all_bin)
-	      r_all_nxt[i] = 1'b1;
-	    else
 	      r_all_nxt[i] = 1'b0;
+	    else
+	      r_all_nxt[i] = 1'b1;
 	    if(i == r_all_bin)
 	      row_nxt[i] = 1'b1;
 	    else
@@ -98,7 +98,8 @@ module row_col_cod_5x5 #(
 
    always @ (posedge rst, posedge clk) begin 
       if(rst == 1'b1)begin
-	 r_all <= 5'd3;
+	 //r_all <= 5'd3;
+	 r_all <= 5'd28;
 	 row <= 5'd4;
 	 col <= 5'd7;
       end
