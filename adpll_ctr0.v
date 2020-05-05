@@ -82,7 +82,7 @@ module adpll_ctr0(
    reg 		   en_integral, en_integral_nxt;
    reg 		   en_mod,en_mod_nxt;
       
-
+   wire 	   rst_accum_all;
    wire signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
    reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
@@ -215,18 +215,18 @@ module adpll_ctr0(
    
    assign ph_diff_accum = ph_diff_accum_last + ph_diff_mod;
 
-   always @ (negedge clk, posedge rst)
-     if(rst|rst_accum)
+   assign rst_accum_all = rst | rst_accum;
+   always @ (negedge clk, posedge rst_accum_all)
+     if(rst_accum_all)
        ph_diff_accum_last <= `ACCW'd0;
      else if(en)
        ph_diff_accum_last <= ph_diff_accum;
-   
 
    ///// Integral Filter Accumulator /////   
    assign integral = iir_out + integral_last;
    assign integral_beta = integral >>> beta;
-   always @ (negedge clk, posedge rst)
-      if(rst|rst_accum)
+   always @ (negedge clk, posedge rst_accum_all)
+      if(rst_accum_all)
 	 integral_last <= iir_out;
       else if(en)
 	 integral_last <= integral;
@@ -246,8 +246,8 @@ module adpll_ctr0(
    assign iir_out = iir_n[1] ? (iir_n[0] ? iir3_out : iir2_out) :
 		    (iir_n[0] ? iir1_out : iir1_in);
 
-   always @ (negedge clk, posedge rst )
-     if(rst|rst_accum) begin
+   always @ (negedge clk, posedge rst_accum_all )
+     if(rst_accum_all) begin
 	iir1_out_last <= `ACCW'd0;
 	iir2_out_last <= `ACCW'd0;
 	iir3_out_last <= `ACCW'd0;
