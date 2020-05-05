@@ -216,9 +216,9 @@ module adpll_ctr0(
    assign ph_diff_accum = ph_diff_accum_last + ph_diff_mod;
 
    always @ (negedge clk, posedge rst)
-     if(rst|rst_accum == 1'b1)
+     if(rst|rst_accum)
        ph_diff_accum_last <= `ACCW'd0;
-     else if(en == 1'b1)
+     else if(en)
        ph_diff_accum_last <= ph_diff_accum;
    
 
@@ -226,9 +226,9 @@ module adpll_ctr0(
    assign integral = iir_out + integral_last;
    assign integral_beta = integral >>> beta;
    always @ (negedge clk, posedge rst)
-      if(rst|rst_accum == 1'b1)
+      if(rst|rst_accum)
 	 integral_last <= iir_out;
-      else if(en == 1'b1)
+      else if(en)
 	 integral_last <= integral;
 
     ///// IIR filters /////
@@ -247,12 +247,12 @@ module adpll_ctr0(
 		    (iir_n[0] ? iir1_out : iir1_in);
 
    always @ (negedge clk, posedge rst )
-     if(rst|rst_accum == 1'b1) begin
+     if(rst|rst_accum) begin
 	iir1_out_last <= `ACCW'd0;
 	iir2_out_last <= `ACCW'd0;
 	iir3_out_last <= `ACCW'd0;
      end
-     else if(en == 1'b1) begin
+     else if(en) begin
 	iir1_out_last <= iir1_out;
 	iir2_out_last <= iir2_out;
 	iir3_out_last <= iir3_out;
@@ -422,7 +422,7 @@ module adpll_ctr0(
    end
    
    always @ (negedge clk, posedge rst)
-     if(rst == 1'b1)begin
+     if(rst)begin
 	state_rx <= IDLE;
 	time_count <= 9'd0;
 	dco_pd_state <= 1'b1;
@@ -440,7 +440,7 @@ module adpll_ctr0(
 	FCW_last <= FCW;
 	adpll_mode_last <= adpll_mode;
      end
-     else if(en == 1'b1)begin
+     else if(en)begin
 	state_rx <= state_rx_nxt;
 	time_count <= time_count_nxt;
 	dco_pd_state <= dco_pd_state_nxt;
