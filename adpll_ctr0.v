@@ -83,6 +83,7 @@ module adpll_ctr0(
    reg 		   en_mod,en_mod_nxt;
       
    wire 	   rst_accum_all;
+   wire        rst_lock_detect_all;
    wire signed [7:0] 		otw_int_round_sat;
    reg signed [4:0] 		otw_l_fixed, otw_l_fixed_nxt;
    reg signed [7:0] 		otw_m_fixed, otw_m_fixed_nxt;
@@ -498,8 +499,10 @@ module adpll_ctr0(
 
 
    end 
-   always @ (negedge clk, posedge rst)
-     if(rst|rst_lock_detect)begin
+   
+   assign rst_lock_detect_all  = rst|rst_lock_detect;
+   always @ (negedge clk, posedge rst_lock_detect_all)
+     if(rst_lock_detect_all)begin
 	aux1 <= {(`ACCW-`FRAW){1'b1}};
      aux2 <= {(`ACCW-`FRAW){1'b1}};
      aux1_count <=4'h0;
