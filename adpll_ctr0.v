@@ -215,7 +215,7 @@ module adpll_ctr0(
    
    assign ph_diff_accum = ph_diff_accum_last + ph_diff_mod;
 
-   always @ (negedge clk, posedge rst|rst_accum )
+   always @ (negedge clk, posedge rst)
      if(rst|rst_accum == 1'b1)
        ph_diff_accum_last <= `ACCW'd0;
      else if(en == 1'b1)
@@ -498,7 +498,7 @@ module adpll_ctr0(
 
 
    end 
-   always @ (negedge clk, posedge rst|rst_lock_detect )
+   always @ (negedge clk, posedge rst)
      if(rst|rst_lock_detect)begin
 	aux1 <= {(`ACCW-`FRAW){1'b1}};
      aux2 <= {(`ACCW-`FRAW){1'b1}};
