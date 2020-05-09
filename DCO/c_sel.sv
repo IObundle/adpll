@@ -14,7 +14,9 @@ module c_sel (
 	      input 	 col,
 	      output  out);
    
-   assign out =(col~&row)~&r_all;
+   //assign out =(col~&row)~&r_all;
+   assign out =~((~(col&row))&r_all);
+   
    
 
 endmodule // c_sel
