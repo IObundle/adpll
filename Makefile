@@ -46,6 +46,8 @@ plots_adpll_ctr0_tb:
 	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) ; fi;
 
+clean_xcelium:
+	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.log xcelium.d
 clean:
 	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt
 
