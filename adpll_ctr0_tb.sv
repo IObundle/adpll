@@ -1,5 +1,7 @@
 `timescale 1fs / 1fs
 
+`include "adpll_defines.v"
+
 //`define ADPLL_OPERATION 2 //PD = 0, TEST = 1, RX = 2, TX = 3
 //`define FREQ_CHANNEL 2480.000 // Channel freq in MHz
 //`define SIM_TIME 120 //simulation time in us
