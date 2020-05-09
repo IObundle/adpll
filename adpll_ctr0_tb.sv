@@ -95,9 +95,9 @@ module adpll_ctr0_tb;
    initial fp3 = $fopen("clkn_time.txt","w");
    always @ (negedge clk) $fwrite(fp3, "%0d ", $time);
 
-   integer	  fp4;  
-   initial fp4 = $fopen("dco_s_word.txt","w");
-   always @ (negedge clk) $fwrite(fp4, "%0d ", adpll0.dco_c_s_word);
+   //integer	  fp4;  
+   //initial fp4 = $fopen("dco_s_word.txt","w");
+   //always @ (negedge clk) $fwrite(fp4, "%0d ", adpll0.dco_c_s_word);
 
 
    wire [6:0] tdc_ripple_count;
