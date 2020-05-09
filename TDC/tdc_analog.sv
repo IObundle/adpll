@@ -75,7 +75,8 @@ module tdc_analog (
    assign in_ff_ret[4] = out_ff_ret[3];
    assign in_ff_ret[5] = out_ff_ret[4];
    
-   assign in_ff_ret[6] = ((~phase[0]) ~& out_ff_ret[2])~&(phase[0]~& out_ff_ret[5]);
+   //assign in_ff_ret[6] = ((~phase[0]) ~& out_ff_ret[2])~&(phase[0]~& out_ff_ret[5]);
+   assign in_ff_ret[6] = ~((~((~phase[0])&out_ff_ret[2]))&(~(phase[0]& out_ff_ret[5])));
    assign in_ff_ret[7] = out_ff_ret[6];
 
     //instantiate counter
