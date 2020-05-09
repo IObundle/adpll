@@ -29,7 +29,7 @@ CFLAGS = -W all -g2005-sv
 
 
 #Xcelium
-XCFLAGS = -errormax 15 -status -update -linedebug -SV -DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN)
+XCFLAGS = -errormax 15 -status -update -linedebug -SV -DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN) -incdir $(SRC_DIR)/
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
 
