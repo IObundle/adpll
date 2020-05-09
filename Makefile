@@ -8,10 +8,10 @@ DEFINE = -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN
 SRC_DIR = .
 
 SRC = \
-	$(SRC_DIR)/DCO/dco.sv \
 	$(SRC_DIR)/DCO/row_col_cod.v \
 	$(SRC_DIR)/DCO/row_col_cod_5x5.v \
-	$(SRC_DIR)/DCO/c_sel.sv
+	$(SRC_DIR)/TDC/tdc_digital.v
+
 SRC1 = \
 	$(SRC_DIR)/TDC/ring_osc.sv \
 	$(SRC_DIR)/TDC/ring_inv.sv \
@@ -20,7 +20,8 @@ SRC1 = \
 	$(SRC_DIR)/TDC/d_latch1.sv \
 	$(SRC_DIR)/TDC/counter.sv \
 	$(SRC_DIR)/TDC/tdc_analog.sv \
-	$(SRC_DIR)/TDC/tdc_digital.v
+	$(SRC_DIR)/DCO/dco.sv \
+	$(SRC_DIR)/DCO/c_sel.sv 
 
 #Icarus 
 CC = iverilog
@@ -39,6 +40,11 @@ icarus_adpll_ctr0_tb:
 
 xcelium_adpll_ctr0_tb:
 	xmvlog $(XCFLAGS) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr0_tb.sv
+	xmelab $(XEFLAGS) adpll_ctr0_tb
+	xmsim $(XSFLAGS) adpll_ctr0_tb
+
+xcelium_synth_adpll_ctr0_tb:
+	xmvlog $(XCFLAGS) $(SRC) $(SRC_DIR)/synth/adpll_ctr0_gates.v $(SRC_DIR)/synth/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.sv
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
