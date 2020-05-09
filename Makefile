@@ -25,7 +25,7 @@ SRC1 = \
 
 #Icarus 
 CC = iverilog
-CFLAGS = -W all -g2005-sv
+CFLAGS =  -W all -g2005-sv
 
 #Xcelium
 XCFLAGS = -errormax 15 -status -update -linedebug -SV -DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN) -incdir $(SRC_DIR)/
@@ -34,11 +34,6 @@ XSFLAGS = -errormax 15 -status
 
 icarus_adpll_ctr0_tb:
 	$(CC) $(CFLAGS) $(DEFINE) $(SRC) $(SRC1) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr0_tb.sv
-	./a.out
-	make plots_adpll_ctr0_tb
-
-icarus_synth_adpll_ctr0_tb:
-	$(CC) $(CFLAGS) $(DEFINE) $(SRC1) $(SRC_DIR)/synth/adpll_ctr0_gates.v $(SRC_DIR)/synth/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.sv
 	./a.out
 	make plots_adpll_ctr0_tb
 
