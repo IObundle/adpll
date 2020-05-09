@@ -32,7 +32,7 @@ module dco #(
 	      input [15:0] c_s_row,
 	      input [15:0] c_s_col,
 	      output reg   ckv,
-	      output real period_fs);
+	      output reg [31:0] period_fs); // real number
    
    parameter real noise_floor_dBc = -160; //noise floor in dBc
    parameter real delta_f_wander =  1.0e6;
@@ -156,7 +156,7 @@ module dco #(
    /////////////////////////////////////////////////////////////////////////////
 
    bit smp = 0;
-   real period_fs;
+   //real period_fs;
    int tdiff_fs;
 
    bit init = 1;
