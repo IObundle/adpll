@@ -228,9 +228,9 @@ module adpll_ctr0(
    assign integral_beta = integral >>> beta;
    always @ (negedge clk, posedge rst_accum_all)
       if(rst_accum_all)
-	 integral_last <= iir_out;
-      else if(en)
-	 integral_last <= integral;
+         integral_last <= `ACCW'd0;
+      else if(en&en_integral) 
+	          integral_last <= integral;
 
     ///// IIR filters /////
  

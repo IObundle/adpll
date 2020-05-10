@@ -97,8 +97,8 @@ module adpll_ctr0_tb;
 
    integer	  fp4;  
    initial fp4 = $fopen("dco_s_word.txt","w");
-   always @ (negedge clk) $fwrite(fp4, "%0d ", adpll0.dco_c_s_word);
-
+   //always @ (negedge clk) $fwrite(fp4, "%0d ", adpll0.dco_c_s_word);   
+   always @ (negedge clk) $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum );
 
    wire [6:0] tdc_ripple_count;
    wire [15:0] tdc_phase;
