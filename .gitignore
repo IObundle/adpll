@@ -5,4 +5,5 @@ params.m
 *.hex 
 *.log
 xcelium.d
+dump.vcd
 
