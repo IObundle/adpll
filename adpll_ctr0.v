@@ -63,8 +63,10 @@ module adpll_ctr0(
    wire signed [7:0]  dco_c_m_word;
    wire signed [7:0]  dco_c_s_word;
    wire [11:0] 	      tdc_word;
-   
-   parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
+
+   parameter IDLE = 5'b00001, PU = 5'b00010, C_L = 5'b00100, C_M = 5'b01000, C_S = 5'b10000;
+   //parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
+   //parameter  PD = 4'b0001, TEST = 4'b0010, RX = 4'b0100, TX = 4'b1000;
    parameter  PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
    
    reg [`FCWW-1:0] FCW_last;
@@ -74,7 +76,7 @@ module adpll_ctr0(
    reg 		   dco_pd_state, dco_pd_state_nxt;
    reg 		   tdc_pd_state, tdc_pd_state_nxt;
    reg 		   tdc_pd_inj_state, tdc_pd_inj_state_nxt;
-   reg [2:0] 	   state_rx, state_rx_nxt;
+   reg [4:0] 	   state_rx, state_rx_nxt;
    reg 		   rst_accum, rst_accum_nxt;
    reg 		   rst_lock_detect_nxt, rst_lock_detect;
    reg 		   en_lock_detect_nxt, en_lock_detect;
@@ -297,8 +299,8 @@ module adpll_ctr0(
    assign channel_sat = ((dco_c_s_word == -8'sd128) || (dco_c_s_word == 8'sd127))? 1'b1 :
 			 1'b0;
 
-   
-   always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat, lock_detect) begin
+   //always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat, lock_detect) begin
+   always @ * begin
       state_rx_nxt = state_rx;
       otw_l_fixed_nxt = otw_l_fixed;
       otw_m_fixed_nxt = otw_m_fixed;
@@ -466,7 +468,8 @@ module adpll_ctr0(
    //////////////////////////////////////////////////////////////////////////
    				      
    
-   always @ (otw_int_round_sat, lock_detect) begin
+   //always @ (otw_int_round_sat, lock_detect) begin
+   always @ * begin
       
       aux1_nxt = aux1;
       aux2_nxt = aux2;
