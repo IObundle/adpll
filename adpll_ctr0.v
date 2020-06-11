@@ -296,9 +296,8 @@ module adpll_ctr0(
 			 otw_s_fixed);
 
    // verifies if the small cap bank is saturated
-   assign channel_sat = ((dco_c_s_word == -8'sd128) || (dco_c_s_word == 8'sd127))? 1'b1 :
-			 1'b0;
-
+   assign channel_sat = (dco_c_s_word == -8'sd128) || (dco_c_s_word == 8'sd127);
+   
    //always @ (FCW, adpll_mode, state_rx, time_count, otw_int_round_sat, lock_detect) begin
    always @ * begin
       state_rx_nxt = state_rx;

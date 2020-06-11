@@ -43,7 +43,7 @@ xcelium_adpll_ctr0_tb:
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 xcelium_synth_adpll_ctr0_tb:
-	xmvlog $(XCFLAGS) $(SRC1) $(SRC_DIR)/synth/adpll_ctr0_PR.v $(SRC_DIR)/synth/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.sv
+	xmvlog $(XCFLAGS) $(SRC1) $(SRC_DIR)/synth/adpll_ctr0_synth.v $(SRC_DIR)/synth/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.sv
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
