@@ -96,7 +96,7 @@ module row_col_cod_5x5 #(
    end
    
 
-   always @ (posedge rst, posedge clk) begin 
+   always @ (posedge rst, negedge clk) begin 
       if(rst == 1'b1)begin
 	 //r_all <= 5'd3;
 	 r_all <= 5'd28;
