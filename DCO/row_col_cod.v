@@ -70,7 +70,7 @@ module row_col_cod #(
    end
    
 
-   always @ (negedge clk) begin 
+   always @ (negedge clk, posedge rst) begin 
       if(rst)begin
 	 //reset for 16x16 c bank with half on and half off
 	 //r_all <= 16'd255;

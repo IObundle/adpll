@@ -423,7 +423,7 @@ module adpll_ctr0(
 	endcase // case (state_rx)
    end
    
-   always @ (negedge clk)
+   always @ (negedge clk, posedge rst)
      if(rst)begin
 	state_rx <= IDLE;
 	time_count <= 9'd0;
@@ -503,7 +503,7 @@ module adpll_ctr0(
    end 
    
    assign rst_lock_detect_all  = rst|rst_lock_detect;
-   always @ (negedge clk)
+   always @ (negedge clk, posedge rst_lock_detect_all)
      if(rst_lock_detect_all)begin
 	aux1 <= {(`ACCW-`FRAW){1'b1}};
      aux2 <= {(`ACCW-`FRAW){1'b1}};
