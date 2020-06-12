@@ -96,14 +96,14 @@ module row_col_cod_5x5 #(
    end
    
 
-   always @ (posedge rst, negedge clk) begin 
-      if(rst == 1'b1)begin
+   always @ (negedge clk) begin 
+      if(rst)begin
 	 //r_all <= 5'd3;
 	 r_all <= 5'd28;
 	 row <= 5'd4;
 	 col <= 5'd7;
       end
-      else if(en == 1'b1)begin
+      else if(en)begin
 	 r_all <= r_all_nxt;
 	 row <= row_nxt;
 	 col <= col_nxt;

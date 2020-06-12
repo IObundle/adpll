@@ -79,12 +79,12 @@ module tdc_digital (
    assign tdc_word = (counter_mod<<5) + edge_index - edge_index_last;
    
      
-   always @ (negedge clk, posedge rst)
-     if(rst == 1'b1) begin
+   always @ (negedge clk)
+     if(rst) begin
 	counter_last <= 1'b0;
 	edge_index_last <= 1'b0;
 	end
-     else if(en == 1'b1) begin
+     else if(en) begin
        counter_last <= counter_aux;
 	edge_index_last <= edge_index;
      end	

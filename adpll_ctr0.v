@@ -364,7 +364,7 @@ module adpll_ctr0(
 	       rst_lock_detect_nxt = 1'b0;
 	       alpha = alpha_l;
 	       en_lock_detect_nxt = 1'b1;
-	       if(lock_detect)begin
+	       if(lock_detect & (~rst_lock_detect))begin
 		  otw_l_fixed_nxt = lock_detect_word;	      
 		  state_rx_nxt = C_M;
 		  rst_accum_nxt = 1'b1;
@@ -376,7 +376,7 @@ module adpll_ctr0(
 	       rst_accum_nxt = 1'b0;
 	       alpha = alpha_m;
 	       rst_lock_detect_nxt = 1'b0;
-	       if(lock_detect)begin		  
+	       if(lock_detect & (~rst_lock_detect))begin		  
 		  otw_m_fixed_nxt = lock_detect_word;  
 		  state_rx_nxt = C_S;
 		  rst_accum_nxt = 1'b1;
@@ -423,7 +423,7 @@ module adpll_ctr0(
 	endcase // case (state_rx)
    end
    
-   always @ (negedge clk, posedge rst)
+   always @ (negedge clk)
      if(rst)begin
 	state_rx <= IDLE;
 	time_count <= 9'd0;
@@ -439,8 +439,8 @@ module adpll_ctr0(
 	channel_lock <= 1'b0;
 	en_integral <= 1'b0;
 	en_mod <= 1'b0;
-	FCW_last <= FCW;
-	adpll_mode_last <= adpll_mode;
+	FCW_last <= `FCWW'd0;
+	adpll_mode_last <= 2'd0;
      end
      else if(en)begin
 	state_rx <= state_rx_nxt;
@@ -503,7 +503,7 @@ module adpll_ctr0(
    end 
    
    assign rst_lock_detect_all  = rst|rst_lock_detect;
-   always @ (negedge clk, posedge rst_lock_detect_all)
+   always @ (negedge clk)
      if(rst_lock_detect_all)begin
 	aux1 <= {(`ACCW-`FRAW){1'b1}};
      aux2 <= {(`ACCW-`FRAW){1'b1}};
