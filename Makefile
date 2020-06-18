@@ -47,6 +47,11 @@ xcelium_synth_adpll_ctr0_tb:
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
+xcelium_synth_adpll_ctr0_tb:
+	xmvlog $(XCFLAGS) $(SRC1) $(SRC_DIR)/synth/adpll_ctr0_PR.v $(SRC_DIR)/synth/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.sv
+	xmelab $(XEFLAGS) adpll_ctr0_tb
+	xmsim $(XSFLAGS) adpll_ctr0_tb
+
 plots_adpll_ctr0_tb:
 	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) ; fi;
