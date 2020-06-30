@@ -6,4 +6,5 @@ params.m
 *.log
 xcelium.d
 dump.vcd
+*.txt
 

@@ -8,7 +8,7 @@
 // Project: WSN (preparation)
 // Description: 
 //				 
-// Change history: 12/12/19 - 
+// Change history: 30/06/2020 - Register outside of the decoders (synth issues)
 
 module dco_tb;
 
@@ -23,6 +23,9 @@ module dco_tb;
    reg [7:0] c_s_word, c_m_word;
    reg [4:0] c_l_word; 
    reg 	       clk, rst;
+   
+   wire [15:0] c_m_rall_nxt, c_m_row_nxt, c_m_col_nxt;
+   wire [15:0] c_s_rall_nxt, c_s_row_nxt, c_s_col_nxt;
    
    // instantiate row_col_coder of Large c bank
    row_col_cod_5x5 row_col_cod_l(
@@ -44,6 +47,20 @@ module dco_tb;
 			    .clk(clk),
 			    .word(c_m_word),
 			    //Outputs
+			    .r_all_nxt(c_m_rall_nxt),
+			    .row_nxt(c_m_row_nxt),
+			    .col_nxt(c_m_col_nxt)
+			    );
+   // instantiate registers of row_col_coder of medium c bank 
+   row_col_cod_reg row_col_cod_reg_m(
+			    //Inputs
+			    .rst(rst),
+			    .en(en),
+			    .clk(clk),
+				.r_all_nxt(c_m_rall_nxt),
+			    .row_nxt(c_m_row_nxt),
+			    .col_nxt(c_m_col_nxt),
+			    //Outputs
 			    .r_all(c_m_rall),
 			    .row(c_m_row),
 			    .col(c_m_col)
@@ -55,6 +72,20 @@ module dco_tb;
 			    .en(en),
 			    .clk(clk),
 			    .word(c_s_word),
+			    //Outputs
+			    .r_all_nxt(c_s_rall_nxt),
+			    .row_nxt(c_s_row_nxt),
+			    .col_nxt(c_s_col_nxt)
+			    );
+   // instantiate registers of row_col_coder of small c bank 
+   row_col_cod_reg row_col_cod_reg_s(
+			    //Inputs
+			    .rst(rst),
+			    .en(en),
+			    .clk(clk),
+				.r_all_nxt(c_s_rall_nxt),
+			    .row_nxt(c_s_row_nxt),
+			    .col_nxt(c_s_col_nxt),
 			    //Outputs
 			    .r_all(c_s_rall),
 			    .row(c_s_row),

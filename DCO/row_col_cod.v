@@ -18,21 +18,20 @@ module row_col_cod #(
     input 		  en,
     input 		  clk,
     input [WORD_W-1:0] 	  word,
-    output reg [SIZE-1:0] r_all, 
-    output reg [SIZE-1:0] row,
-    output reg [SIZE-1:0] col);
+    output reg [SIZE-1:0] r_all_nxt, 
+    output reg [SIZE-1:0] row_nxt,
+    output reg [SIZE-1:0] col_nxt);
 
     //parameter SIZE = (1<<ROW_W); // number of rows = number of cols
    integer 		  i;
    
-   reg [SIZE-1:0] 	  r_all_nxt, row_nxt, col_nxt;
    reg [WORD_W-ROW_W-1:0] 	  r_all_bin, col_bin;
    
 
    always @ word begin
-      r_all_nxt = r_all;
-      row_nxt = row;
-      col_nxt = col;
+      //r_all_nxt = r_all;
+      //row_nxt = row;
+      //col_nxt = col;
 
 
       r_all_bin = word>>ROW_W; // number of r_all to be active
@@ -70,20 +69,5 @@ module row_col_cod #(
    end
    
 
-   always @ (negedge clk, posedge rst) begin 
-      if(rst)begin
-	 //reset for 16x16 c bank with half on and half off
-	 //r_all <= 16'd255;
-	 r_all <= 16'd65280;
-	 row <= 16'd256;
-	 col <= 16'd0;
-      end
-      else if(en)begin
-	 r_all <= r_all_nxt;
-	 row <= row_nxt;
-	 col <= col_nxt;
 
-      end
-   end 
-
-endmodule // c_sel
+endmodule 

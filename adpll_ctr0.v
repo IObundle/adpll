@@ -63,6 +63,13 @@ module adpll_ctr0(
    wire signed [7:0]  dco_c_m_word;
    wire signed [7:0]  dco_c_s_word;
    wire [11:0] 	      tdc_word;
+   
+   wire [15:0]     dco_c_m_rall_nxt;
+   wire [15:0]     dco_c_m_row_nxt;
+   wire [15:0]     dco_c_m_col_nxt;
+   wire [15:0]     dco_c_s_rall_nxt;
+   wire [15:0]     dco_c_s_row_nxt;
+   wire [15:0]     dco_c_s_col_nxt;
 
    parameter IDLE = 5'b00001, PU = 5'b00010, C_L = 5'b00100, C_M = 5'b01000, C_S = 5'b10000;
    //parameter IDLE = 3'd0, PU = 3'd1, C_L = 3'd2, C_M = 3'd3, C_S = 3'd4;
@@ -158,8 +165,7 @@ module adpll_ctr0(
 			    .row(dco_c_l_row),
 			    .col(dco_c_l_col)
 			    );
-   // instantiate row_col_coder of medium c bank
-   
+   // instantiate row_col_coder of medium c bank 
    row_col_cod row_col_cod_m(
 			    //Inputs
 			    .rst(rst),
@@ -167,6 +173,20 @@ module adpll_ctr0(
 			    .clk(clk),
 			     //two's comp to abs convertion
 			    .word({~dco_c_m_word[7],dco_c_m_word[6:0]}), 
+			    //Outputs
+			    .r_all_nxt(dco_c_m_rall_nxt),
+			    .row_nxt(dco_c_m_row_nxt),
+			    .col_nxt(dco_c_m_col_nxt)
+			    );
+	// instantiate registers of row_col_coder of medium c bank 
+   row_col_cod_reg row_col_cod_reg_m(
+			    //Inputs
+			    .rst(rst),
+			    .en(en),
+			    .clk(clk),
+				.r_all_nxt(dco_c_m_rall_nxt),
+			    .row_nxt(dco_c_m_row_nxt),
+			    .col_nxt(dco_c_m_col_nxt),
 			    //Outputs
 			    .r_all(dco_c_m_rall),
 			    .row(dco_c_m_row),
@@ -181,10 +201,25 @@ module adpll_ctr0(
 			     //two's comp to abs convertion
 			    .word({~dco_c_s_word[7],dco_c_s_word[6:0]}),
 			    //Outputs
+			    .r_all_nxt(dco_c_s_rall_nxt),
+			    .row_nxt(dco_c_s_row_nxt),
+			    .col_nxt(dco_c_s_col_nxt)
+			    );
+   // instantiate registers of row_col_coder of small c bank 
+   row_col_cod_reg row_col_cod_reg_s(
+			    //Inputs
+			    .rst(rst),
+			    .en(en),
+			    .clk(clk),
+				.r_all_nxt(dco_c_s_rall_nxt),
+			    .row_nxt(dco_c_s_row_nxt),
+			    .col_nxt(dco_c_s_col_nxt),
+			    //Outputs
 			    .r_all(dco_c_s_rall),
 			    .row(dco_c_s_row),
 			    .col(dco_c_s_col)
 			    );
+				
    // instantiate tdc digital interface (half clk delay)
    tdc_digital tdc_digital0(
 		      //Inputs
