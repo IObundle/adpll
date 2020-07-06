@@ -29,11 +29,13 @@ time_rm_us = float(sys.argv[1])
 
 ################################################################################
 ## Open file of negedge clk time
-with open('clkn_time.txt','r') as myFile:
-        contents = myFile.read()
+with open(os.path.join(current_dir, 'clkn_time.txt'),'r') as myFile1: 
+        contents = myFile1.read()
+
 clkn_time = np.asarray(contents.split())
 clkn_time = clkn_time.astype(int)
 clkn_time = clkn_time*1e-15;
+print("clkn_time = ", clkn_time[-1])
 aux = np.abs(clkn_time - time_rm_us*1e-6)
 idx = np.where(aux == np.min(aux));
 idx = idx[0][0]
