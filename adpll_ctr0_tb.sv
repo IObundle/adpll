@@ -233,12 +233,7 @@ module adpll_ctr0_tb;
 	  data_mod <= $urandom%2;
      end
 
-   initial #end_time_fs begin 
-		$fclose(dco_ckv_time.txt);
-		$fclose(clkn_time.txt);
-		$fclose(dco_s_word.txt);
-		$fclose(tdc_word.txt);
-		
+   initial #end_time_fs begin 		
 		$finish;
 	end
       

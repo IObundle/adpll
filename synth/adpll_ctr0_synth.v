@@ -642,12 +642,12 @@ module bmux_622_7(ctl, in_0, in_1, z);
        (z[1]));
 endmodule
 
-module bmux_623_1(ctl, in_0, z);
+module bmux_623_1(ctl, in_0, in_1, z);
   input ctl;
-  input [27:0] in_0;
+  input [27:0] in_0, in_1;
   output [27:0] z;
   wire ctl;
-  wire [27:0] in_0;
+  wire [27:0] in_0, in_1;
   wire [27:0] z;
   wire n_9;
   AN2ELD g218(.I1 (in_0[26]), .I2 (n_9), .O (z[26]));
@@ -890,6 +890,7 @@ module csa_tree_624(in_0, in_1, in_2, in_3, out_0, out_1);
        (n_334));
   AO22ELD g2038(.A1 (n_58), .A2 (in_3[0]), .B1 (n_96), .B2 (n_17), .O
        (n_335));
+  TIE1DLD tie_1_cell(.O (out_1[0]));
 endmodule
 
 module csa_tree_687(in_0, in_1, in_2, out_0, out_1);
@@ -1404,6 +1405,7 @@ module csa_tree_562(in_0, in_1, in_2, out_0, out_1);
   XNR3ELD g2(.I1 (in_0[1]), .I2 (in_2[1]), .I3 (in_1[1]), .O
        (out_1[1]));
   OR2B1ELD g1445(.I1 (in_0[0]), .B1 (in_2[0]), .O (out_0[1]));
+  TIE1DLD tie_1_cell(.O (out_0[28]));
 endmodule
 
 module csa_tree_562_1(in_0, in_1, in_2, out_0, out_1);
@@ -1495,6 +1497,7 @@ module csa_tree_562_1(in_0, in_1, in_2, out_0, out_1);
   INVDLD g1386(.I (in_2[12]), .O (n_4));
   INVDLD g1387(.I (in_2[7]), .O (n_3));
   INVDLD g1388(.I (in_2[17]), .O (n_2));
+  TIE1DLD tie_1_cell(.O (out_0[28]));
 endmodule
 
 module csa_tree_add_280_65_group_1378(in_0, in_1, in_2, out_0);
@@ -3251,29 +3254,29 @@ module row_col_cod_5x5(rst, en, clk, word, r_all, row, col);
   wire [4:0] r_all, row, col;
   wire UNCONNECTED, UNCONNECTED0, UNCONNECTED1, UNCONNECTED2,
        UNCONNECTED3, UNCONNECTED4, UNCONNECTED5, UNCONNECTED6;
-  wire UNCONNECTED7, logic_1_1_net, n_0, n_1, n_2, n_3, n_4, n_5;
-  wire n_6, n_7, n_8, n_9, n_10, n_11, n_12, n_13;
-  wire n_14, n_16, n_17, n_18, n_19, n_20, n_21, n_22;
-  wire n_23, n_24, n_25, n_26, n_27, n_28, n_29, n_30;
-  wire n_31, n_32, n_33, n_34, n_35, n_36, n_37, n_38;
-  wire n_39, n_41, n_42, n_43, n_44, n_45, n_46, n_47;
-  wire n_48, n_49, n_50, n_53, n_54, n_55, n_58, n_59;
-  wire n_60, n_61, n_62, n_63, n_66, n_67, n_69, n_70;
-  wire n_71, n_72, n_73, n_74, n_75, n_76, n_77, n_78;
-  wire n_79, n_81, n_86, n_87, n_88, n_89, n_90, n_91;
-  wire n_92, n_93, n_94, n_95, n_96, n_97, n_98, n_99;
-  wire n_100, n_101, n_102, n_103, n_104, n_105, n_106, n_107;
-  wire n_108, n_109, n_110, n_111, n_112, n_113, n_114, n_115;
-  wire n_116, n_117, n_118, n_119, n_120, n_121, n_122, n_123;
-  wire n_124, n_125, n_126, n_127, n_128, n_129, n_130, n_132;
-  wire n_155, n_156, n_157, n_158, n_159, n_160;
+  wire UNCONNECTED7, n_0, n_1, n_2, n_3, n_4, n_5, n_6;
+  wire n_7, n_8, n_9, n_10, n_11, n_12, n_13, n_14;
+  wire n_16, n_17, n_18, n_19, n_20, n_21, n_22, n_23;
+  wire n_24, n_25, n_26, n_27, n_28, n_29, n_30, n_31;
+  wire n_32, n_33, n_34, n_35, n_36, n_37, n_38, n_39;
+  wire n_41, n_42, n_43, n_44, n_45, n_46, n_47, n_48;
+  wire n_49, n_50, n_53, n_54, n_55, n_58, n_59, n_60;
+  wire n_61, n_62, n_63, n_66, n_67, n_69, n_70, n_71;
+  wire n_72, n_73, n_74, n_75, n_76, n_77, n_78, n_79;
+  wire n_81, n_86, n_87, n_88, n_89, n_90, n_91, n_92;
+  wire n_93, n_94, n_95, n_96, n_97, n_98, n_99, n_100;
+  wire n_101, n_102, n_103, n_104, n_105, n_106, n_107, n_108;
+  wire n_109, n_110, n_111, n_112, n_113, n_114, n_115, n_116;
+  wire n_117, n_118, n_119, n_120, n_121, n_122, n_123, n_124;
+  wire n_125, n_126, n_127, n_128, n_129, n_130, n_132, n_155;
+  wire n_156, n_157, n_158, n_159, n_160;
   INVCKDLD g776(.I (rst), .O (n_132));
-  DBFRSBELD \col_reg[0] (.RB (logic_1_1_net), .SB (n_132), .CKB (clk),
-       .D (n_124), .Q (col[0]), .QB (n_10));
-  DBFRSBELD \col_reg[1] (.RB (logic_1_1_net), .SB (n_132), .CKB (clk),
-       .D (n_126), .Q (col[1]), .QB (UNCONNECTED));
-  DBFRSBELD \col_reg[2] (.RB (logic_1_1_net), .SB (n_132), .CKB (clk),
-       .D (n_6), .Q (col[2]), .QB (n_11));
+  DBFRSBELD \col_reg[0] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_124), .Q (col[0]), .QB (n_10));
+  DBFRSBELD \col_reg[1] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_126), .Q (col[1]), .QB (UNCONNECTED));
+  DBFRSBELD \col_reg[2] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_6), .Q (col[2]), .QB (n_11));
   DBFRBELD \col_reg[3] (.RB (n_132), .CKB (clk), .D (n_129), .Q
        (col[3]), .QB (n_9));
   DBFRBELD \col_reg[4] (.RB (n_132), .CKB (clk), .D (n_130), .Q
@@ -3282,16 +3285,16 @@ module row_col_cod_5x5(rst, en, clk, word, r_all, row, col);
        (r_all[0]), .QB (UNCONNECTED1));
   DBFRBELD \r_all_reg[1] (.RB (n_132), .CKB (clk), .D (n_125), .Q
        (r_all[1]), .QB (UNCONNECTED2));
-  DBFRSBELD \r_all_reg[2] (.RB (logic_1_1_net), .SB (n_132), .CKB
-       (clk), .D (n_105), .Q (r_all[2]), .QB (UNCONNECTED3));
-  DBFRSBELD \r_all_reg[3] (.RB (logic_1_1_net), .SB (n_132), .CKB
-       (clk), .D (n_122), .Q (r_all[3]), .QB (UNCONNECTED4));
+  DBFRSBELD \r_all_reg[2] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_105), .Q (r_all[2]), .QB (UNCONNECTED3));
+  DBFRSBELD \r_all_reg[3] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_122), .Q (r_all[3]), .QB (UNCONNECTED4));
   DBFRBELD \row_reg[0] (.RB (n_132), .CKB (clk), .D (n_118), .Q
        (row[0]), .QB (n_12));
   DBFRBELD \row_reg[1] (.RB (n_132), .CKB (clk), .D (n_121), .Q
        (row[1]), .QB (UNCONNECTED5));
-  DBFRSBELD \row_reg[2] (.RB (logic_1_1_net), .SB (n_132), .CKB (clk),
-       .D (n_113), .Q (row[2]), .QB (n_13));
+  DBFRSBELD \row_reg[2] (.RB (r_all[4]), .SB (n_132), .CKB (clk), .D
+       (n_113), .Q (row[2]), .QB (n_13));
   DBFRBELD \row_reg[3] (.RB (n_132), .CKB (clk), .D (n_123), .Q
        (row[3]), .QB (UNCONNECTED6));
   DBFRBELD \row_reg[4] (.RB (n_132), .CKB (clk), .D (n_112), .Q
@@ -3422,20 +3425,22 @@ module row_col_cod_5x5(rst, en, clk, word, r_all, row, col);
        (n_158));
   OR3B1ELD g1864(.I1 (n_19), .I2 (n_34), .B1 (n_50), .O (n_159));
   AOI12CLD g1865(.A1 (n_48), .B1 (r_all[3]), .B2 (n_16), .O (n_160));
-  TIE1DLD tie_1_cell(.O (logic_1_1_net));
+  TIE1DLD tie_1_cell(.O (r_all[4]));
 endmodule
 
-module csa_tree_gte_59_9_I8_group_1369_1370(in_0, out_0);
-  input [35:0] in_0;
+module csa_tree_gte_59_9_I8_group_1369_1370(in_0, in_1, out_0);
+  input [35:0] in_0, in_1;
   output out_0;
-  wire [35:0] in_0;
+  wire [35:0] in_0, in_1;
   wire out_0;
   assign out_0 = in_0[3];
 endmodule
 
-module row_col_cod(word, r_all_nxt, row_nxt, col_nxt);
+module row_col_cod(rst, en, clk, word, r_all_nxt, row_nxt, col_nxt);
+  input rst, en, clk;
   input [7:0] word;
   output [15:0] r_all_nxt, row_nxt, col_nxt;
+  wire rst, en, clk;
   wire [7:0] word;
   wire [15:0] r_all_nxt, row_nxt, col_nxt;
   wire UNCONNECTED_HIER_Z, UNCONNECTED_HIER_Z0, UNCONNECTED_HIER_Z1,
@@ -3453,12 +3458,30 @@ module row_col_cod(word, r_all_nxt, row_nxt, col_nxt);
        UNCONNECTED_HIER_Z27, UNCONNECTED_HIER_Z28,
        UNCONNECTED_HIER_Z29, UNCONNECTED_HIER_Z30;
   wire UNCONNECTED_HIER_Z31, UNCONNECTED_HIER_Z32,
-       UNCONNECTED_HIER_Z33, n_1, n_2, n_3, n_4, n_5;
-  wire n_6, n_7, n_8, n_9, n_10, n_11, n_12, n_13;
-  wire n_14, n_15, n_16, n_17, n_18, n_19, n_20, n_21;
-  wire n_22, n_23, n_24, n_25, n_26, n_27, n_28, n_29;
-  wire n_30, n_32, n_33, n_34, n_35, n_36, n_37, n_38;
-  wire n_39, n_40, n_41, n_42, n_43, n_44, n_48, n_95;
+       UNCONNECTED_HIER_Z33, UNCONNECTED_HIER_Z34,
+       UNCONNECTED_HIER_Z35, UNCONNECTED_HIER_Z36,
+       UNCONNECTED_HIER_Z37, UNCONNECTED_HIER_Z38;
+  wire UNCONNECTED_HIER_Z39, UNCONNECTED_HIER_Z40,
+       UNCONNECTED_HIER_Z41, UNCONNECTED_HIER_Z42,
+       UNCONNECTED_HIER_Z43, UNCONNECTED_HIER_Z44,
+       UNCONNECTED_HIER_Z45, UNCONNECTED_HIER_Z46;
+  wire UNCONNECTED_HIER_Z47, UNCONNECTED_HIER_Z48,
+       UNCONNECTED_HIER_Z49, UNCONNECTED_HIER_Z50,
+       UNCONNECTED_HIER_Z51, UNCONNECTED_HIER_Z52,
+       UNCONNECTED_HIER_Z53, UNCONNECTED_HIER_Z54;
+  wire UNCONNECTED_HIER_Z55, UNCONNECTED_HIER_Z56,
+       UNCONNECTED_HIER_Z57, UNCONNECTED_HIER_Z58,
+       UNCONNECTED_HIER_Z59, UNCONNECTED_HIER_Z60,
+       UNCONNECTED_HIER_Z61, UNCONNECTED_HIER_Z62;
+  wire UNCONNECTED_HIER_Z63, UNCONNECTED_HIER_Z64,
+       UNCONNECTED_HIER_Z65, UNCONNECTED_HIER_Z66,
+       UNCONNECTED_HIER_Z67, UNCONNECTED_HIER_Z68, n_1, n_2;
+  wire n_3, n_4, n_5, n_6, n_7, n_8, n_9, n_10;
+  wire n_11, n_12, n_13, n_14, n_15, n_16, n_17, n_18;
+  wire n_19, n_20, n_21, n_22, n_23, n_24, n_25, n_26;
+  wire n_27, n_28, n_29, n_30, n_32, n_33, n_34, n_35;
+  wire n_36, n_37, n_38, n_39, n_40, n_41, n_42, n_43;
+  wire n_44, n_48, n_95;
   csa_tree_gte_59_9_I8_group_1369_1370
        csa_tree_gte_59_9_I8_groupi(.in_0 ({UNCONNECTED_HIER_Z33,
        UNCONNECTED_HIER_Z32, UNCONNECTED_HIER_Z31,
@@ -3476,7 +3499,25 @@ module row_col_cod(word, r_all_nxt, row_nxt, col_nxt);
        UNCONNECTED_HIER_Z7, UNCONNECTED_HIER_Z6, UNCONNECTED_HIER_Z5,
        UNCONNECTED_HIER_Z4, UNCONNECTED_HIER_Z3, UNCONNECTED_HIER_Z2,
        n_5, UNCONNECTED_HIER_Z1, UNCONNECTED_HIER_Z0,
-       UNCONNECTED_HIER_Z}), .out_0 (n_48));
+       UNCONNECTED_HIER_Z}), .in_1 ({UNCONNECTED_HIER_Z68,
+       UNCONNECTED_HIER_Z67, UNCONNECTED_HIER_Z66,
+       UNCONNECTED_HIER_Z65, UNCONNECTED_HIER_Z64,
+       UNCONNECTED_HIER_Z63, UNCONNECTED_HIER_Z62,
+       UNCONNECTED_HIER_Z61, UNCONNECTED_HIER_Z60,
+       UNCONNECTED_HIER_Z59, UNCONNECTED_HIER_Z58,
+       UNCONNECTED_HIER_Z57, UNCONNECTED_HIER_Z56,
+       UNCONNECTED_HIER_Z55, UNCONNECTED_HIER_Z54,
+       UNCONNECTED_HIER_Z53, UNCONNECTED_HIER_Z52,
+       UNCONNECTED_HIER_Z51, UNCONNECTED_HIER_Z50,
+       UNCONNECTED_HIER_Z49, UNCONNECTED_HIER_Z48,
+       UNCONNECTED_HIER_Z47, UNCONNECTED_HIER_Z46,
+       UNCONNECTED_HIER_Z45, UNCONNECTED_HIER_Z44,
+       UNCONNECTED_HIER_Z43, UNCONNECTED_HIER_Z42,
+       UNCONNECTED_HIER_Z41, UNCONNECTED_HIER_Z40,
+       UNCONNECTED_HIER_Z39, UNCONNECTED_HIER_Z38,
+       UNCONNECTED_HIER_Z37, UNCONNECTED_HIER_Z36,
+       UNCONNECTED_HIER_Z35, UNCONNECTED_HIER_Z34, r_all_nxt[15]}),
+       .out_0 (n_48));
   AOI12CLD g2444(.A1 (n_5), .B1 (n_95), .B2 (word[4]), .O (col_nxt[7]));
   OAI12CLD g2449(.A1 (n_3), .B1 (n_35), .B2 (word[4]), .O (col_nxt[1]));
   OAI12CLD g2450(.A1 (n_44), .B1 (n_28), .B2 (n_8), .O (col_nxt[10]));
@@ -3572,6 +3613,7 @@ module row_col_cod(word, r_all_nxt, row_nxt, col_nxt);
   OR2B1CLD g2552(.I1 (word[0]), .B1 (n_10), .O (n_1));
   MXL2ELD g2554(.S (word[4]), .A (n_95), .B (n_48), .OB (col_nxt[8]));
   AO12ELD g2555(.A1 (n_5), .B1 (n_23), .B2 (n_6), .O (n_95));
+  TIE1DLD tie_1_cell(.O (r_all_nxt[15]));
 endmodule
 
 module row_col_cod_reg(rst, en, clk, r_all_nxt, row_nxt, col_nxt,
@@ -3836,62 +3878,99 @@ module row_col_cod_reg_246(rst, en, clk, r_all_nxt, row_nxt, col_nxt,
   TIE1DLD tie_1_cell(.O (logic_1_1_net));
 endmodule
 
-module csa_tree_gte_59_9_I8_group_1369_1370_2556(in_0, out_0);
-  input [35:0] in_0;
+module csa_tree_gte_59_9_I8_group_1369_1370_2556(in_0, in_1, out_0);
+  input [35:0] in_0, in_1;
   output out_0;
-  wire [35:0] in_0;
+  wire [35:0] in_0, in_1;
   wire out_0;
   assign out_0 = in_0[3];
 endmodule
 
-module row_col_cod_245(word, r_all_nxt, row_nxt, col_nxt);
+module row_col_cod_245(rst, en, clk, word, r_all_nxt, row_nxt, col_nxt);
+  input rst, en, clk;
   input [7:0] word;
   output [15:0] r_all_nxt, row_nxt, col_nxt;
+  wire rst, en, clk;
   wire [7:0] word;
   wire [15:0] r_all_nxt, row_nxt, col_nxt;
-  wire UNCONNECTED_HIER_Z34, UNCONNECTED_HIER_Z35,
-       UNCONNECTED_HIER_Z36, UNCONNECTED_HIER_Z37,
-       UNCONNECTED_HIER_Z38, UNCONNECTED_HIER_Z39,
-       UNCONNECTED_HIER_Z40, UNCONNECTED_HIER_Z41;
-  wire UNCONNECTED_HIER_Z42, UNCONNECTED_HIER_Z43,
-       UNCONNECTED_HIER_Z44, UNCONNECTED_HIER_Z45,
-       UNCONNECTED_HIER_Z46, UNCONNECTED_HIER_Z47,
-       UNCONNECTED_HIER_Z48, UNCONNECTED_HIER_Z49;
-  wire UNCONNECTED_HIER_Z50, UNCONNECTED_HIER_Z51,
-       UNCONNECTED_HIER_Z52, UNCONNECTED_HIER_Z53,
-       UNCONNECTED_HIER_Z54, UNCONNECTED_HIER_Z55,
-       UNCONNECTED_HIER_Z56, UNCONNECTED_HIER_Z57;
-  wire UNCONNECTED_HIER_Z58, UNCONNECTED_HIER_Z59,
-       UNCONNECTED_HIER_Z60, UNCONNECTED_HIER_Z61,
-       UNCONNECTED_HIER_Z62, UNCONNECTED_HIER_Z63,
-       UNCONNECTED_HIER_Z64, UNCONNECTED_HIER_Z65;
-  wire UNCONNECTED_HIER_Z66, UNCONNECTED_HIER_Z67,
-       UNCONNECTED_HIER_Z68, n_0, n_1, n_2, n_3, n_4;
-  wire n_5, n_6, n_7, n_8, n_9, n_10, n_11, n_12;
-  wire n_13, n_14, n_15, n_16, n_17, n_18, n_19, n_20;
-  wire n_21, n_22, n_23, n_24, n_25, n_26, n_27, n_28;
-  wire n_29, n_30, n_31, n_32, n_33, n_34, n_35, n_36;
-  wire n_37, n_38, n_39, n_40, n_41, n_42, n_43, n_44;
-  wire n_48;
+  wire UNCONNECTED_HIER_Z69, UNCONNECTED_HIER_Z70,
+       UNCONNECTED_HIER_Z71, UNCONNECTED_HIER_Z72,
+       UNCONNECTED_HIER_Z73, UNCONNECTED_HIER_Z74,
+       UNCONNECTED_HIER_Z75, UNCONNECTED_HIER_Z76;
+  wire UNCONNECTED_HIER_Z77, UNCONNECTED_HIER_Z78,
+       UNCONNECTED_HIER_Z79, UNCONNECTED_HIER_Z80,
+       UNCONNECTED_HIER_Z81, UNCONNECTED_HIER_Z82,
+       UNCONNECTED_HIER_Z83, UNCONNECTED_HIER_Z84;
+  wire UNCONNECTED_HIER_Z85, UNCONNECTED_HIER_Z86,
+       UNCONNECTED_HIER_Z87, UNCONNECTED_HIER_Z88,
+       UNCONNECTED_HIER_Z89, UNCONNECTED_HIER_Z90,
+       UNCONNECTED_HIER_Z91, UNCONNECTED_HIER_Z92;
+  wire UNCONNECTED_HIER_Z93, UNCONNECTED_HIER_Z94,
+       UNCONNECTED_HIER_Z95, UNCONNECTED_HIER_Z96,
+       UNCONNECTED_HIER_Z97, UNCONNECTED_HIER_Z98,
+       UNCONNECTED_HIER_Z99, UNCONNECTED_HIER_Z100;
+  wire UNCONNECTED_HIER_Z101, UNCONNECTED_HIER_Z102,
+       UNCONNECTED_HIER_Z103, UNCONNECTED_HIER_Z104,
+       UNCONNECTED_HIER_Z105, UNCONNECTED_HIER_Z106,
+       UNCONNECTED_HIER_Z107, UNCONNECTED_HIER_Z108;
+  wire UNCONNECTED_HIER_Z109, UNCONNECTED_HIER_Z110,
+       UNCONNECTED_HIER_Z111, UNCONNECTED_HIER_Z112,
+       UNCONNECTED_HIER_Z113, UNCONNECTED_HIER_Z114,
+       UNCONNECTED_HIER_Z115, UNCONNECTED_HIER_Z116;
+  wire UNCONNECTED_HIER_Z117, UNCONNECTED_HIER_Z118,
+       UNCONNECTED_HIER_Z119, UNCONNECTED_HIER_Z120,
+       UNCONNECTED_HIER_Z121, UNCONNECTED_HIER_Z122,
+       UNCONNECTED_HIER_Z123, UNCONNECTED_HIER_Z124;
+  wire UNCONNECTED_HIER_Z125, UNCONNECTED_HIER_Z126,
+       UNCONNECTED_HIER_Z127, UNCONNECTED_HIER_Z128,
+       UNCONNECTED_HIER_Z129, UNCONNECTED_HIER_Z130,
+       UNCONNECTED_HIER_Z131, UNCONNECTED_HIER_Z132;
+  wire UNCONNECTED_HIER_Z133, UNCONNECTED_HIER_Z134,
+       UNCONNECTED_HIER_Z135, UNCONNECTED_HIER_Z136,
+       UNCONNECTED_HIER_Z137, UNCONNECTED_HIER_Z138, n_0, n_1;
+  wire n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9;
+  wire n_10, n_11, n_12, n_13, n_14, n_15, n_16, n_17;
+  wire n_18, n_19, n_20, n_21, n_22, n_23, n_24, n_25;
+  wire n_26, n_27, n_28, n_29, n_30, n_31, n_32, n_33;
+  wire n_34, n_35, n_36, n_37, n_38, n_39, n_40, n_41;
+  wire n_42, n_43, n_44, n_48;
   csa_tree_gte_59_9_I8_group_1369_1370_2556
-       csa_tree_gte_59_9_I8_groupi(.in_0 ({UNCONNECTED_HIER_Z68,
-       UNCONNECTED_HIER_Z67, UNCONNECTED_HIER_Z66,
-       UNCONNECTED_HIER_Z65, UNCONNECTED_HIER_Z64,
-       UNCONNECTED_HIER_Z63, UNCONNECTED_HIER_Z62,
-       UNCONNECTED_HIER_Z61, UNCONNECTED_HIER_Z60,
-       UNCONNECTED_HIER_Z59, UNCONNECTED_HIER_Z58,
-       UNCONNECTED_HIER_Z57, UNCONNECTED_HIER_Z56,
-       UNCONNECTED_HIER_Z55, UNCONNECTED_HIER_Z54,
-       UNCONNECTED_HIER_Z53, UNCONNECTED_HIER_Z52,
-       UNCONNECTED_HIER_Z51, UNCONNECTED_HIER_Z50,
-       UNCONNECTED_HIER_Z49, UNCONNECTED_HIER_Z48,
-       UNCONNECTED_HIER_Z47, UNCONNECTED_HIER_Z46,
-       UNCONNECTED_HIER_Z45, UNCONNECTED_HIER_Z44,
-       UNCONNECTED_HIER_Z43, UNCONNECTED_HIER_Z42,
-       UNCONNECTED_HIER_Z41, UNCONNECTED_HIER_Z40,
-       UNCONNECTED_HIER_Z39, UNCONNECTED_HIER_Z38,
-       UNCONNECTED_HIER_Z37, n_6, UNCONNECTED_HIER_Z36,
-       UNCONNECTED_HIER_Z35, UNCONNECTED_HIER_Z34}), .out_0 (n_48));
+       csa_tree_gte_59_9_I8_groupi(.in_0 ({UNCONNECTED_HIER_Z103,
+       UNCONNECTED_HIER_Z102, UNCONNECTED_HIER_Z101,
+       UNCONNECTED_HIER_Z100, UNCONNECTED_HIER_Z99,
+       UNCONNECTED_HIER_Z98, UNCONNECTED_HIER_Z97,
+       UNCONNECTED_HIER_Z96, UNCONNECTED_HIER_Z95,
+       UNCONNECTED_HIER_Z94, UNCONNECTED_HIER_Z93,
+       UNCONNECTED_HIER_Z92, UNCONNECTED_HIER_Z91,
+       UNCONNECTED_HIER_Z90, UNCONNECTED_HIER_Z89,
+       UNCONNECTED_HIER_Z88, UNCONNECTED_HIER_Z87,
+       UNCONNECTED_HIER_Z86, UNCONNECTED_HIER_Z85,
+       UNCONNECTED_HIER_Z84, UNCONNECTED_HIER_Z83,
+       UNCONNECTED_HIER_Z82, UNCONNECTED_HIER_Z81,
+       UNCONNECTED_HIER_Z80, UNCONNECTED_HIER_Z79,
+       UNCONNECTED_HIER_Z78, UNCONNECTED_HIER_Z77,
+       UNCONNECTED_HIER_Z76, UNCONNECTED_HIER_Z75,
+       UNCONNECTED_HIER_Z74, UNCONNECTED_HIER_Z73,
+       UNCONNECTED_HIER_Z72, n_6, UNCONNECTED_HIER_Z71,
+       UNCONNECTED_HIER_Z70, UNCONNECTED_HIER_Z69}), .in_1
+       ({UNCONNECTED_HIER_Z138, UNCONNECTED_HIER_Z137,
+       UNCONNECTED_HIER_Z136, UNCONNECTED_HIER_Z135,
+       UNCONNECTED_HIER_Z134, UNCONNECTED_HIER_Z133,
+       UNCONNECTED_HIER_Z132, UNCONNECTED_HIER_Z131,
+       UNCONNECTED_HIER_Z130, UNCONNECTED_HIER_Z129,
+       UNCONNECTED_HIER_Z128, UNCONNECTED_HIER_Z127,
+       UNCONNECTED_HIER_Z126, UNCONNECTED_HIER_Z125,
+       UNCONNECTED_HIER_Z124, UNCONNECTED_HIER_Z123,
+       UNCONNECTED_HIER_Z122, UNCONNECTED_HIER_Z121,
+       UNCONNECTED_HIER_Z120, UNCONNECTED_HIER_Z119,
+       UNCONNECTED_HIER_Z118, UNCONNECTED_HIER_Z117,
+       UNCONNECTED_HIER_Z116, UNCONNECTED_HIER_Z115,
+       UNCONNECTED_HIER_Z114, UNCONNECTED_HIER_Z113,
+       UNCONNECTED_HIER_Z112, UNCONNECTED_HIER_Z111,
+       UNCONNECTED_HIER_Z110, UNCONNECTED_HIER_Z109,
+       UNCONNECTED_HIER_Z108, UNCONNECTED_HIER_Z107,
+       UNCONNECTED_HIER_Z106, UNCONNECTED_HIER_Z105,
+       UNCONNECTED_HIER_Z104, r_all_nxt[15]}), .out_0 (n_48));
   AOI12CLD g2454(.A1 (n_6), .B1 (n_39), .B2 (word[4]), .O (col_nxt[7]));
   OAI12CLD g2459(.A1 (n_3), .B1 (n_34), .B2 (word[4]), .O (col_nxt[1]));
   OAI12CLD g2460(.A1 (n_44), .B1 (n_27), .B2 (n_8), .O (col_nxt[10]));
@@ -3988,6 +4067,7 @@ module row_col_cod_245(word, r_all_nxt, row_nxt, col_nxt);
   OR2B1CLD g2563(.I1 (word[0]), .B1 (n_10), .O (n_1));
   AN2B1CLD g2564(.I1 (n_6), .B1 (word[2]), .O (n_0));
   MXL2CLD g2565(.S (word[4]), .A (n_39), .B (n_48), .OB (col_nxt[8]));
+  TIE1DLD tie_1_cell(.O (r_all_nxt[15]));
 endmodule
 
 module arith_shift_right_vlog_unsigned(A, SH, Z);
@@ -5817,10 +5897,12 @@ module bmux_1281(ctl, in_0, in_1, z);
        (z[2]));
 endmodule
 
-module bmux_1281_1(ctl, z);
+module bmux_1281_1(ctl, in_0, in_1, z);
   input ctl;
+  input [6:0] in_0, in_1;
   output [6:0] z;
   wire ctl;
+  wire [6:0] in_0, in_1;
   wire [6:0] z;
   assign z[0] = ctl;
   assign z[1] = ctl;
@@ -5831,11 +5913,18 @@ module bmux_1281_1(ctl, z);
   assign z[6] = ctl;
 endmodule
 
-module csa_tree_1276(in_0, out_0);
+module csa_tree_1276(in_0, out_0, out_1);
   input [6:0] in_0;
-  output [8:0] out_0;
+  output [8:0] out_0, out_1;
   wire [6:0] in_0;
-  wire [8:0] out_0;
+  wire [8:0] out_0, out_1;
+  assign out_1[0] = out_0[8];
+  assign out_1[1] = out_0[8];
+  assign out_1[2] = out_0[8];
+  assign out_1[3] = out_0[8];
+  assign out_1[4] = out_0[8];
+  assign out_1[5] = out_0[8];
+  assign out_1[6] = out_0[8];
   assign out_0[0] = in_0[0];
   assign out_0[1] = in_0[1];
   assign out_0[2] = in_0[2];
@@ -5843,6 +5932,8 @@ module csa_tree_1276(in_0, out_0);
   assign out_0[4] = in_0[4];
   assign out_0[5] = in_0[5];
   assign out_0[6] = in_0[6];
+  assign out_0[7] = out_0[8];
+  TIE1DLD tie_1_cell(.O (out_0[8]));
 endmodule
 
 module tdc_digital(rst, en, clk, counter_in, phase_in, tdc_word);
@@ -5867,56 +5958,71 @@ module tdc_digital(rst, en, clk, counter_in, phase_in, tdc_word);
        UNCONNECTED124, UNCONNECTED125, UNCONNECTED126, UNCONNECTED127;
   wire UNCONNECTED128, UNCONNECTED129, UNCONNECTED130, UNCONNECTED131,
        UNCONNECTED132, UNCONNECTED133, UNCONNECTED134, UNCONNECTED135;
-  wire UNCONNECTED136, UNCONNECTED137, UNCONNECTED138, n_1, n_2, n_3,
-       n_5, n_6;
-  wire n_7, n_8, n_9, n_10, n_11, n_12, n_13, n_14;
-  wire n_15, n_16, n_17, n_18, n_19, n_20, n_21, n_22;
-  wire n_23, n_26, n_27, n_28, n_29, n_30, n_31, n_32;
-  wire n_35, n_36, n_37, n_38, n_39, n_40, n_41, n_43;
-  wire n_44, n_47, n_48, n_49, n_50, n_52, n_54, n_56;
-  wire n_58, n_59, n_60, n_61, n_62, n_63, n_68, n_70;
-  wire n_74, n_80, n_81, n_84, n_85, n_86, n_87, n_88;
-  wire n_89, n_90, n_91, n_93, n_94, n_96, n_97, n_98;
-  wire n_99, n_100, n_101, n_102, n_103, n_104, n_106, n_107;
-  wire n_110, n_111, n_114, n_115, n_117, n_118, n_119, n_121;
-  wire n_123, n_124, n_126, n_127, n_128, n_130, n_131, n_132;
-  wire n_134, n_135, n_137, n_139, n_142, n_143, n_144, n_145;
-  wire n_147, n_148, n_149, n_150, n_152, n_153, n_154, n_155;
-  wire n_156, n_157, n_158, n_159, n_160, n_162, n_163, n_164;
-  wire n_165, n_167, n_170, n_171, n_172, n_174, n_176, n_177;
-  wire n_178, n_181, n_183, n_184, n_185, n_186, n_187, n_188;
-  wire n_189, n_190, n_192, n_193, n_195, n_196, n_197, n_198;
-  wire n_199, n_200, n_201, n_202, n_203, n_204, n_205, n_206;
-  wire n_207, n_208, n_209, n_210, n_211, n_212, n_213, n_214;
-  wire n_217, n_218, n_219, n_220, n_221, n_222, n_223, n_224;
-  wire n_225, n_226, n_227, n_228, n_231, n_232, n_233, n_234;
-  wire n_235, n_236, n_237, n_238, n_239, n_240, n_242, n_244;
-  wire n_246, n_247, n_248, n_249, n_250, n_251, n_252, n_255;
-  wire n_258, n_259, n_262, n_265, n_266, n_268, n_269, n_270;
-  wire n_271, n_272, n_274, n_275, n_276, n_277, n_278, n_279;
-  wire n_280, n_281, n_282, n_283, n_284, n_286, n_287, n_288;
-  wire n_290, n_291, n_292, n_293, n_294, n_296, n_297, n_298;
-  wire n_300, n_301, n_302, n_303, n_304, n_306, n_307, n_308;
-  wire n_309, n_310, n_311, n_312, n_314, n_315, n_316, n_317;
-  wire n_318, n_319, n_322, n_323, n_324, n_325, n_330, n_333;
-  wire n_334, n_336, n_337, n_338, n_339, n_340, n_341, n_342;
-  wire n_343, n_344, n_345, n_346, n_347, n_348, n_349, n_350;
-  wire n_351, n_352, n_353, n_354, n_356, n_357, n_358, n_361;
-  wire n_362, n_363, n_364, n_365, n_366, n_367, n_368, n_370;
-  wire n_373, n_374, n_375, n_376, n_395, n_396, n_397, n_398;
-  wire n_399, n_400, n_401, n_402, n_403, n_404, n_405, n_406;
-  wire n_407, n_408, n_411, n_412, n_413, n_414, n_415, n_416;
-  wire n_417, n_418, n_419, n_449, n_450, n_451, n_452, n_453;
-  wire n_455, n_456, n_457, n_458, n_459, n_463, n_465, n_466;
-  wire n_467, n_468, n_469, n_470, n_471, n_472, n_473, n_477;
-  wire n_479, n_480, n_481, n_482, n_483, n_484, n_485;
+  wire UNCONNECTED136, UNCONNECTED137, UNCONNECTED138, UNCONNECTED139,
+       UNCONNECTED140, UNCONNECTED141, UNCONNECTED142, UNCONNECTED143;
+  wire UNCONNECTED144, UNCONNECTED145, UNCONNECTED_HIER_Z139,
+       UNCONNECTED_HIER_Z140, UNCONNECTED_HIER_Z141,
+       UNCONNECTED_HIER_Z142, UNCONNECTED_HIER_Z143,
+       UNCONNECTED_HIER_Z144;
+  wire UNCONNECTED_HIER_Z145, logic_1_1_net, n_1, n_2, n_3, n_5, n_6,
+       n_7;
+  wire n_8, n_9, n_10, n_11, n_12, n_13, n_14, n_15;
+  wire n_16, n_17, n_18, n_19, n_20, n_21, n_22, n_23;
+  wire n_26, n_27, n_28, n_29, n_30, n_31, n_32, n_35;
+  wire n_36, n_37, n_38, n_39, n_40, n_41, n_43, n_44;
+  wire n_47, n_48, n_49, n_50, n_52, n_54, n_56, n_58;
+  wire n_59, n_60, n_61, n_62, n_63, n_68, n_70, n_74;
+  wire n_80, n_81, n_84, n_85, n_86, n_87, n_88, n_89;
+  wire n_90, n_91, n_93, n_94, n_96, n_97, n_98, n_99;
+  wire n_100, n_101, n_102, n_103, n_104, n_106, n_107, n_110;
+  wire n_111, n_114, n_115, n_117, n_118, n_119, n_121, n_123;
+  wire n_124, n_126, n_127, n_128, n_130, n_131, n_132, n_134;
+  wire n_135, n_137, n_139, n_142, n_143, n_144, n_145, n_147;
+  wire n_148, n_149, n_150, n_152, n_153, n_154, n_155, n_156;
+  wire n_157, n_158, n_159, n_160, n_162, n_163, n_164, n_165;
+  wire n_167, n_170, n_171, n_172, n_174, n_176, n_177, n_178;
+  wire n_181, n_183, n_184, n_185, n_186, n_187, n_188, n_189;
+  wire n_190, n_192, n_193, n_195, n_196, n_197, n_198, n_199;
+  wire n_200, n_201, n_202, n_203, n_204, n_205, n_206, n_207;
+  wire n_208, n_209, n_210, n_211, n_212, n_213, n_214, n_217;
+  wire n_218, n_219, n_220, n_221, n_222, n_223, n_224, n_225;
+  wire n_226, n_227, n_228, n_231, n_232, n_233, n_234, n_235;
+  wire n_236, n_237, n_238, n_239, n_240, n_242, n_244, n_246;
+  wire n_247, n_248, n_249, n_250, n_251, n_252, n_255, n_258;
+  wire n_259, n_262, n_265, n_266, n_268, n_269, n_270, n_271;
+  wire n_272, n_274, n_275, n_276, n_277, n_278, n_279, n_280;
+  wire n_281, n_282, n_283, n_284, n_286, n_287, n_288, n_290;
+  wire n_291, n_292, n_293, n_294, n_296, n_297, n_298, n_300;
+  wire n_301, n_302, n_303, n_304, n_306, n_307, n_308, n_309;
+  wire n_310, n_311, n_312, n_314, n_315, n_316, n_317, n_318;
+  wire n_319, n_322, n_323, n_324, n_325, n_330, n_333, n_334;
+  wire n_336, n_337, n_338, n_339, n_340, n_341, n_342, n_343;
+  wire n_344, n_345, n_346, n_347, n_348, n_349, n_350, n_351;
+  wire n_352, n_353, n_354, n_356, n_357, n_358, n_361, n_362;
+  wire n_363, n_364, n_365, n_366, n_367, n_368, n_370, n_373;
+  wire n_374, n_375, n_376, n_395, n_396, n_397, n_398, n_399;
+  wire n_400, n_401, n_402, n_403, n_404, n_405, n_406, n_407;
+  wire n_408, n_409, n_410, n_411, n_412, n_413, n_414, n_415;
+  wire n_416, n_417, n_418, n_419, n_449, n_450, n_451, n_452;
+  wire n_453, n_455, n_456, n_457, n_458, n_459, n_463, n_465;
+  wire n_466, n_467, n_468, n_469, n_470, n_471, n_472, n_473;
+  wire n_477, n_479, n_480, n_481, n_482, n_483, n_484, n_485;
   bmux_1281 csa_mux_a_mux_44_35(.ctl (n_367), .in_0 (counter), .in_1
        ({n_413, n_414, n_415, n_416, n_417, n_418, n_419}), .z ({n_402,
        n_403, n_404, n_405, n_406, n_407, n_408}));
-  bmux_1281_1 csa_mux_b_mux_44_35(.ctl (n_368), .z ({n_395, n_396,
-       n_397, n_398, n_399, n_400, n_401}));
+  bmux_1281_1 csa_mux_b_mux_44_35(.ctl (n_368), .in_0
+       ({UNCONNECTED_HIER_Z145, UNCONNECTED_HIER_Z144,
+       UNCONNECTED_HIER_Z143, UNCONNECTED_HIER_Z142,
+       UNCONNECTED_HIER_Z141, UNCONNECTED_HIER_Z140,
+       UNCONNECTED_HIER_Z139}), .in_1 ({logic_1_1_net, logic_1_1_net,
+       logic_1_1_net, logic_1_1_net, logic_1_1_net, logic_1_1_net,
+       logic_1_1_net}), .z ({n_395, n_396, n_397, n_398, n_399, n_400,
+       n_401}));
   csa_tree_1276 csa_tree_sub_44_50(.in_0 (counter), .out_0 ({n_411,
-       n_412, n_413, n_414, n_415, n_416, n_417, n_418, n_419}));
+       n_412, n_413, n_414, n_415, n_416, n_417, n_418, n_419}), .out_1
+       ({n_409, n_410, UNCONNECTED110, UNCONNECTED109, UNCONNECTED108,
+       UNCONNECTED107, UNCONNECTED106, UNCONNECTED105,
+       UNCONNECTED104}));
   INVCKDLD g2796(.I (rst), .O (n_370));
   BUFKLD g2797(.I (n_367), .O (n_368));
   BUFKLD g2799(.I (phase[0]), .O (n_367));
@@ -6218,109 +6324,109 @@ module tdc_digital(rst, en, clk, counter_in, phase_in, tdc_word);
   OR2ELD g9426(.I1 (n_477), .I2 (n_236), .O (n_23));
   DBZRBELD \counter_last_reg[6] (.RB (n_370), .CKB (clk), .D
        (counter_last[6]), .TD (n_20), .SEL (en), .Q (counter_last[6]),
-       .QB (UNCONNECTED104));
+       .QB (UNCONNECTED111));
   DBZRBELD \counter_last_reg[5] (.RB (n_370), .CKB (clk), .D
        (counter_last[5]), .TD (n_18), .SEL (en), .Q (counter_last[5]),
-       .QB (UNCONNECTED105));
+       .QB (UNCONNECTED112));
   MOAI1CLD g3027(.A1 (n_19), .A2 (n_5), .B1 (n_19), .B2 (n_5), .O
        (n_20));
   DBZRBELD \counter_last_reg[4] (.RB (n_370), .CKB (clk), .D
        (counter_last[4]), .TD (n_16), .SEL (en), .Q (counter_last[4]),
-       .QB (UNCONNECTED106));
+       .QB (UNCONNECTED113));
   AOI12CLD g3029(.A1 (n_3), .B1 (n_17), .B2 (n_373), .O (n_19));
   MOAI1CLD g3030(.A1 (n_17), .A2 (n_8), .B1 (n_17), .B2 (n_8), .O
        (n_18));
   DBZRBELD \counter_last_reg[3] (.RB (n_370), .CKB (clk), .D
        (counter_last[3]), .TD (n_14), .SEL (en), .Q (counter_last[3]),
-       .QB (UNCONNECTED107));
+       .QB (UNCONNECTED114));
   OAI12CLD g3032(.A1 (n_457), .B1 (n_15), .B2 (n_375), .O (n_17));
   MOAI1CLD g3033(.A1 (n_15), .A2 (n_9), .B1 (n_15), .B2 (n_9), .O
        (n_16));
   DBZRBELD \counter_last_reg[2] (.RB (n_370), .CKB (clk), .D
        (counter_last[2]), .TD (n_12), .SEL (en), .Q (counter_last[2]),
-       .QB (UNCONNECTED108));
+       .QB (UNCONNECTED115));
   OA12ELD g3035(.A1 (n_458), .B1 (n_13), .B2 (n_376), .O (n_15));
   MOAI1CLD g3036(.A1 (n_13), .A2 (n_6), .B1 (n_13), .B2 (n_6), .O
        (n_14));
   DBZRBELD \counter_last_reg[1] (.RB (n_370), .CKB (clk), .D
        (counter_last[1]), .TD (n_10), .SEL (en), .Q (counter_last[1]),
-       .QB (UNCONNECTED109));
+       .QB (UNCONNECTED116));
   AOI12CLD g3038(.A1 (n_2), .B1 (n_11), .B2 (n_374), .O (n_13));
   MOAI1CLD g3039(.A1 (n_11), .A2 (n_7), .B1 (n_11), .B2 (n_7), .O
        (n_12));
   FA1DLD g3040(.A (n_407), .B (n_400), .CI (n_1), .S (n_10), .CO
        (n_11));
   DBZRBELD \phase_reg[6] (.RB (n_370), .CKB (clk), .D (phase[6]), .TD
-       (phase_in[6]), .SEL (en), .Q (phase[6]), .QB (UNCONNECTED110));
+       (phase_in[6]), .SEL (en), .Q (phase[6]), .QB (UNCONNECTED117));
   DBZRBELD \phase_reg[7] (.RB (n_370), .CKB (clk), .D (phase[7]), .TD
-       (phase_in[7]), .SEL (en), .Q (phase[7]), .QB (UNCONNECTED111));
+       (phase_in[7]), .SEL (en), .Q (phase[7]), .QB (UNCONNECTED118));
   DBZRBELD \phase_reg[8] (.RB (n_370), .CKB (clk), .D (phase[8]), .TD
-       (phase_in[8]), .SEL (en), .Q (phase[8]), .QB (UNCONNECTED112));
+       (phase_in[8]), .SEL (en), .Q (phase[8]), .QB (UNCONNECTED119));
   DBZRBELD \phase_reg[9] (.RB (n_370), .CKB (clk), .D (phase[9]), .TD
-       (phase_in[9]), .SEL (en), .Q (phase[9]), .QB (UNCONNECTED113));
+       (phase_in[9]), .SEL (en), .Q (phase[9]), .QB (UNCONNECTED120));
   DBZRBELD \counter_reg[0] (.RB (n_370), .CKB (clk), .D (counter[0]),
        .TD (counter_in[0]), .SEL (en), .Q (counter[0]), .QB
-       (UNCONNECTED114));
+       (UNCONNECTED121));
   DBZRBELD \counter_reg[1] (.RB (n_370), .CKB (clk), .D (counter[1]),
        .TD (counter_in[1]), .SEL (en), .Q (counter[1]), .QB
-       (UNCONNECTED115));
+       (UNCONNECTED122));
   DBZRBELD \counter_reg[2] (.RB (n_370), .CKB (clk), .D (counter[2]),
        .TD (counter_in[2]), .SEL (en), .Q (counter[2]), .QB
-       (UNCONNECTED116));
+       (UNCONNECTED123));
   DBZRBELD \counter_reg[3] (.RB (n_370), .CKB (clk), .D (counter[3]),
        .TD (counter_in[3]), .SEL (en), .Q (counter[3]), .QB
-       (UNCONNECTED117));
+       (UNCONNECTED124));
   DBZRBELD \counter_last_reg[0] (.RB (n_370), .CKB (clk), .D
        (counter_last[0]), .TD (n_455), .SEL (en), .Q (counter_last[0]),
-       .QB (UNCONNECTED118));
+       .QB (UNCONNECTED125));
   DBZRBELD \counter_reg[4] (.RB (n_370), .CKB (clk), .D (counter[4]),
        .TD (counter_in[4]), .SEL (en), .Q (counter[4]), .QB
-       (UNCONNECTED119));
+       (UNCONNECTED126));
   DBZRBELD \counter_reg[5] (.RB (n_370), .CKB (clk), .D (counter[5]),
        .TD (counter_in[5]), .SEL (en), .Q (counter[5]), .QB
-       (UNCONNECTED120));
+       (UNCONNECTED127));
   DBZRBELD \counter_reg[6] (.RB (n_370), .CKB (clk), .D (counter[6]),
        .TD (counter_in[6]), .SEL (en), .Q (counter[6]), .QB
-       (UNCONNECTED121));
+       (UNCONNECTED128));
   DBZRBELD \edge_index_last_reg[0] (.RB (n_370), .CKB (clk), .D
        (edge_index_last[0]), .TD (edge_index[0]), .SEL (en), .Q
-       (edge_index_last[0]), .QB (UNCONNECTED122));
+       (edge_index_last[0]), .QB (UNCONNECTED129));
   DBZRBELD \edge_index_last_reg[1] (.RB (n_370), .CKB (clk), .D
        (edge_index_last[1]), .TD (edge_index[1]), .SEL (en), .Q
-       (edge_index_last[1]), .QB (UNCONNECTED123));
+       (edge_index_last[1]), .QB (UNCONNECTED130));
   DBZRBELD \edge_index_last_reg[2] (.RB (n_370), .CKB (clk), .D
        (edge_index_last[2]), .TD (edge_index[2]), .SEL (en), .Q
-       (edge_index_last[2]), .QB (UNCONNECTED124));
+       (edge_index_last[2]), .QB (UNCONNECTED131));
   DBZRBELD \edge_index_last_reg[3] (.RB (n_370), .CKB (clk), .D
        (edge_index_last[3]), .TD (edge_index[3]), .SEL (en), .Q
-       (edge_index_last[3]), .QB (UNCONNECTED125));
+       (edge_index_last[3]), .QB (UNCONNECTED132));
   DBZRBELD \edge_index_last_reg[4] (.RB (n_370), .CKB (clk), .D
        (edge_index_last[4]), .TD (edge_index[4]), .SEL (en), .Q
-       (edge_index_last[4]), .QB (UNCONNECTED126));
+       (edge_index_last[4]), .QB (UNCONNECTED133));
   DBZRBHLD \phase_reg[0] (.RB (n_370), .CKB (clk), .D (phase[0]), .TD
-       (phase_in[0]), .SEL (en), .Q (UNCONNECTED127), .QB (n_21));
+       (phase_in[0]), .SEL (en), .Q (UNCONNECTED134), .QB (n_21));
   DBZRBELD \phase_reg[10] (.RB (n_370), .CKB (clk), .D (phase[10]), .TD
-       (phase_in[10]), .SEL (en), .Q (phase[10]), .QB (UNCONNECTED128));
+       (phase_in[10]), .SEL (en), .Q (phase[10]), .QB (UNCONNECTED135));
   DBZRBELD \phase_reg[11] (.RB (n_370), .CKB (clk), .D (phase[11]), .TD
-       (phase_in[11]), .SEL (en), .Q (phase[11]), .QB (UNCONNECTED129));
+       (phase_in[11]), .SEL (en), .Q (phase[11]), .QB (UNCONNECTED136));
   DBZRBELD \phase_reg[12] (.RB (n_370), .CKB (clk), .D (phase[12]), .TD
-       (phase_in[12]), .SEL (en), .Q (phase[12]), .QB (UNCONNECTED130));
+       (phase_in[12]), .SEL (en), .Q (phase[12]), .QB (UNCONNECTED137));
   DBZRBHLD \phase_reg[13] (.RB (n_370), .CKB (clk), .D (phase[13]), .TD
-       (phase_in[13]), .SEL (en), .Q (phase[13]), .QB (UNCONNECTED131));
+       (phase_in[13]), .SEL (en), .Q (phase[13]), .QB (UNCONNECTED138));
   DBZRBHLD \phase_reg[14] (.RB (n_370), .CKB (clk), .D (phase[14]), .TD
-       (phase_in[14]), .SEL (en), .Q (phase[14]), .QB (UNCONNECTED132));
+       (phase_in[14]), .SEL (en), .Q (phase[14]), .QB (UNCONNECTED139));
   DBZRBELD \phase_reg[15] (.RB (n_370), .CKB (clk), .D (phase[15]), .TD
-       (phase_in[15]), .SEL (en), .Q (phase[15]), .QB (UNCONNECTED133));
+       (phase_in[15]), .SEL (en), .Q (phase[15]), .QB (UNCONNECTED140));
   DBZRBELD \phase_reg[1] (.RB (n_370), .CKB (clk), .D (phase[1]), .TD
-       (phase_in[1]), .SEL (en), .Q (phase[1]), .QB (UNCONNECTED134));
+       (phase_in[1]), .SEL (en), .Q (phase[1]), .QB (UNCONNECTED141));
   DBZRBELD \phase_reg[2] (.RB (n_370), .CKB (clk), .D (phase[2]), .TD
-       (phase_in[2]), .SEL (en), .Q (phase[2]), .QB (UNCONNECTED135));
+       (phase_in[2]), .SEL (en), .Q (phase[2]), .QB (UNCONNECTED142));
   DBZRBELD \phase_reg[3] (.RB (n_370), .CKB (clk), .D (phase[3]), .TD
-       (phase_in[3]), .SEL (en), .Q (phase[3]), .QB (UNCONNECTED136));
+       (phase_in[3]), .SEL (en), .Q (phase[3]), .QB (UNCONNECTED143));
   DBZRBELD \phase_reg[4] (.RB (n_370), .CKB (clk), .D (phase[4]), .TD
-       (phase_in[4]), .SEL (en), .Q (phase[4]), .QB (UNCONNECTED137));
+       (phase_in[4]), .SEL (en), .Q (phase[4]), .QB (UNCONNECTED144));
   DBZRBELD \phase_reg[5] (.RB (n_370), .CKB (clk), .D (phase[5]), .TD
-       (phase_in[5]), .SEL (en), .Q (phase[5]), .QB (UNCONNECTED138));
+       (phase_in[5]), .SEL (en), .Q (phase[5]), .QB (UNCONNECTED145));
   AN2B1CLD g3070(.I1 (n_457), .B1 (n_375), .O (n_9));
   OR2B1CLD g3071(.I1 (n_3), .B1 (n_373), .O (n_8));
   OR2B1CLD g3072(.I1 (n_2), .B1 (n_374), .O (n_7));
@@ -6364,6 +6470,7 @@ module tdc_digital(rst, en, clk, counter_in, phase_in, tdc_word);
   NR2GLD g9464(.I1 (n_484), .I2 (n_242), .O (n_485));
   AN2B1HLD g9465(.I1 (n_244), .B1 (n_137), .O (n_484));
   XNR2HLD g9466(.I1 (n_319), .I2 (n_298), .O (tdc_word[3]));
+  TIE1DLD tie_1_cell(.O (logic_1_1_net));
 endmodule
 
 module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
@@ -6436,312 +6543,328 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
   wire [12:0] lock_detect_word;
   wire [7:0] otw_m_fixed;
   wire [8:0] time_count;
-  wire UNCONNECTED139, UNCONNECTED140, UNCONNECTED141, UNCONNECTED142,
-       UNCONNECTED143, UNCONNECTED144, UNCONNECTED145, UNCONNECTED146;
-  wire UNCONNECTED147, UNCONNECTED148, UNCONNECTED149, UNCONNECTED150,
-       UNCONNECTED151, UNCONNECTED152, UNCONNECTED153, UNCONNECTED154;
-  wire UNCONNECTED155, UNCONNECTED156, UNCONNECTED157, UNCONNECTED158,
-       UNCONNECTED159, UNCONNECTED160, UNCONNECTED161, UNCONNECTED162;
-  wire UNCONNECTED163, UNCONNECTED164, UNCONNECTED165, UNCONNECTED166,
-       UNCONNECTED167, UNCONNECTED168, UNCONNECTED169, UNCONNECTED170;
-  wire UNCONNECTED171, UNCONNECTED172, UNCONNECTED173, UNCONNECTED174,
-       UNCONNECTED175, UNCONNECTED176, UNCONNECTED177, UNCONNECTED178;
-  wire UNCONNECTED179, UNCONNECTED180, UNCONNECTED181, UNCONNECTED182,
-       UNCONNECTED183, UNCONNECTED184, UNCONNECTED185, UNCONNECTED186;
-  wire UNCONNECTED187, UNCONNECTED188, UNCONNECTED189, UNCONNECTED190,
-       UNCONNECTED191, UNCONNECTED192, UNCONNECTED193, UNCONNECTED194;
-  wire UNCONNECTED195, UNCONNECTED196, UNCONNECTED197, UNCONNECTED198,
-       UNCONNECTED199, UNCONNECTED200, UNCONNECTED201, UNCONNECTED202;
-  wire UNCONNECTED203, UNCONNECTED204, UNCONNECTED205, UNCONNECTED206,
-       UNCONNECTED207, UNCONNECTED208, UNCONNECTED209, UNCONNECTED210;
-  wire UNCONNECTED211, UNCONNECTED212, UNCONNECTED213, UNCONNECTED214,
-       UNCONNECTED215, UNCONNECTED216, UNCONNECTED217, UNCONNECTED218;
-  wire UNCONNECTED219, UNCONNECTED220, UNCONNECTED221, UNCONNECTED222,
-       UNCONNECTED223, UNCONNECTED224, UNCONNECTED225, UNCONNECTED226;
-  wire UNCONNECTED227, UNCONNECTED228, UNCONNECTED229, UNCONNECTED230,
-       UNCONNECTED231, UNCONNECTED232, UNCONNECTED233, UNCONNECTED234;
-  wire UNCONNECTED235, UNCONNECTED236, UNCONNECTED237, UNCONNECTED238,
-       UNCONNECTED239, UNCONNECTED240, UNCONNECTED241, UNCONNECTED242;
-  wire UNCONNECTED243, UNCONNECTED244, UNCONNECTED245, UNCONNECTED246,
-       UNCONNECTED247, UNCONNECTED248, UNCONNECTED249, UNCONNECTED250;
-  wire UNCONNECTED251, UNCONNECTED252, UNCONNECTED253, UNCONNECTED254,
-       UNCONNECTED255, UNCONNECTED256, UNCONNECTED257, UNCONNECTED258;
-  wire UNCONNECTED259, UNCONNECTED260, UNCONNECTED261, UNCONNECTED262,
-       UNCONNECTED263, UNCONNECTED264, UNCONNECTED265, UNCONNECTED266;
-  wire UNCONNECTED267, UNCONNECTED268, UNCONNECTED269, UNCONNECTED270,
-       UNCONNECTED271, UNCONNECTED272, UNCONNECTED273, UNCONNECTED274;
-  wire UNCONNECTED275, UNCONNECTED276, UNCONNECTED277, UNCONNECTED278,
-       UNCONNECTED279, UNCONNECTED280, UNCONNECTED281, UNCONNECTED282;
-  wire UNCONNECTED283, UNCONNECTED284, UNCONNECTED285, UNCONNECTED286,
-       UNCONNECTED287, UNCONNECTED288, UNCONNECTED289, UNCONNECTED290;
-  wire UNCONNECTED291, UNCONNECTED292, UNCONNECTED293, UNCONNECTED294,
-       UNCONNECTED295, UNCONNECTED296, UNCONNECTED297, UNCONNECTED298;
-  wire UNCONNECTED299, UNCONNECTED300, UNCONNECTED301, UNCONNECTED302,
-       UNCONNECTED303, UNCONNECTED304, UNCONNECTED305, UNCONNECTED306;
-  wire UNCONNECTED307, UNCONNECTED308, UNCONNECTED309, UNCONNECTED310,
-       UNCONNECTED311, UNCONNECTED312, UNCONNECTED313, UNCONNECTED314;
-  wire UNCONNECTED315, UNCONNECTED316, UNCONNECTED317, UNCONNECTED318,
-       UNCONNECTED319, UNCONNECTED320, UNCONNECTED321, UNCONNECTED322;
-  wire UNCONNECTED323, UNCONNECTED324, UNCONNECTED325, UNCONNECTED326,
-       UNCONNECTED327, UNCONNECTED328, UNCONNECTED329, UNCONNECTED330;
-  wire UNCONNECTED331, UNCONNECTED332, UNCONNECTED333, UNCONNECTED334,
-       UNCONNECTED335, UNCONNECTED336, UNCONNECTED337, UNCONNECTED338;
-  wire UNCONNECTED339, UNCONNECTED340, UNCONNECTED341, UNCONNECTED342,
-       UNCONNECTED343, UNCONNECTED344, UNCONNECTED345, UNCONNECTED346;
-  wire UNCONNECTED347, UNCONNECTED348, UNCONNECTED349, UNCONNECTED350,
-       UNCONNECTED351, UNCONNECTED352, UNCONNECTED353, UNCONNECTED354;
-  wire UNCONNECTED355, UNCONNECTED356, UNCONNECTED357, UNCONNECTED358,
-       UNCONNECTED359, UNCONNECTED360, UNCONNECTED361, UNCONNECTED362;
-  wire UNCONNECTED363, UNCONNECTED364, UNCONNECTED365, UNCONNECTED366,
-       UNCONNECTED367, UNCONNECTED368, UNCONNECTED369, UNCONNECTED370;
-  wire UNCONNECTED371, UNCONNECTED372, UNCONNECTED373, UNCONNECTED374,
-       UNCONNECTED375, UNCONNECTED376, UNCONNECTED377,
-       UNCONNECTED_HIER_Z69;
-  wire UNCONNECTED_HIER_Z70, UNCONNECTED_HIER_Z71,
-       UNCONNECTED_HIER_Z72, UNCONNECTED_HIER_Z73,
-       UNCONNECTED_HIER_Z74, UNCONNECTED_HIER_Z75,
-       UNCONNECTED_HIER_Z76, UNCONNECTED_HIER_Z77;
-  wire UNCONNECTED_HIER_Z78, UNCONNECTED_HIER_Z79,
-       UNCONNECTED_HIER_Z80, UNCONNECTED_HIER_Z81,
-       UNCONNECTED_HIER_Z82, UNCONNECTED_HIER_Z83,
-       UNCONNECTED_HIER_Z84, UNCONNECTED_HIER_Z85;
-  wire UNCONNECTED_HIER_Z86, UNCONNECTED_HIER_Z87,
-       UNCONNECTED_HIER_Z88, UNCONNECTED_HIER_Z89,
-       UNCONNECTED_HIER_Z90, UNCONNECTED_HIER_Z91,
-       UNCONNECTED_HIER_Z92, UNCONNECTED_HIER_Z93;
-  wire UNCONNECTED_HIER_Z94, UNCONNECTED_HIER_Z95,
-       UNCONNECTED_HIER_Z96, UNCONNECTED_HIER_Z97,
-       UNCONNECTED_HIER_Z98, UNCONNECTED_HIER_Z99,
-       UNCONNECTED_HIER_Z100, UNCONNECTED_HIER_Z101;
-  wire UNCONNECTED_HIER_Z102, UNCONNECTED_HIER_Z103,
-       UNCONNECTED_HIER_Z104, UNCONNECTED_HIER_Z105,
-       UNCONNECTED_HIER_Z106, UNCONNECTED_HIER_Z107,
-       UNCONNECTED_HIER_Z108, UNCONNECTED_HIER_Z109;
-  wire UNCONNECTED_HIER_Z110, UNCONNECTED_HIER_Z111,
-       UNCONNECTED_HIER_Z112, UNCONNECTED_HIER_Z113,
-       UNCONNECTED_HIER_Z114, UNCONNECTED_HIER_Z115,
-       UNCONNECTED_HIER_Z116, UNCONNECTED_HIER_Z117;
-  wire UNCONNECTED_HIER_Z118, UNCONNECTED_HIER_Z119,
-       UNCONNECTED_HIER_Z120, UNCONNECTED_HIER_Z121,
-       UNCONNECTED_HIER_Z122, UNCONNECTED_HIER_Z123,
-       UNCONNECTED_HIER_Z124, UNCONNECTED_HIER_Z125;
-  wire UNCONNECTED_HIER_Z126, UNCONNECTED_HIER_Z127,
-       UNCONNECTED_HIER_Z128, UNCONNECTED_HIER_Z129,
-       UNCONNECTED_HIER_Z130, UNCONNECTED_HIER_Z131,
-       UNCONNECTED_HIER_Z132, UNCONNECTED_HIER_Z133;
-  wire UNCONNECTED_HIER_Z134, UNCONNECTED_HIER_Z135,
-       UNCONNECTED_HIER_Z136, UNCONNECTED_HIER_Z137,
-       UNCONNECTED_HIER_Z138, UNCONNECTED_HIER_Z139,
-       UNCONNECTED_HIER_Z140, UNCONNECTED_HIER_Z141;
-  wire UNCONNECTED_HIER_Z142, UNCONNECTED_HIER_Z143,
-       UNCONNECTED_HIER_Z144, UNCONNECTED_HIER_Z145,
-       UNCONNECTED_HIER_Z146, UNCONNECTED_HIER_Z147,
-       UNCONNECTED_HIER_Z148, UNCONNECTED_HIER_Z149;
-  wire UNCONNECTED_HIER_Z150, UNCONNECTED_HIER_Z151,
-       UNCONNECTED_HIER_Z152, UNCONNECTED_HIER_Z153,
-       UNCONNECTED_HIER_Z154, UNCONNECTED_HIER_Z155,
-       UNCONNECTED_HIER_Z156, UNCONNECTED_HIER_Z157;
-  wire UNCONNECTED_HIER_Z158, UNCONNECTED_HIER_Z159,
-       UNCONNECTED_HIER_Z160, UNCONNECTED_HIER_Z161,
-       UNCONNECTED_HIER_Z162, UNCONNECTED_HIER_Z163,
-       UNCONNECTED_HIER_Z164, UNCONNECTED_HIER_Z165;
-  wire UNCONNECTED_HIER_Z166, UNCONNECTED_HIER_Z167,
-       UNCONNECTED_HIER_Z168, UNCONNECTED_HIER_Z169,
-       UNCONNECTED_HIER_Z170, UNCONNECTED_HIER_Z171,
-       UNCONNECTED_HIER_Z172, UNCONNECTED_HIER_Z173;
-  wire UNCONNECTED_HIER_Z174, UNCONNECTED_HIER_Z175,
-       UNCONNECTED_HIER_Z176, UNCONNECTED_HIER_Z177,
-       UNCONNECTED_HIER_Z178, UNCONNECTED_HIER_Z179,
-       \dco_c_s_word[3]_8021 , dco_pd_state;
-  wire en_integral, en_lock_detect, en_mod, \iir_n[1]_8029 ,
-       \lambda[0]_8044 , \lambda[1]_8039 , \lambda[2]_8034 ,
-       lock_detect;
-  wire logic_1_1_net, n_0, n_1, n_2, n_3, n_4, n_5, n_6;
-  wire n_7, n_8, n_9, n_10, n_11, n_12, n_13, n_14;
-  wire n_15, n_16, n_17, n_18, n_19, n_20, n_21, n_22;
-  wire n_23, n_24, n_25, n_26, n_27, n_28, n_29, n_30;
-  wire n_31, n_32, n_33, n_34, n_35, n_36, n_37, n_38;
-  wire n_39, n_40, n_41, n_42, n_43, n_44, n_46, n_48;
-  wire n_50, n_51, n_53, n_54, n_55, n_57, n_58, n_59;
-  wire n_60, n_62, n_63, n_64, n_66, n_67, n_69, n_70;
-  wire n_71, n_73, n_77, n_78, n_79, n_80, n_81, n_82;
-  wire n_83, n_84, n_85, n_86, n_87, n_88, n_89, n_90;
-  wire n_91, n_94, n_95, n_96, n_97, n_98, n_99, n_100;
-  wire n_101, n_102, n_103, n_104, n_105, n_108, n_109, n_110;
-  wire n_111, n_113, n_114, n_115, n_116, n_117, n_119, n_121;
-  wire n_124, n_125, n_126, n_127, n_128, n_129, n_130, n_131;
-  wire n_132, n_133, n_134, n_135, n_136, n_137, n_138, n_139;
-  wire n_140, n_141, n_142, n_144, n_145, n_146, n_147, n_148;
-  wire n_149, n_150, n_151, n_152, n_153, n_154, n_155, n_156;
-  wire n_157, n_158, n_159, n_160, n_161, n_162, n_163, n_164;
-  wire n_165, n_166, n_167, n_168, n_169, n_170, n_171, n_173;
-  wire n_174, n_175, n_176, n_177, n_178, n_179, n_180, n_181;
-  wire n_182, n_183, n_184, n_185, n_186, n_187, n_188, n_189;
-  wire n_190, n_191, n_192, n_193, n_194, n_195, n_196, n_197;
-  wire n_198, n_199, n_200, n_201, n_202, n_203, n_204, n_205;
-  wire n_206, n_207, n_208, n_209, n_210, n_211, n_212, n_213;
-  wire n_214, n_215, n_216, n_217, n_218, n_219, n_220, n_221;
-  wire n_222, n_223, n_224, n_225, n_226, n_227, n_228, n_229;
-  wire n_230, n_231, n_232, n_233, n_234, n_235, n_236, n_237;
-  wire n_238, n_239, n_240, n_241, n_242, n_243, n_244, n_245;
-  wire n_246, n_247, n_248, n_249, n_250, n_251, n_252, n_253;
-  wire n_254, n_255, n_256, n_257, n_258, n_259, n_260, n_261;
-  wire n_262, n_263, n_264, n_265, n_266, n_267, n_268, n_269;
-  wire n_270, n_271, n_272, n_273, n_274, n_275, n_276, n_277;
-  wire n_278, n_279, n_280, n_281, n_282, n_283, n_284, n_285;
-  wire n_286, n_287, n_288, n_289, n_290, n_291, n_292, n_293;
-  wire n_294, n_295, n_296, n_297, n_298, n_299, n_300, n_301;
-  wire n_302, n_303, n_304, n_305, n_306, n_307, n_308, n_309;
-  wire n_310, n_311, n_312, n_313, n_314, n_315, n_316, n_317;
-  wire n_318, n_319, n_320, n_321, n_322, n_323, n_324, n_325;
-  wire n_326, n_327, n_328, n_329, n_330, n_331, n_332, n_333;
-  wire n_334, n_335, n_336, n_337, n_338, n_339, n_344, n_345;
-  wire n_346, n_347, n_348, n_351, n_352, n_353, n_355, n_356;
-  wire n_364, n_372, n_373, n_374, n_375, n_376, n_377, n_378;
-  wire n_379, n_390, n_392, n_394, n_395, n_396, n_397, n_398;
-  wire n_399, n_400, n_401, n_402, n_403, n_404, n_405, n_406;
-  wire n_407, n_408, n_409, n_410, n_411, n_412, n_413, n_414;
-  wire n_415, n_416, n_417, n_418, n_419, n_420, n_421, n_422;
-  wire n_423, n_424, n_425, n_432, n_434, n_435, n_436, n_437;
-  wire n_438, n_439, n_440, n_441, n_442, n_444, n_445, n_446;
-  wire n_447, n_448, n_449, n_450, n_452, n_453, n_454, n_455;
-  wire n_456, n_457, n_458, n_459, n_460, n_461, n_462, n_463;
-  wire n_464, n_466, n_467, n_469, n_470, n_471, n_473, n_474;
-  wire n_476, n_477, n_478, n_479, n_480, n_481, n_482, n_483;
-  wire n_484, n_485, n_486, n_487, n_488, n_489, n_490, n_491;
-  wire n_492, n_495, n_496, n_498, n_500, n_501, n_503, n_506;
-  wire n_510, n_513, n_515, n_517, n_518, n_522, n_526, n_527;
-  wire n_529, n_530, n_531, n_532, n_533, n_534, n_535, n_536;
-  wire n_537, n_539, n_540, n_541, n_542, n_544, n_545, n_546;
-  wire n_548, n_549, n_550, n_551, n_553, n_554, n_555, n_556;
-  wire n_557, n_558, n_559, n_560, n_561, n_562, n_563, n_564;
-  wire n_565, n_566, n_567, n_568, n_571, n_572, n_573, n_574;
-  wire n_580, n_581, n_582, n_583, n_585, n_586, n_587, n_590;
-  wire n_591, n_592, n_593, n_597, n_601, n_602, n_605, n_606;
-  wire n_609, n_610, n_612, n_613, n_619, n_620, n_625, n_627;
-  wire n_628, n_634, n_645, n_646, n_651, n_652, n_653, n_654;
-  wire n_655, n_657, n_658, n_659, n_660, n_661, n_664, n_666;
-  wire n_667, n_668, n_669, n_671, n_672, n_673, n_674, n_676;
-  wire n_677, n_678, n_680, n_681, n_683, n_685, n_687, n_688;
-  wire n_689, n_691, n_692, n_694, n_695, n_696, n_699, n_701;
-  wire n_703, n_704, n_705, n_706, n_707, n_708, n_709, n_710;
-  wire n_711, n_713, n_714, n_715, n_733, n_735, n_738, n_740;
-  wire n_743, n_744, n_745, n_746, n_747, n_748, n_749, n_750;
-  wire n_751, n_752, n_753, n_754, n_755, n_756, n_757, n_758;
-  wire n_759, n_764, n_766, n_767, n_773, n_774, n_775, n_776;
-  wire n_777, n_778, n_779, n_780, n_781, n_782, n_783, n_784;
-  wire n_785, n_786, n_787, n_788, n_789, n_790, n_791, n_792;
-  wire n_793, n_794, n_795, n_796, n_797, n_798, n_799, n_800;
-  wire n_801, n_802, n_803, n_804, n_805, n_806, n_807, n_808;
-  wire n_809, n_810, n_811, n_812, n_813, n_814, n_815, n_816;
-  wire n_817, n_818, n_819, n_820, n_821, n_822, n_823, n_824;
-  wire n_825, n_826, n_849, n_852, n_857, n_858, n_859, n_860;
-  wire n_861, n_862, n_870, n_895, n_896, n_897, n_898, n_899;
-  wire n_900, n_901, n_902, n_903, n_904, n_905, n_906, n_907;
-  wire n_908, n_909, n_910, n_911, n_912, n_913, n_914, n_915;
-  wire n_916, n_917, n_919, n_920, n_921, n_922, n_938, n_939;
-  wire n_940, n_941, n_942, n_943, n_944, n_945, n_946, n_947;
-  wire n_948, n_949, n_950, n_951, n_952, n_953, n_954, n_955;
-  wire n_956, n_957, n_958, n_959, n_960, n_961, n_962, n_963;
-  wire n_964, n_965, n_966, n_967, n_968, n_969, n_970, n_971;
-  wire n_972, n_973, n_974, n_975, n_976, n_977, n_978, n_979;
-  wire n_980, n_981, n_982, n_983, n_984, n_985, n_986, n_987;
-  wire n_988, n_989, n_990, n_991, n_992, n_993, n_994, n_995;
-  wire n_996, n_997, n_998, n_999, n_1000, n_1001, n_1002, n_1003;
-  wire n_1004, n_1005, n_1006, n_1007, n_1008, n_1009, n_1010, n_1011;
-  wire n_1012, n_1013, n_1014, n_1015, n_1016, n_1017, n_1018, n_1019;
-  wire n_1020, n_1021, n_1022, n_1023, n_1024, n_1025, n_1026, n_1027;
-  wire n_1028, n_1029, n_1030, n_1031, n_1032, n_1033, n_1034, n_1035;
-  wire n_1036, n_1037, n_1038, n_1039, n_1040, n_1041, n_1042, n_1043;
-  wire n_1044, n_1045, n_1046, n_1047, n_1048, n_1049, n_1050, n_1051;
-  wire n_1052, n_1053, n_1054, n_1055, n_1056, n_1059, n_1060, n_1061;
-  wire n_1062, n_1063, n_1064, n_1065, n_1066, n_1067, n_1068, n_1069;
-  wire n_1070, n_1071, n_1072, n_1073, n_1074, n_1075, n_1076, n_1077;
-  wire n_1078, n_1079, n_1080, n_1081, n_1082, n_1083, n_1084, n_1085;
-  wire n_1088, n_1089, n_1090, n_1091, n_1092, n_1093, n_1094, n_1095;
-  wire n_1096, n_1097, n_1098, n_1099, n_1100, n_1101, n_1102, n_1103;
-  wire n_1104, n_1105, n_1106, n_1107, n_1108, n_1109, n_1110, n_1111;
-  wire n_1112, n_1113, n_1114, n_1115, n_1116, n_1117, n_1118, n_1119;
-  wire n_1120, n_1121, n_1122, n_1123, n_1124, n_1125, n_1126, n_1127;
-  wire n_1128, n_1129, n_1130, n_1131, n_1132, n_1133, n_1134, n_1135;
-  wire n_1136, n_1137, n_1138, n_1139, n_1140, n_1141, n_1142, n_1143;
-  wire n_1144, n_1145, n_1146, n_1147, n_1148, n_1149, n_1150, n_1151;
-  wire n_1152, n_1153, n_1154, n_1155, n_1156, n_1157, n_1158, n_1159;
-  wire n_1160, n_1161, n_1162, n_1163, n_1164, n_1165, n_1166, n_1167;
-  wire n_1168, n_1169, n_1170, n_1171, n_1172, n_1173, n_1174, n_1175;
-  wire n_1176, n_1177, n_1178, n_1179, n_1180, n_1181, n_1182, n_1183;
-  wire n_1184, n_1185, n_1186, n_1187, n_1188, n_1189, n_1190, n_1191;
-  wire n_1192, n_1193, n_1194, n_1195, n_1196, n_1197, n_1198, n_1199;
-  wire n_1200, n_1201, n_1202, n_1203, n_1204, n_1205, n_1206, n_1207;
-  wire n_1208, n_1209, n_1210, n_1211, n_1212, n_1213, n_1214, n_1215;
-  wire n_1216, n_1217, n_1218, n_1219, n_1220, n_1221, n_1222, n_1223;
-  wire n_1224, n_1225, n_1226, n_1227, n_1228, n_1229, n_1230, n_1231;
-  wire n_1232, n_1233, n_1234, n_1235, n_1238, n_1239, n_1240, n_1241;
-  wire n_1242, n_1243, n_1244, n_1245, n_1246, n_1247, n_1248, n_1249;
-  wire n_1250, n_1251, n_1252, n_1253, n_1254, n_1255, n_1256, n_1257;
-  wire n_1258, n_1259, n_1260, n_1261, n_1262, n_1263, n_1264, n_1267;
-  wire n_1268, n_1269, n_1270, n_1271, n_1272, n_1273, n_1274, n_1275;
-  wire n_1276, n_1277, n_1278, n_1279, n_1280, n_1281, n_1282, n_1283;
-  wire n_1284, n_1285, n_1286, n_1287, n_1288, n_1289, n_1290, n_1291;
-  wire n_1292, n_1293, n_1296, n_1297, n_1298, n_1299, n_1300, n_1301;
-  wire n_1302, n_1303, n_1304, n_1305, n_1306, n_1307, n_1308, n_1309;
-  wire n_1310, n_1311, n_1312, n_1313, n_1314, n_1315, n_1316, n_1317;
-  wire n_1318, n_1319, n_1320, n_1321, n_1322, n_1325, n_1326, n_1327;
-  wire n_1328, n_1329, n_1330, n_1331, n_1332, n_1333, n_1334, n_1335;
-  wire n_1336, n_1337, n_1338, n_1339, n_1340, n_1341, n_1342, n_1343;
-  wire n_1344, n_1345, n_1346, n_1347, n_1348, n_1349, n_1350, n_1351;
-  wire n_1352, n_1356, n_1357, n_1360, n_1365, n_1366, n_1367, n_1368;
-  wire n_1369, n_1370, n_1371, n_1372, n_1373, n_1374, n_1375, n_1376;
-  wire n_1377, n_1378, n_1379, n_1380, n_1381, n_1382, n_1383, n_1384;
-  wire n_1385, n_1386, n_1387, n_1389, n_1390, n_1391, n_1392, n_1393;
-  wire n_1394, n_1395, n_1396, n_1397, n_1398, n_1399, n_1400, n_1401;
-  wire n_1402, n_1403, n_1404, n_1405, n_1406, n_1407, n_1408, n_1409;
-  wire n_1410, n_1411, n_1412, n_1413, n_1414, n_1415, n_1416, n_1417;
-  wire n_1418, n_1419, n_1420, n_1421, n_1422, n_1423, n_1424, n_1425;
-  wire n_1426, n_1427, n_1428, n_1429, n_1430, n_1431, n_1432, n_1433;
-  wire n_1434, n_1435, n_1436, n_1437, n_1438, n_1439, n_1440, n_1441;
-  wire n_1442, n_1443, n_1444, n_1445, n_1446, n_1447, n_1448, n_1449;
-  wire n_1450, n_1451, n_1452, n_1453, n_1454, n_1455, n_1456, n_1457;
-  wire n_1458, n_1459, n_1460, n_1461, n_1462, n_1463, n_1464, n_1465;
-  wire n_1466, n_1467, n_1468, n_1469, n_1470, n_1471, n_1472, n_1473;
-  wire n_1474, n_1475, n_1476, n_1477, n_1478, n_1479, n_1480, n_1481;
-  wire n_1482, n_1483, n_1484, n_1485, n_1486, n_1487, n_1488, n_1489;
-  wire n_1490, n_1491, n_1492, n_1493, n_1494, n_1495, n_1496, n_1497;
-  wire n_1498, n_1499, n_1500, n_1501, n_1502, n_1503, n_1504, n_1505;
-  wire n_1506, n_1507, n_1508, n_1509, n_1510, n_1511, n_1512, n_1513;
-  wire n_1514, n_1515, n_1516, n_1517, n_1518, n_1519, n_1520, n_1521;
-  wire n_1522, n_1523, n_1524, n_1525, n_1526, n_1527, n_1528, n_1529;
-  wire n_1530, n_1531, n_1532, n_1533, n_1534, n_1535, n_1536, n_1537;
-  wire n_1538, n_1539, n_1540, n_1541, n_1542, n_1543, n_1544, n_1545;
-  wire n_1546, n_1697, n_1700, n_1701, n_1702, n_1727, n_1732, n_1733;
-  wire n_1734, n_1735, n_1736, n_1737, n_1738, n_1739, n_1740, n_1741;
-  wire n_1743, n_1744, n_1747, n_1748, n_1750, n_1751, n_1757, n_1758;
-  wire n_1759, n_1769, n_1772, n_1773, n_1774, n_1776, n_1777, n_1778;
-  wire n_1779, n_1780, n_1781, n_1782, n_1783, n_1784, n_1785, n_1786;
-  wire n_1787, n_1788, n_1792, n_1794, n_1795, n_1796, n_1797, n_1798;
-  wire n_1799, n_1800, n_1801, n_1802, n_1803, n_1804, n_1805, n_1806;
-  wire n_1807, n_1808, n_1809, n_1810, n_1811, n_1812, n_1813, n_1814;
-  wire rst_accum, rst_lock_detect, tdc_pd_inj_state, tdc_pd_state;
-  add_signed add_306_54(.A ({UNCONNECTED_HIER_Z75,
-       UNCONNECTED_HIER_Z74, UNCONNECTED_HIER_Z73,
-       UNCONNECTED_HIER_Z72, UNCONNECTED_HIER_Z71,
-       UNCONNECTED_HIER_Z70, UNCONNECTED_HIER_Z69,
-       integral_beta[19:0]}), .B ({UNCONNECTED_HIER_Z82,
-       UNCONNECTED_HIER_Z81, UNCONNECTED_HIER_Z80,
-       UNCONNECTED_HIER_Z79, UNCONNECTED_HIER_Z78,
-       UNCONNECTED_HIER_Z77, UNCONNECTED_HIER_Z76, n_787, n_789, n_791,
-       n_793, n_795, n_797, n_799, n_801, n_803, n_805, n_807, n_809,
-       n_811, n_813, n_815, n_817, n_819, n_821, n_823, n_825}), .Z
-       ({n_774, n_776, n_778, n_780, n_782, n_784, n_786, n_788, n_790,
-       n_792, n_794, n_796, n_798, n_800, n_802, n_804, n_806, n_808,
-       n_810, n_812, n_814, n_816, n_818, n_820, n_822, n_824, n_826}));
+  wire UNCONNECTED146, UNCONNECTED147, UNCONNECTED148, UNCONNECTED149,
+       UNCONNECTED150, UNCONNECTED151, UNCONNECTED152, UNCONNECTED153;
+  wire UNCONNECTED154, UNCONNECTED155, UNCONNECTED156, UNCONNECTED157,
+       UNCONNECTED158, UNCONNECTED159, UNCONNECTED160, UNCONNECTED161;
+  wire UNCONNECTED162, UNCONNECTED163, UNCONNECTED164, UNCONNECTED165,
+       UNCONNECTED166, UNCONNECTED167, UNCONNECTED168, UNCONNECTED169;
+  wire UNCONNECTED170, UNCONNECTED171, UNCONNECTED172, UNCONNECTED173,
+       UNCONNECTED174, UNCONNECTED175, UNCONNECTED176, UNCONNECTED177;
+  wire UNCONNECTED178, UNCONNECTED179, UNCONNECTED180, UNCONNECTED181,
+       UNCONNECTED182, UNCONNECTED183, UNCONNECTED184, UNCONNECTED185;
+  wire UNCONNECTED186, UNCONNECTED187, UNCONNECTED188, UNCONNECTED189,
+       UNCONNECTED190, UNCONNECTED191, UNCONNECTED192, UNCONNECTED193;
+  wire UNCONNECTED194, UNCONNECTED195, UNCONNECTED196, UNCONNECTED197,
+       UNCONNECTED198, UNCONNECTED199, UNCONNECTED200, UNCONNECTED201;
+  wire UNCONNECTED202, UNCONNECTED203, UNCONNECTED204, UNCONNECTED205,
+       UNCONNECTED206, UNCONNECTED207, UNCONNECTED208, UNCONNECTED209;
+  wire UNCONNECTED210, UNCONNECTED211, UNCONNECTED212, UNCONNECTED213,
+       UNCONNECTED214, UNCONNECTED215, UNCONNECTED216, UNCONNECTED217;
+  wire UNCONNECTED218, UNCONNECTED219, UNCONNECTED220, UNCONNECTED221,
+       UNCONNECTED222, UNCONNECTED223, UNCONNECTED224, UNCONNECTED225;
+  wire UNCONNECTED226, UNCONNECTED227, UNCONNECTED228, UNCONNECTED229,
+       UNCONNECTED230, UNCONNECTED231, UNCONNECTED232, UNCONNECTED233;
+  wire UNCONNECTED234, UNCONNECTED235, UNCONNECTED236, UNCONNECTED237,
+       UNCONNECTED238, UNCONNECTED239, UNCONNECTED240, UNCONNECTED241;
+  wire UNCONNECTED242, UNCONNECTED243, UNCONNECTED244, UNCONNECTED245,
+       UNCONNECTED246, UNCONNECTED247, UNCONNECTED248, UNCONNECTED249;
+  wire UNCONNECTED250, UNCONNECTED251, UNCONNECTED252, UNCONNECTED253,
+       UNCONNECTED254, UNCONNECTED255, UNCONNECTED256, UNCONNECTED257;
+  wire UNCONNECTED258, UNCONNECTED259, UNCONNECTED260, UNCONNECTED261,
+       UNCONNECTED262, UNCONNECTED263, UNCONNECTED264, UNCONNECTED265;
+  wire UNCONNECTED266, UNCONNECTED267, UNCONNECTED268, UNCONNECTED269,
+       UNCONNECTED270, UNCONNECTED271, UNCONNECTED272, UNCONNECTED273;
+  wire UNCONNECTED274, UNCONNECTED275, UNCONNECTED276, UNCONNECTED277,
+       UNCONNECTED278, UNCONNECTED279, UNCONNECTED280, UNCONNECTED281;
+  wire UNCONNECTED282, UNCONNECTED283, UNCONNECTED284, UNCONNECTED285,
+       UNCONNECTED286, UNCONNECTED287, UNCONNECTED288, UNCONNECTED289;
+  wire UNCONNECTED290, UNCONNECTED291, UNCONNECTED292, UNCONNECTED293,
+       UNCONNECTED294, UNCONNECTED295, UNCONNECTED296, UNCONNECTED297;
+  wire UNCONNECTED298, UNCONNECTED299, UNCONNECTED300, UNCONNECTED301,
+       UNCONNECTED302, UNCONNECTED303, UNCONNECTED304, UNCONNECTED305;
+  wire UNCONNECTED306, UNCONNECTED307, UNCONNECTED308, UNCONNECTED309,
+       UNCONNECTED310, UNCONNECTED311, UNCONNECTED312, UNCONNECTED313;
+  wire UNCONNECTED314, UNCONNECTED315, UNCONNECTED316, UNCONNECTED317,
+       UNCONNECTED318, UNCONNECTED319, UNCONNECTED320, UNCONNECTED321;
+  wire UNCONNECTED322, UNCONNECTED323, UNCONNECTED324, UNCONNECTED325,
+       UNCONNECTED326, UNCONNECTED327, UNCONNECTED328, UNCONNECTED329;
+  wire UNCONNECTED330, UNCONNECTED331, UNCONNECTED332, UNCONNECTED333,
+       UNCONNECTED334, UNCONNECTED335, UNCONNECTED336, UNCONNECTED337;
+  wire UNCONNECTED338, UNCONNECTED339, UNCONNECTED340, UNCONNECTED341,
+       UNCONNECTED342, UNCONNECTED343, UNCONNECTED344, UNCONNECTED345;
+  wire UNCONNECTED346, UNCONNECTED347, UNCONNECTED348, UNCONNECTED349,
+       UNCONNECTED350, UNCONNECTED351, UNCONNECTED352, UNCONNECTED353;
+  wire UNCONNECTED354, UNCONNECTED355, UNCONNECTED356, UNCONNECTED357,
+       UNCONNECTED358, UNCONNECTED359, UNCONNECTED360, UNCONNECTED361;
+  wire UNCONNECTED362, UNCONNECTED363, UNCONNECTED364, UNCONNECTED365,
+       UNCONNECTED366, UNCONNECTED367, UNCONNECTED368, UNCONNECTED369;
+  wire UNCONNECTED370, UNCONNECTED371, UNCONNECTED372, UNCONNECTED373,
+       UNCONNECTED374, UNCONNECTED375, UNCONNECTED376, UNCONNECTED377;
+  wire UNCONNECTED_HIER_Z146, UNCONNECTED_HIER_Z147,
+       UNCONNECTED_HIER_Z148, UNCONNECTED_HIER_Z149,
+       UNCONNECTED_HIER_Z150, UNCONNECTED_HIER_Z151,
+       UNCONNECTED_HIER_Z152, UNCONNECTED_HIER_Z153;
+  wire UNCONNECTED_HIER_Z154, UNCONNECTED_HIER_Z155,
+       UNCONNECTED_HIER_Z156, UNCONNECTED_HIER_Z157,
+       UNCONNECTED_HIER_Z158, UNCONNECTED_HIER_Z159,
+       UNCONNECTED_HIER_Z160, UNCONNECTED_HIER_Z161;
+  wire UNCONNECTED_HIER_Z162, UNCONNECTED_HIER_Z163,
+       UNCONNECTED_HIER_Z164, UNCONNECTED_HIER_Z165,
+       UNCONNECTED_HIER_Z166, UNCONNECTED_HIER_Z167,
+       UNCONNECTED_HIER_Z168, UNCONNECTED_HIER_Z169;
+  wire UNCONNECTED_HIER_Z170, UNCONNECTED_HIER_Z171,
+       UNCONNECTED_HIER_Z172, UNCONNECTED_HIER_Z173,
+       UNCONNECTED_HIER_Z174, UNCONNECTED_HIER_Z175,
+       UNCONNECTED_HIER_Z176, UNCONNECTED_HIER_Z177;
+  wire UNCONNECTED_HIER_Z178, UNCONNECTED_HIER_Z179,
+       UNCONNECTED_HIER_Z180, UNCONNECTED_HIER_Z181,
+       UNCONNECTED_HIER_Z182, UNCONNECTED_HIER_Z183,
+       UNCONNECTED_HIER_Z184, UNCONNECTED_HIER_Z185;
+  wire UNCONNECTED_HIER_Z186, UNCONNECTED_HIER_Z187,
+       UNCONNECTED_HIER_Z188, UNCONNECTED_HIER_Z189,
+       UNCONNECTED_HIER_Z190, UNCONNECTED_HIER_Z191,
+       UNCONNECTED_HIER_Z192, UNCONNECTED_HIER_Z193;
+  wire UNCONNECTED_HIER_Z194, UNCONNECTED_HIER_Z195,
+       UNCONNECTED_HIER_Z196, UNCONNECTED_HIER_Z197,
+       UNCONNECTED_HIER_Z198, UNCONNECTED_HIER_Z199,
+       UNCONNECTED_HIER_Z200, UNCONNECTED_HIER_Z201;
+  wire UNCONNECTED_HIER_Z202, UNCONNECTED_HIER_Z203,
+       UNCONNECTED_HIER_Z204, UNCONNECTED_HIER_Z205,
+       UNCONNECTED_HIER_Z206, UNCONNECTED_HIER_Z207,
+       UNCONNECTED_HIER_Z208, UNCONNECTED_HIER_Z209;
+  wire UNCONNECTED_HIER_Z210, UNCONNECTED_HIER_Z211,
+       UNCONNECTED_HIER_Z212, UNCONNECTED_HIER_Z213,
+       UNCONNECTED_HIER_Z214, UNCONNECTED_HIER_Z215,
+       UNCONNECTED_HIER_Z216, UNCONNECTED_HIER_Z217;
+  wire UNCONNECTED_HIER_Z218, UNCONNECTED_HIER_Z219,
+       UNCONNECTED_HIER_Z220, UNCONNECTED_HIER_Z221,
+       UNCONNECTED_HIER_Z222, UNCONNECTED_HIER_Z223,
+       UNCONNECTED_HIER_Z224, UNCONNECTED_HIER_Z225;
+  wire UNCONNECTED_HIER_Z226, UNCONNECTED_HIER_Z227,
+       UNCONNECTED_HIER_Z228, UNCONNECTED_HIER_Z229,
+       UNCONNECTED_HIER_Z230, UNCONNECTED_HIER_Z231,
+       UNCONNECTED_HIER_Z232, UNCONNECTED_HIER_Z233;
+  wire UNCONNECTED_HIER_Z234, UNCONNECTED_HIER_Z235,
+       UNCONNECTED_HIER_Z236, UNCONNECTED_HIER_Z237,
+       UNCONNECTED_HIER_Z238, UNCONNECTED_HIER_Z239,
+       UNCONNECTED_HIER_Z240, UNCONNECTED_HIER_Z241;
+  wire UNCONNECTED_HIER_Z242, UNCONNECTED_HIER_Z243,
+       UNCONNECTED_HIER_Z244, UNCONNECTED_HIER_Z245,
+       UNCONNECTED_HIER_Z246, UNCONNECTED_HIER_Z247,
+       UNCONNECTED_HIER_Z248, UNCONNECTED_HIER_Z249;
+  wire UNCONNECTED_HIER_Z250, UNCONNECTED_HIER_Z251,
+       UNCONNECTED_HIER_Z252, UNCONNECTED_HIER_Z253,
+       UNCONNECTED_HIER_Z254, UNCONNECTED_HIER_Z255,
+       UNCONNECTED_HIER_Z256, UNCONNECTED_HIER_Z257;
+  wire UNCONNECTED_HIER_Z258, UNCONNECTED_HIER_Z259,
+       UNCONNECTED_HIER_Z260, UNCONNECTED_HIER_Z261,
+       UNCONNECTED_HIER_Z262, UNCONNECTED_HIER_Z263,
+       UNCONNECTED_HIER_Z264, UNCONNECTED_HIER_Z265;
+  wire UNCONNECTED_HIER_Z266, UNCONNECTED_HIER_Z267,
+       UNCONNECTED_HIER_Z268, UNCONNECTED_HIER_Z269,
+       UNCONNECTED_HIER_Z270, UNCONNECTED_HIER_Z271,
+       UNCONNECTED_HIER_Z272, UNCONNECTED_HIER_Z273;
+  wire UNCONNECTED_HIER_Z274, UNCONNECTED_HIER_Z275,
+       UNCONNECTED_HIER_Z276, UNCONNECTED_HIER_Z277,
+       UNCONNECTED_HIER_Z278, UNCONNECTED_HIER_Z279,
+       UNCONNECTED_HIER_Z280, UNCONNECTED_HIER_Z281;
+  wire UNCONNECTED_HIER_Z282, UNCONNECTED_HIER_Z283,
+       UNCONNECTED_HIER_Z284, UNCONNECTED_HIER_Z285,
+       UNCONNECTED_HIER_Z286, UNCONNECTED_HIER_Z287,
+       UNCONNECTED_HIER_Z288, UNCONNECTED_HIER_Z289;
+  wire UNCONNECTED_HIER_Z290, \dco_c_s_word[3]_8021 , dco_pd_state,
+       en_integral, en_lock_detect, en_mod, \iir_n[1]_8029 ,
+       \lambda[0]_8044 ;
+  wire \lambda[1]_8039 , \lambda[2]_8034 , lock_detect, n_0, n_1, n_2,
+       n_3, n_4;
+  wire n_5, n_6, n_7, n_8, n_9, n_10, n_11, n_12;
+  wire n_13, n_14, n_15, n_16, n_17, n_18, n_19, n_20;
+  wire n_21, n_22, n_23, n_24, n_25, n_26, n_27, n_28;
+  wire n_29, n_30, n_31, n_32, n_33, n_34, n_35, n_36;
+  wire n_37, n_38, n_39, n_40, n_41, n_42, n_43, n_44;
+  wire n_46, n_48, n_50, n_51, n_53, n_54, n_55, n_57;
+  wire n_58, n_59, n_60, n_62, n_63, n_64, n_66, n_67;
+  wire n_69, n_70, n_71, n_73, n_77, n_78, n_79, n_80;
+  wire n_81, n_82, n_83, n_84, n_85, n_86, n_87, n_88;
+  wire n_89, n_90, n_91, n_94, n_95, n_96, n_97, n_98;
+  wire n_99, n_100, n_101, n_102, n_103, n_104, n_105, n_108;
+  wire n_109, n_110, n_111, n_113, n_114, n_115, n_116, n_117;
+  wire n_119, n_121, n_124, n_125, n_126, n_127, n_128, n_129;
+  wire n_130, n_131, n_132, n_133, n_134, n_135, n_136, n_137;
+  wire n_138, n_139, n_140, n_141, n_142, n_144, n_145, n_146;
+  wire n_147, n_148, n_149, n_150, n_151, n_152, n_153, n_154;
+  wire n_155, n_156, n_157, n_158, n_159, n_160, n_161, n_162;
+  wire n_163, n_164, n_165, n_166, n_167, n_168, n_169, n_170;
+  wire n_171, n_173, n_174, n_175, n_176, n_177, n_178, n_179;
+  wire n_180, n_181, n_182, n_183, n_184, n_185, n_186, n_187;
+  wire n_188, n_189, n_190, n_191, n_192, n_193, n_194, n_195;
+  wire n_196, n_197, n_198, n_199, n_200, n_201, n_202, n_203;
+  wire n_204, n_205, n_206, n_207, n_208, n_209, n_210, n_211;
+  wire n_212, n_213, n_214, n_215, n_216, n_217, n_218, n_219;
+  wire n_220, n_221, n_222, n_223, n_224, n_225, n_226, n_227;
+  wire n_228, n_229, n_230, n_231, n_232, n_233, n_234, n_235;
+  wire n_236, n_237, n_238, n_239, n_240, n_241, n_242, n_243;
+  wire n_244, n_245, n_246, n_247, n_248, n_249, n_250, n_251;
+  wire n_252, n_253, n_254, n_255, n_256, n_257, n_258, n_259;
+  wire n_260, n_261, n_262, n_263, n_264, n_265, n_266, n_267;
+  wire n_268, n_269, n_270, n_271, n_272, n_273, n_274, n_275;
+  wire n_276, n_277, n_278, n_279, n_280, n_281, n_282, n_283;
+  wire n_284, n_285, n_286, n_287, n_288, n_289, n_290, n_291;
+  wire n_292, n_293, n_294, n_295, n_296, n_297, n_298, n_299;
+  wire n_300, n_301, n_302, n_303, n_304, n_305, n_306, n_307;
+  wire n_308, n_309, n_310, n_311, n_312, n_313, n_314, n_315;
+  wire n_316, n_317, n_318, n_319, n_320, n_321, n_322, n_323;
+  wire n_324, n_325, n_326, n_327, n_328, n_329, n_330, n_331;
+  wire n_332, n_333, n_334, n_335, n_336, n_337, n_338, n_339;
+  wire n_344, n_345, n_346, n_347, n_348, n_351, n_352, n_353;
+  wire n_355, n_356, n_364, n_372, n_373, n_374, n_375, n_376;
+  wire n_377, n_378, n_379, n_390, n_392, n_394, n_395, n_396;
+  wire n_397, n_398, n_399, n_400, n_401, n_402, n_403, n_404;
+  wire n_405, n_406, n_407, n_408, n_409, n_410, n_411, n_412;
+  wire n_413, n_414, n_415, n_416, n_417, n_418, n_419, n_420;
+  wire n_421, n_422, n_423, n_424, n_425, n_432, n_434, n_435;
+  wire n_436, n_437, n_438, n_439, n_440, n_441, n_442, n_444;
+  wire n_445, n_446, n_447, n_448, n_449, n_450, n_452, n_453;
+  wire n_454, n_455, n_456, n_457, n_458, n_459, n_460, n_461;
+  wire n_462, n_463, n_464, n_466, n_467, n_469, n_470, n_471;
+  wire n_473, n_474, n_476, n_477, n_478, n_479, n_480, n_481;
+  wire n_482, n_483, n_484, n_485, n_486, n_487, n_488, n_489;
+  wire n_490, n_491, n_492, n_495, n_496, n_498, n_500, n_501;
+  wire n_503, n_506, n_510, n_513, n_515, n_517, n_518, n_522;
+  wire n_526, n_527, n_529, n_530, n_531, n_532, n_533, n_534;
+  wire n_535, n_536, n_537, n_539, n_540, n_541, n_542, n_544;
+  wire n_545, n_546, n_548, n_549, n_550, n_551, n_553, n_554;
+  wire n_555, n_556, n_557, n_558, n_559, n_560, n_561, n_562;
+  wire n_563, n_564, n_565, n_566, n_567, n_568, n_571, n_572;
+  wire n_573, n_574, n_580, n_581, n_582, n_583, n_585, n_586;
+  wire n_587, n_590, n_591, n_592, n_593, n_597, n_601, n_602;
+  wire n_605, n_606, n_609, n_610, n_612, n_613, n_619, n_620;
+  wire n_625, n_627, n_628, n_634, n_645, n_646, n_651, n_652;
+  wire n_653, n_654, n_655, n_657, n_658, n_659, n_660, n_661;
+  wire n_664, n_666, n_667, n_668, n_669, n_671, n_672, n_673;
+  wire n_674, n_676, n_677, n_678, n_680, n_681, n_683, n_685;
+  wire n_687, n_688, n_689, n_691, n_692, n_694, n_695, n_696;
+  wire n_699, n_701, n_703, n_704, n_705, n_706, n_707, n_708;
+  wire n_709, n_710, n_711, n_713, n_714, n_715, n_733, n_735;
+  wire n_738, n_740, n_743, n_744, n_745, n_746, n_747, n_748;
+  wire n_749, n_750, n_751, n_752, n_753, n_754, n_755, n_756;
+  wire n_757, n_758, n_759, n_764, n_766, n_767, n_773, n_774;
+  wire n_775, n_776, n_777, n_778, n_779, n_780, n_781, n_782;
+  wire n_783, n_784, n_785, n_786, n_787, n_788, n_789, n_790;
+  wire n_791, n_792, n_793, n_794, n_795, n_796, n_797, n_798;
+  wire n_799, n_800, n_801, n_802, n_803, n_804, n_805, n_806;
+  wire n_807, n_808, n_809, n_810, n_811, n_812, n_813, n_814;
+  wire n_815, n_816, n_817, n_818, n_819, n_820, n_821, n_822;
+  wire n_823, n_824, n_825, n_826, n_849, n_852, n_857, n_858;
+  wire n_859, n_860, n_861, n_862, n_870, n_895, n_896, n_897;
+  wire n_898, n_899, n_900, n_901, n_902, n_903, n_904, n_905;
+  wire n_906, n_907, n_908, n_909, n_910, n_911, n_912, n_913;
+  wire n_914, n_915, n_916, n_917, n_919, n_920, n_921, n_922;
+  wire n_938, n_939, n_940, n_941, n_942, n_943, n_944, n_945;
+  wire n_946, n_947, n_948, n_949, n_950, n_951, n_952, n_953;
+  wire n_954, n_955, n_956, n_957, n_958, n_959, n_960, n_961;
+  wire n_962, n_963, n_964, n_965, n_966, n_967, n_968, n_969;
+  wire n_970, n_971, n_972, n_973, n_974, n_975, n_976, n_977;
+  wire n_978, n_979, n_980, n_981, n_982, n_983, n_984, n_985;
+  wire n_986, n_987, n_988, n_989, n_990, n_991, n_992, n_993;
+  wire n_994, n_995, n_996, n_997, n_998, n_999, n_1000, n_1001;
+  wire n_1002, n_1003, n_1004, n_1005, n_1006, n_1007, n_1008, n_1009;
+  wire n_1010, n_1011, n_1012, n_1013, n_1014, n_1015, n_1016, n_1017;
+  wire n_1018, n_1019, n_1020, n_1021, n_1022, n_1023, n_1024, n_1025;
+  wire n_1026, n_1027, n_1028, n_1029, n_1030, n_1031, n_1032, n_1033;
+  wire n_1034, n_1035, n_1036, n_1037, n_1038, n_1039, n_1040, n_1041;
+  wire n_1042, n_1043, n_1044, n_1045, n_1046, n_1047, n_1048, n_1049;
+  wire n_1050, n_1051, n_1052, n_1053, n_1054, n_1055, n_1056, n_1059;
+  wire n_1060, n_1061, n_1062, n_1063, n_1064, n_1065, n_1066, n_1067;
+  wire n_1068, n_1069, n_1070, n_1071, n_1072, n_1073, n_1074, n_1075;
+  wire n_1076, n_1077, n_1078, n_1079, n_1080, n_1081, n_1082, n_1083;
+  wire n_1084, n_1085, n_1088, n_1089, n_1090, n_1091, n_1092, n_1093;
+  wire n_1094, n_1095, n_1096, n_1097, n_1098, n_1099, n_1100, n_1101;
+  wire n_1102, n_1103, n_1104, n_1105, n_1106, n_1107, n_1108, n_1109;
+  wire n_1110, n_1111, n_1112, n_1113, n_1114, n_1115, n_1116, n_1117;
+  wire n_1118, n_1119, n_1120, n_1121, n_1122, n_1123, n_1124, n_1125;
+  wire n_1126, n_1127, n_1128, n_1129, n_1130, n_1131, n_1132, n_1133;
+  wire n_1134, n_1135, n_1136, n_1137, n_1138, n_1139, n_1140, n_1141;
+  wire n_1142, n_1143, n_1144, n_1145, n_1146, n_1147, n_1148, n_1149;
+  wire n_1150, n_1151, n_1152, n_1153, n_1154, n_1155, n_1156, n_1157;
+  wire n_1158, n_1159, n_1160, n_1161, n_1162, n_1163, n_1164, n_1165;
+  wire n_1166, n_1167, n_1168, n_1169, n_1170, n_1171, n_1172, n_1173;
+  wire n_1174, n_1175, n_1176, n_1177, n_1178, n_1179, n_1180, n_1181;
+  wire n_1182, n_1183, n_1184, n_1185, n_1186, n_1187, n_1188, n_1189;
+  wire n_1190, n_1191, n_1192, n_1193, n_1194, n_1195, n_1196, n_1197;
+  wire n_1198, n_1199, n_1200, n_1201, n_1202, n_1203, n_1204, n_1205;
+  wire n_1206, n_1207, n_1208, n_1209, n_1210, n_1211, n_1212, n_1213;
+  wire n_1214, n_1215, n_1216, n_1217, n_1218, n_1219, n_1220, n_1221;
+  wire n_1222, n_1223, n_1224, n_1225, n_1226, n_1227, n_1228, n_1229;
+  wire n_1230, n_1231, n_1232, n_1233, n_1234, n_1235, n_1238, n_1239;
+  wire n_1240, n_1241, n_1242, n_1243, n_1244, n_1245, n_1246, n_1247;
+  wire n_1248, n_1249, n_1250, n_1251, n_1252, n_1253, n_1254, n_1255;
+  wire n_1256, n_1257, n_1258, n_1259, n_1260, n_1261, n_1262, n_1263;
+  wire n_1264, n_1267, n_1268, n_1269, n_1270, n_1271, n_1272, n_1273;
+  wire n_1274, n_1275, n_1276, n_1277, n_1278, n_1279, n_1280, n_1281;
+  wire n_1282, n_1283, n_1284, n_1285, n_1286, n_1287, n_1288, n_1289;
+  wire n_1290, n_1291, n_1292, n_1293, n_1296, n_1297, n_1298, n_1299;
+  wire n_1300, n_1301, n_1302, n_1303, n_1304, n_1305, n_1306, n_1307;
+  wire n_1308, n_1309, n_1310, n_1311, n_1312, n_1313, n_1314, n_1315;
+  wire n_1316, n_1317, n_1318, n_1319, n_1320, n_1321, n_1322, n_1325;
+  wire n_1326, n_1327, n_1328, n_1329, n_1330, n_1331, n_1332, n_1333;
+  wire n_1334, n_1335, n_1336, n_1337, n_1338, n_1339, n_1340, n_1341;
+  wire n_1342, n_1343, n_1344, n_1345, n_1346, n_1347, n_1348, n_1349;
+  wire n_1350, n_1351, n_1352, n_1356, n_1357, n_1360, n_1365, n_1366;
+  wire n_1367, n_1368, n_1369, n_1370, n_1371, n_1372, n_1373, n_1374;
+  wire n_1375, n_1376, n_1377, n_1378, n_1379, n_1380, n_1381, n_1382;
+  wire n_1383, n_1384, n_1385, n_1386, n_1387, n_1389, n_1390, n_1391;
+  wire n_1392, n_1393, n_1394, n_1395, n_1396, n_1397, n_1398, n_1399;
+  wire n_1400, n_1401, n_1402, n_1403, n_1404, n_1405, n_1406, n_1407;
+  wire n_1408, n_1409, n_1410, n_1411, n_1412, n_1413, n_1414, n_1415;
+  wire n_1416, n_1417, n_1418, n_1419, n_1420, n_1421, n_1422, n_1423;
+  wire n_1424, n_1425, n_1426, n_1427, n_1428, n_1429, n_1430, n_1431;
+  wire n_1432, n_1433, n_1434, n_1435, n_1436, n_1437, n_1438, n_1439;
+  wire n_1440, n_1441, n_1442, n_1443, n_1444, n_1445, n_1446, n_1447;
+  wire n_1448, n_1449, n_1450, n_1451, n_1452, n_1453, n_1454, n_1455;
+  wire n_1456, n_1457, n_1458, n_1459, n_1460, n_1461, n_1462, n_1463;
+  wire n_1464, n_1465, n_1466, n_1467, n_1468, n_1469, n_1470, n_1471;
+  wire n_1472, n_1473, n_1474, n_1475, n_1476, n_1477, n_1478, n_1479;
+  wire n_1480, n_1481, n_1482, n_1483, n_1484, n_1485, n_1486, n_1487;
+  wire n_1488, n_1489, n_1490, n_1491, n_1492, n_1493, n_1494, n_1495;
+  wire n_1496, n_1497, n_1498, n_1499, n_1500, n_1501, n_1502, n_1503;
+  wire n_1504, n_1505, n_1506, n_1507, n_1508, n_1509, n_1510, n_1511;
+  wire n_1512, n_1513, n_1514, n_1515, n_1516, n_1517, n_1518, n_1519;
+  wire n_1520, n_1521, n_1522, n_1523, n_1524, n_1525, n_1526, n_1527;
+  wire n_1528, n_1529, n_1530, n_1531, n_1532, n_1533, n_1534, n_1535;
+  wire n_1536, n_1537, n_1538, n_1539, n_1540, n_1541, n_1542, n_1543;
+  wire n_1544, n_1545, n_1546, n_1697, n_1700, n_1701, n_1702, n_1727;
+  wire n_1732, n_1733, n_1734, n_1735, n_1736, n_1737, n_1738, n_1739;
+  wire n_1740, n_1741, n_1743, n_1744, n_1747, n_1748, n_1750, n_1751;
+  wire n_1757, n_1758, n_1759, n_1769, n_1772, n_1773, n_1774, n_1776;
+  wire n_1777, n_1778, n_1779, n_1780, n_1781, n_1782, n_1783, n_1784;
+  wire n_1785, n_1786, n_1787, n_1788, n_1792, n_1794, n_1795, n_1796;
+  wire n_1797, n_1798, n_1799, n_1800, n_1801, n_1802, n_1803, n_1804;
+  wire n_1805, n_1806, n_1807, n_1808, n_1809, n_1810, n_1811, n_1812;
+  wire n_1813, n_1814, rst_accum, rst_lock_detect, tdc_pd_inj_state,
+       tdc_pd_state;
+  add_signed add_306_54(.A ({UNCONNECTED_HIER_Z152,
+       UNCONNECTED_HIER_Z151, UNCONNECTED_HIER_Z150,
+       UNCONNECTED_HIER_Z149, UNCONNECTED_HIER_Z148,
+       UNCONNECTED_HIER_Z147, UNCONNECTED_HIER_Z146,
+       integral_beta[19:0]}), .B ({UNCONNECTED_HIER_Z159,
+       UNCONNECTED_HIER_Z158, UNCONNECTED_HIER_Z157,
+       UNCONNECTED_HIER_Z156, UNCONNECTED_HIER_Z155,
+       UNCONNECTED_HIER_Z154, UNCONNECTED_HIER_Z153, n_787, n_789,
+       n_791, n_793, n_795, n_797, n_799, n_801, n_803, n_805, n_807,
+       n_809, n_811, n_813, n_815, n_817, n_819, n_821, n_823, n_825}),
+       .Z ({n_774, n_776, n_778, n_780, n_782, n_784, n_786, n_788,
+       n_790, n_792, n_794, n_796, n_798, n_800, n_802, n_804, n_806,
+       n_808, n_810, n_812, n_814, n_816, n_818, n_820, n_822, n_824,
+       n_826}));
   bmux_622_2 csa_mux_a_mux_252_32(.ctl (n_713), .in_0 ({n_1203, n_1204,
        n_1205, n_1206, n_1207, n_1208, n_1209, n_1210, n_1211, n_1212,
        n_1213, n_1214, n_1215, n_1216, n_1217, n_1218, n_1219, n_1220,
        n_1221, n_1222, n_1223, n_1224, n_1225, n_1226, n_1227, n_1228,
-       n_1229}), .in_1 ({UNCONNECTED140, n_1379, n_1380, n_1381,
+       n_1229}), .in_1 ({dco_c_l_rall[4], n_1379, n_1380, n_1381,
        n_1382, n_1383, n_1384, n_1385, n_1386, n_1387, n_733, n_1389,
-       FCW[13:0], UNCONNECTED139}), .z ({n_1142, n_1143, n_1144,
+       FCW[13:0], dco_c_l_rall[4]}), .z ({n_1142, n_1143, n_1144,
        n_1145, n_1146, n_1147, n_1148, n_1149, n_1150, n_1151, n_1152,
        n_1153, n_1154, n_1155, n_1156, n_1157, n_1158, n_1159, n_1160,
        n_1161, n_1162, n_1163, n_1164, n_1165, n_1166, n_1167,
@@ -6758,11 +6881,11 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        n_747, n_746, n_745, n_759, n_758, n_757, n_938, n_939, n_940,
        n_941, n_942, n_943, n_944, n_945, n_946, n_947, n_948}));
   bmux_623 csa_mux_a_mux_284_33(.ctl (n_1757), .in_0
-       ({UNCONNECTED_HIER_Z83, n_1267, n_1268, n_1269, n_1270, n_1271,
+       ({UNCONNECTED_HIER_Z160, n_1267, n_1268, n_1269, n_1270, n_1271,
        n_1272, n_1273, n_1274, n_1275, n_1276, n_1277, n_1278, n_1279,
        n_1280, n_1281, n_1282, n_1283, n_1284, n_1285, n_1286, n_1287,
        n_1288, n_1289, n_1290, n_1291, n_1292, n_1293}), .in_1
-       ({UNCONNECTED_HIER_Z84, iir3_out}), .z ({UNCONNECTED141, n_976,
+       ({UNCONNECTED_HIER_Z161, iir3_out}), .z ({UNCONNECTED146, n_976,
        n_977, n_978, n_979, n_980, n_981, n_982, n_983, n_984, n_985,
        n_986, n_987, n_988, n_989, n_990, n_991, n_992, n_993, n_994,
        n_995, n_996, n_997, n_998, n_999, n_1000, n_1001, n_1002}));
@@ -6782,7 +6905,7 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        n_1175, n_1176, n_1177, n_1178, n_1179, n_1180, n_1181, n_1182,
        n_1183, n_1184, n_1185, n_1186, n_1187, n_1188, n_1189, n_1190,
        n_1191, n_1192, n_1193, n_1194, n_1195, n_1196, n_1197, n_1198,
-       UNCONNECTED142}), .in_1 ({n_1352, n_1732, n_1733, n_1734,
+       dco_c_l_rall[4]}), .in_1 ({n_1352, n_1732, n_1733, n_1734,
        n_1356, n_1357, n_1735, n_1736, n_1360, n_1738, n_1737, n_1786,
        n_1739, n_1365, n_1366, n_1367, n_1368, n_1369, n_1370, n_1371,
        n_1372, n_1373, n_1374, n_1375, n_1376, n_1377, n_1378}), .z
@@ -6802,11 +6925,25 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        n_908, n_909, n_910, n_911, n_912, n_913, n_914, n_915, n_916,
        n_917, n_744, n_919, n_920, n_921}));
   bmux_623_1 csa_mux_b_mux_284_33(.ctl (n_1757), .in_0
-       ({UNCONNECTED_HIER_Z85, n_1238, n_1239, n_1240, n_1241, n_1242,
+       ({UNCONNECTED_HIER_Z162, n_1238, n_1239, n_1240, n_1241, n_1242,
        n_1243, n_1244, n_1245, n_1246, n_1247, n_1248, n_1249, n_1250,
        n_1251, n_1252, n_1253, n_1254, n_1255, n_1256, n_1257, n_1258,
-       n_1259, n_1260, n_1261, n_1262, n_1263, n_1264}), .z
-       ({UNCONNECTED143, n_949, n_950, n_951, n_952, n_953, n_954,
+       n_1259, n_1260, n_1261, n_1262, n_1263, n_1264}), .in_1
+       ({UNCONNECTED_HIER_Z190, UNCONNECTED_HIER_Z189,
+       UNCONNECTED_HIER_Z188, UNCONNECTED_HIER_Z187,
+       UNCONNECTED_HIER_Z186, UNCONNECTED_HIER_Z185,
+       UNCONNECTED_HIER_Z184, UNCONNECTED_HIER_Z183,
+       UNCONNECTED_HIER_Z182, UNCONNECTED_HIER_Z181,
+       UNCONNECTED_HIER_Z180, UNCONNECTED_HIER_Z179,
+       UNCONNECTED_HIER_Z178, UNCONNECTED_HIER_Z177,
+       UNCONNECTED_HIER_Z176, UNCONNECTED_HIER_Z175,
+       UNCONNECTED_HIER_Z174, UNCONNECTED_HIER_Z173,
+       UNCONNECTED_HIER_Z172, UNCONNECTED_HIER_Z171,
+       UNCONNECTED_HIER_Z170, UNCONNECTED_HIER_Z169,
+       UNCONNECTED_HIER_Z168, UNCONNECTED_HIER_Z167,
+       UNCONNECTED_HIER_Z166, UNCONNECTED_HIER_Z165,
+       UNCONNECTED_HIER_Z164, UNCONNECTED_HIER_Z163}), .z
+       ({UNCONNECTED147, n_949, n_950, n_951, n_952, n_953, n_954,
        n_955, n_956, n_957, n_958, n_959, n_960, n_961, n_962, n_963,
        n_964, n_965, n_966, n_967, n_968, n_969, n_970, n_971, n_972,
        n_973, n_974, n_975}));
@@ -6822,46 +6959,46 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        n_1012, n_1013, n_1014, n_1015, n_1016, n_1017, n_1018, n_1019,
        n_1020, n_1021, n_1022, n_1023, n_1024, n_1025, n_1026, n_1027,
        n_1028, n_1029}));
-  csa_tree_624 csa_tree_add_252_58(.in_0 ({UNCONNECTED_HIER_Z89,
-       UNCONNECTED_HIER_Z88, UNCONNECTED_HIER_Z87,
-       UNCONNECTED_HIER_Z86, UNCONNECTED145, n_1379, n_1380, n_1381,
+  csa_tree_624 csa_tree_add_252_58(.in_0 ({UNCONNECTED_HIER_Z194,
+       UNCONNECTED_HIER_Z193, UNCONNECTED_HIER_Z192,
+       UNCONNECTED_HIER_Z191, dco_c_l_rall[4], n_1379, n_1380, n_1381,
        n_1382, n_1383, n_1384, n_1385, n_1386, n_1387, n_733, n_1389,
-       FCW[13:0], UNCONNECTED144}), .in_1 ({UNCONNECTED_HIER_Z107,
-       UNCONNECTED_HIER_Z106, UNCONNECTED_HIER_Z105,
-       UNCONNECTED_HIER_Z104, n_1352, n_1732, n_1733, n_1734, n_1356,
+       FCW[13:0], dco_c_l_rall[4]}), .in_1 ({UNCONNECTED_HIER_Z212,
+       UNCONNECTED_HIER_Z211, UNCONNECTED_HIER_Z210,
+       UNCONNECTED_HIER_Z209, n_1352, n_1732, n_1733, n_1734, n_1356,
        n_1357, n_1735, n_1736, n_1360, n_1738, n_1737, n_1786, n_1739,
-       UNCONNECTED_HIER_Z103, UNCONNECTED_HIER_Z102,
-       UNCONNECTED_HIER_Z101, UNCONNECTED_HIER_Z100,
-       UNCONNECTED_HIER_Z99, UNCONNECTED_HIER_Z98,
-       UNCONNECTED_HIER_Z97, UNCONNECTED_HIER_Z96,
-       UNCONNECTED_HIER_Z95, UNCONNECTED_HIER_Z94,
-       UNCONNECTED_HIER_Z93, UNCONNECTED_HIER_Z92,
-       UNCONNECTED_HIER_Z91, UNCONNECTED_HIER_Z90}), .in_2
-       ({UNCONNECTED_HIER_Z129, UNCONNECTED_HIER_Z128,
-       UNCONNECTED_HIER_Z127, UNCONNECTED_HIER_Z126,
-       UNCONNECTED_HIER_Z125, UNCONNECTED_HIER_Z124,
-       UNCONNECTED_HIER_Z123, UNCONNECTED_HIER_Z122,
-       UNCONNECTED_HIER_Z121, UNCONNECTED_HIER_Z120,
-       UNCONNECTED_HIER_Z119, UNCONNECTED_HIER_Z118,
-       UNCONNECTED_HIER_Z117, n_1230, n_1231, n_1232, n_1233, n_1234,
-       UNCONNECTED_HIER_Z116, UNCONNECTED_HIER_Z115,
-       UNCONNECTED_HIER_Z114, UNCONNECTED_HIER_Z113,
-       UNCONNECTED_HIER_Z112, UNCONNECTED_HIER_Z111,
-       UNCONNECTED_HIER_Z110, UNCONNECTED_HIER_Z109,
-       UNCONNECTED_HIER_Z108}), .in_3 ({UNCONNECTED_HIER_Z155,
-       UNCONNECTED_HIER_Z154, UNCONNECTED_HIER_Z153,
-       UNCONNECTED_HIER_Z152, UNCONNECTED_HIER_Z151,
-       UNCONNECTED_HIER_Z150, UNCONNECTED_HIER_Z149,
-       UNCONNECTED_HIER_Z148, UNCONNECTED_HIER_Z147,
-       UNCONNECTED_HIER_Z146, UNCONNECTED_HIER_Z145,
-       UNCONNECTED_HIER_Z144, UNCONNECTED_HIER_Z143,
-       UNCONNECTED_HIER_Z142, UNCONNECTED_HIER_Z141,
-       UNCONNECTED_HIER_Z140, UNCONNECTED_HIER_Z139,
-       UNCONNECTED_HIER_Z138, UNCONNECTED_HIER_Z137,
-       UNCONNECTED_HIER_Z136, UNCONNECTED_HIER_Z135,
-       UNCONNECTED_HIER_Z134, UNCONNECTED_HIER_Z133,
-       UNCONNECTED_HIER_Z132, UNCONNECTED_HIER_Z131,
-       UNCONNECTED_HIER_Z130, n_1235}), .out_0 ({n_1199, n_1200,
+       UNCONNECTED_HIER_Z208, UNCONNECTED_HIER_Z207,
+       UNCONNECTED_HIER_Z206, UNCONNECTED_HIER_Z205,
+       UNCONNECTED_HIER_Z204, UNCONNECTED_HIER_Z203,
+       UNCONNECTED_HIER_Z202, UNCONNECTED_HIER_Z201,
+       UNCONNECTED_HIER_Z200, UNCONNECTED_HIER_Z199,
+       UNCONNECTED_HIER_Z198, UNCONNECTED_HIER_Z197,
+       UNCONNECTED_HIER_Z196, UNCONNECTED_HIER_Z195}), .in_2
+       ({UNCONNECTED_HIER_Z234, UNCONNECTED_HIER_Z233,
+       UNCONNECTED_HIER_Z232, UNCONNECTED_HIER_Z231,
+       UNCONNECTED_HIER_Z230, UNCONNECTED_HIER_Z229,
+       UNCONNECTED_HIER_Z228, UNCONNECTED_HIER_Z227,
+       UNCONNECTED_HIER_Z226, UNCONNECTED_HIER_Z225,
+       UNCONNECTED_HIER_Z224, UNCONNECTED_HIER_Z223,
+       UNCONNECTED_HIER_Z222, n_1230, n_1231, n_1232, n_1233, n_1234,
+       UNCONNECTED_HIER_Z221, UNCONNECTED_HIER_Z220,
+       UNCONNECTED_HIER_Z219, UNCONNECTED_HIER_Z218,
+       UNCONNECTED_HIER_Z217, UNCONNECTED_HIER_Z216,
+       UNCONNECTED_HIER_Z215, UNCONNECTED_HIER_Z214,
+       UNCONNECTED_HIER_Z213}), .in_3 ({UNCONNECTED_HIER_Z260,
+       UNCONNECTED_HIER_Z259, UNCONNECTED_HIER_Z258,
+       UNCONNECTED_HIER_Z257, UNCONNECTED_HIER_Z256,
+       UNCONNECTED_HIER_Z255, UNCONNECTED_HIER_Z254,
+       UNCONNECTED_HIER_Z253, UNCONNECTED_HIER_Z252,
+       UNCONNECTED_HIER_Z251, UNCONNECTED_HIER_Z250,
+       UNCONNECTED_HIER_Z249, UNCONNECTED_HIER_Z248,
+       UNCONNECTED_HIER_Z247, UNCONNECTED_HIER_Z246,
+       UNCONNECTED_HIER_Z245, UNCONNECTED_HIER_Z244,
+       UNCONNECTED_HIER_Z243, UNCONNECTED_HIER_Z242,
+       UNCONNECTED_HIER_Z241, UNCONNECTED_HIER_Z240,
+       UNCONNECTED_HIER_Z239, UNCONNECTED_HIER_Z238,
+       UNCONNECTED_HIER_Z237, UNCONNECTED_HIER_Z236,
+       UNCONNECTED_HIER_Z235, n_1235}), .out_0 ({n_1199, n_1200,
        n_1201, n_1202, n_1203, n_1204, n_1205, n_1206, n_1207, n_1208,
        n_1209, n_1210, n_1211, n_1212, n_1213, n_1214, n_1215, n_1216,
        n_1217, n_1218, n_1219, n_1220, n_1221, n_1222, n_1223, n_1224,
@@ -6869,108 +7006,108 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        n_1170, n_1171, n_1172, n_1173, n_1174, n_1175, n_1176, n_1177,
        n_1178, n_1179, n_1180, n_1181, n_1182, n_1183, n_1184, n_1185,
        n_1186, n_1187, n_1188, n_1189, n_1190, n_1191, n_1192, n_1193,
-       n_1194, n_1195, n_1196, n_1197, n_1198, UNCONNECTED146}));
+       n_1194, n_1195, n_1196, n_1197, n_1198, UNCONNECTED148}));
   csa_tree_687 csa_tree_add_254_46(.in_0 (ph_diff_accum_last), .in_1
-       ({UNCONNECTED_HIER_Z157, UNCONNECTED_HIER_Z156, n_1142, n_1143,
+       ({UNCONNECTED_HIER_Z262, UNCONNECTED_HIER_Z261, n_1142, n_1143,
        n_1144, n_1145, n_1146, n_1147, n_1148, n_1149, n_1150, n_1151,
        n_1152, n_1153, n_1154, n_1155, n_1156, n_1157, n_1158, n_1159,
        n_1160, n_1161, n_1162, n_1163, n_1164, n_1165, n_1166, n_1167,
-       n_1168}), .in_2 ({UNCONNECTED_HIER_Z159, UNCONNECTED_HIER_Z158,
+       n_1168}), .in_2 ({UNCONNECTED_HIER_Z264, UNCONNECTED_HIER_Z263,
        n_1115, n_1116, n_1117, n_1118, n_1119, n_1120, n_1121, n_1122,
        n_1123, n_1124, n_1125, n_1126, n_1127, n_1128, n_1129, n_1130,
        n_1131, n_1132, n_1133, n_1134, n_1135, n_1136, n_1137, n_1138,
-       n_1139, n_1140, n_1141}), .out_0 ({UNCONNECTED148,
-       UNCONNECTED147, n_1088, n_1089, n_1090, n_1091, n_1092, n_1093,
+       n_1139, n_1140, n_1141}), .out_0 ({UNCONNECTED150,
+       UNCONNECTED149, n_1088, n_1089, n_1090, n_1091, n_1092, n_1093,
        n_1094, n_1095, n_1096, n_1097, n_1098, n_1099, n_1100, n_1101,
        n_1102, n_1103, n_1104, n_1105, n_1106, n_1107, n_1108, n_1109,
        n_1110, n_1111, n_1112, n_1113, n_1114}), .out_1
-       ({UNCONNECTED150, UNCONNECTED149, n_1059, n_1060, n_1061,
+       ({UNCONNECTED152, UNCONNECTED151, n_1059, n_1060, n_1061,
        n_1062, n_1063, n_1064, n_1065, n_1066, n_1067, n_1068, n_1069,
        n_1070, n_1071, n_1072, n_1073, n_1074, n_1075, n_1076, n_1077,
        n_1078, n_1079, n_1080, n_1081, n_1082, n_1083, n_1084,
        n_1085}));
   csa_tree_add_264_30_group_1376 csa_tree_add_264_30_groupi(.in_0
-       ({UNCONNECTED_HIER_Z161, UNCONNECTED_HIER_Z160, n_922, n_756,
+       ({UNCONNECTED_HIER_Z266, UNCONNECTED_HIER_Z265, n_922, n_756,
        n_755, n_754, n_753, n_752, n_751, n_750, n_749, n_748, n_747,
        n_746, n_745, n_759, n_758, n_757, n_938, n_939, n_940, n_941,
        n_942, n_943, n_944, n_945, n_946, n_947, n_948}), .in_1
-       ({UNCONNECTED_HIER_Z163, UNCONNECTED_HIER_Z162, n_895, n_896,
+       ({UNCONNECTED_HIER_Z268, UNCONNECTED_HIER_Z267, n_895, n_896,
        n_897, n_898, n_899, n_900, n_901, n_902, n_903, n_904, n_905,
        n_906, n_907, n_908, n_909, n_910, n_911, n_912, n_913, n_914,
        n_915, n_916, n_917, n_744, n_919, n_920, n_921}), .in_2
        (integral_last), .out_0 (integral));
-  csa_tree_562 csa_tree_add_276_65(.in_0 ({UNCONNECTED_HIER_Z164,
+  csa_tree_562 csa_tree_add_276_65(.in_0 ({UNCONNECTED_HIER_Z269,
        iir1_out_last[25:0]}), .in_1 ({ph_diff_accum[26], n_1521,
        n_1522, n_1523, n_1524, n_1525, n_1526, n_1527, n_1528, n_1529,
        n_1530, n_1531, n_1532, n_1533, n_1534, n_1535, n_1536, n_1537,
        n_1538, n_1539, n_1540, n_1541, n_1542, n_1543, n_1544, n_1545,
-       n_1546}), .in_2 ({UNCONNECTED_HIER_Z165, n_1495, n_1496, n_1497,
+       n_1546}), .in_2 ({UNCONNECTED_HIER_Z270, n_1495, n_1496, n_1497,
        n_1498, n_1499, n_1500, n_1501, n_1502, n_1503, n_1504, n_1505,
        n_1506, n_1507, n_1508, n_1509, n_1510, n_1511, n_1512, n_1513,
        n_1514, n_1515, n_1516, n_1517, n_1518, n_1519, n_1520}), .out_0
-       ({UNCONNECTED152, UNCONNECTED151, n_1325, n_1326, n_1327,
+       ({UNCONNECTED154, UNCONNECTED153, n_1325, n_1326, n_1327,
        n_1328, n_1329, n_1330, n_1331, n_1332, n_1333, n_1334, n_1335,
        n_1336, n_1337, n_1338, n_1339, n_1340, n_1341, n_1342, n_1343,
        n_1344, n_1345, n_1346, n_1347, n_1348, n_1349, n_1350,
-       n_1351}), .out_1 ({UNCONNECTED154, UNCONNECTED153, n_1296,
+       n_1351}), .out_1 ({UNCONNECTED156, UNCONNECTED155, n_1296,
        n_1297, n_1298, n_1299, n_1300, n_1301, n_1302, n_1303, n_1304,
        n_1305, n_1306, n_1307, n_1308, n_1309, n_1310, n_1311, n_1312,
        n_1313, n_1314, n_1315, n_1316, n_1317, n_1318, n_1319, n_1320,
        n_1321, n_1322}));
-  csa_tree_562_1 csa_tree_add_278_65(.in_0 ({UNCONNECTED_HIER_Z166,
+  csa_tree_562_1 csa_tree_add_278_65(.in_0 ({UNCONNECTED_HIER_Z271,
        iir2_out_last[25:0]}), .in_1 ({iir1_out[26], n_1469, n_1470,
        n_1471, n_1472, n_1473, n_1474, n_1475, n_1476, n_1477, n_1478,
        n_1479, n_1480, n_1481, n_1482, n_1483, n_1484, n_1485, n_1486,
        n_1487, n_1488, n_1489, n_1490, n_1491, n_1492, n_1493,
-       n_1494}), .in_2 ({UNCONNECTED_HIER_Z167, n_1443, n_1444, n_1445,
+       n_1494}), .in_2 ({UNCONNECTED_HIER_Z272, n_1443, n_1444, n_1445,
        n_1446, n_1447, n_1448, n_1449, n_1450, n_1451, n_1452, n_1453,
        n_1454, n_1455, n_1456, n_1457, n_1458, n_1459, n_1460, n_1461,
        n_1462, n_1463, n_1464, n_1465, n_1466, n_1467, n_1468}), .out_0
-       ({UNCONNECTED156, UNCONNECTED155, n_1267, n_1268, n_1269,
+       ({UNCONNECTED158, UNCONNECTED157, n_1267, n_1268, n_1269,
        n_1270, n_1271, n_1272, n_1273, n_1274, n_1275, n_1276, n_1277,
        n_1278, n_1279, n_1280, n_1281, n_1282, n_1283, n_1284, n_1285,
        n_1286, n_1287, n_1288, n_1289, n_1290, n_1291, n_1292,
-       n_1293}), .out_1 ({UNCONNECTED158, UNCONNECTED157, n_1238,
+       n_1293}), .out_1 ({UNCONNECTED160, UNCONNECTED159, n_1238,
        n_1239, n_1240, n_1241, n_1242, n_1243, n_1244, n_1245, n_1246,
        n_1247, n_1248, n_1249, n_1250, n_1251, n_1252, n_1253, n_1254,
        n_1255, n_1256, n_1257, n_1258, n_1259, n_1260, n_1261, n_1262,
        n_1263, n_1264}));
   csa_tree_add_280_65_group_1378 csa_tree_add_280_65_groupi(.in_0
-       ({UNCONNECTED_HIER_Z168, iir3_out_last[25:0]}), .in_1
+       ({UNCONNECTED_HIER_Z273, iir3_out_last[25:0]}), .in_1
        ({iir2_out[26], n_1417, n_1418, n_1419, n_1420, n_1421, n_1422,
        n_1423, n_1424, n_1425, n_1426, n_1427, n_1428, n_1429, n_1430,
        n_1431, n_1432, n_1433, n_1434, n_1435, n_1436, n_1437, n_1438,
-       n_1439, n_1440, n_1441, n_1442}), .in_2 ({UNCONNECTED_HIER_Z169,
+       n_1439, n_1440, n_1441, n_1442}), .in_2 ({UNCONNECTED_HIER_Z274,
        n_1391, n_1392, n_1393, n_1394, n_1395, n_1396, n_1397, n_1398,
        n_1399, n_1400, n_1401, n_1402, n_1403, n_1404, n_1405, n_1406,
        n_1407, n_1408, n_1409, n_1410, n_1411, n_1412, n_1413, n_1414,
        n_1415, n_1416}), .out_0 (iir3_out));
-  add_signed_591_2 final_adder_add_254_46(.A ({UNCONNECTED_HIER_Z171,
-       UNCONNECTED_HIER_Z170, n_1088, n_1089, n_1090, n_1091, n_1092,
+  add_signed_591_2 final_adder_add_254_46(.A ({UNCONNECTED_HIER_Z276,
+       UNCONNECTED_HIER_Z275, n_1088, n_1089, n_1090, n_1091, n_1092,
        n_1093, n_1094, n_1095, n_1096, n_1097, n_1098, n_1099, n_1100,
        n_1101, n_1102, n_1103, n_1104, n_1105, n_1106, n_1107, n_1108,
        n_1109, n_1110, n_1111, n_1112, n_1113, n_1114}), .B
-       ({UNCONNECTED_HIER_Z173, UNCONNECTED_HIER_Z172, n_1059, n_1060,
+       ({UNCONNECTED_HIER_Z278, UNCONNECTED_HIER_Z277, n_1059, n_1060,
        n_1061, n_1062, n_1063, n_1064, n_1065, n_1066, n_1067, n_1068,
        n_1069, n_1070, n_1071, n_1072, n_1073, n_1074, n_1075, n_1076,
        n_1077, n_1078, n_1079, n_1080, n_1081, n_1082, n_1083, n_1084,
        n_1085}), .Z (ph_diff_accum));
-  add_signed_591 final_adder_add_276_65(.A ({UNCONNECTED159,
-       UNCONNECTED_HIER_Z174, n_1325, n_1326, n_1327, n_1328, n_1329,
+  add_signed_591 final_adder_add_276_65(.A ({dco_c_l_rall[4],
+       UNCONNECTED_HIER_Z279, n_1325, n_1326, n_1327, n_1328, n_1329,
        n_1330, n_1331, n_1332, n_1333, n_1334, n_1335, n_1336, n_1337,
        n_1338, n_1339, n_1340, n_1341, n_1342, n_1343, n_1344, n_1345,
        n_1346, n_1347, n_1348, n_1349, n_1350, n_1351}), .B
-       ({UNCONNECTED_HIER_Z176, UNCONNECTED_HIER_Z175, n_1296, n_1297,
+       ({UNCONNECTED_HIER_Z281, UNCONNECTED_HIER_Z280, n_1296, n_1297,
        n_1298, n_1299, n_1300, n_1301, n_1302, n_1303, n_1304, n_1305,
        n_1306, n_1307, n_1308, n_1309, n_1310, n_1311, n_1312, n_1313,
        n_1314, n_1315, n_1316, n_1317, n_1318, n_1319, n_1320, n_1321,
        n_1322}), .Z (iir1_out));
-  add_signed_591_1 final_adder_add_278_65(.A ({UNCONNECTED160,
-       UNCONNECTED_HIER_Z177, n_1267, n_1268, n_1269, n_1270, n_1271,
+  add_signed_591_1 final_adder_add_278_65(.A ({dco_c_l_rall[4],
+       UNCONNECTED_HIER_Z282, n_1267, n_1268, n_1269, n_1270, n_1271,
        n_1272, n_1273, n_1274, n_1275, n_1276, n_1277, n_1278, n_1279,
        n_1280, n_1281, n_1282, n_1283, n_1284, n_1285, n_1286, n_1287,
        n_1288, n_1289, n_1290, n_1291, n_1292, n_1293}), .B
-       ({UNCONNECTED_HIER_Z179, UNCONNECTED_HIER_Z178, n_1238, n_1239,
+       ({UNCONNECTED_HIER_Z284, UNCONNECTED_HIER_Z283, n_1238, n_1239,
        n_1240, n_1241, n_1242, n_1243, n_1244, n_1245, n_1246, n_1247,
        n_1248, n_1249, n_1250, n_1251, n_1252, n_1253, n_1254, n_1255,
        n_1256, n_1257, n_1258, n_1259, n_1260, n_1261, n_1262, n_1263,
@@ -6986,28 +7123,30 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        ({n_1743, n_1700, n_1701, n_1702, n_400}), .r_all
        ({UNCONNECTED161, dco_c_l_rall[3:0]}), .row (dco_c_l_row), .col
        (dco_c_l_col));
-  row_col_cod row_col_cod_m(.word ({n_767, n_1798, n_1801, n_1802,
-       dco_c_m_word[3], n_1803, n_1805, n_1806}), .r_all_nxt
-       ({UNCONNECTED164, UNCONNECTED163, dco_c_m_rall_nxt[13:8],
-       UNCONNECTED162, dco_c_m_rall_nxt[6:0]}), .row_nxt
-       ({dco_c_m_row_nxt[15:1], UNCONNECTED165}), .col_nxt
+  row_col_cod row_col_cod_m(.rst (UNCONNECTED_HIER_Z285), .en
+       (UNCONNECTED_HIER_Z286), .clk (UNCONNECTED_HIER_Z287), .word
+       ({n_767, n_1798, n_1801, n_1802, dco_c_m_word[3], n_1803,
+       n_1805, n_1806}), .r_all_nxt ({UNCONNECTED164, UNCONNECTED163,
+       dco_c_m_rall_nxt[13:8], UNCONNECTED162, dco_c_m_rall_nxt[6:0]}),
+       .row_nxt ({dco_c_m_row_nxt[15:1], UNCONNECTED165}), .col_nxt
        (dco_c_m_col_nxt));
   row_col_cod_reg row_col_cod_reg_m(.rst (rst), .en (en), .clk (clk),
-       .r_all_nxt ({logic_1_1_net, dco_c_m_rall_nxt[14:8], n_1807,
+       .r_all_nxt ({dco_c_l_rall[4], dco_c_m_rall_nxt[14:8], n_1807,
        dco_c_m_rall_nxt[6:0]}), .row_nxt ({dco_c_m_row_nxt[15:1],
        dco_c_m_rall_nxt[0]}), .col_nxt (dco_c_m_col_nxt), .r_all
        (dco_c_m_rall), .row (dco_c_m_row), .col (dco_c_m_col));
   row_col_cod_reg_246 row_col_cod_reg_s(.rst (rst), .en (en), .clk
-       (clk), .r_all_nxt ({logic_1_1_net, dco_c_s_rall_nxt[14:8],
+       (clk), .r_all_nxt ({dco_c_l_rall[4], dco_c_s_rall_nxt[14:8],
        n_1808, dco_c_s_rall_nxt[6:0]}), .row_nxt
        ({dco_c_s_row_nxt[15:1], dco_c_s_rall_nxt[0]}), .col_nxt
        (dco_c_s_col_nxt), .r_all (dco_c_s_rall), .row (dco_c_s_row),
        .col (dco_c_s_col));
-  row_col_cod_245 row_col_cod_s(.word ({n_766, n_1797, n_1795, n_1799,
-       \dco_c_s_word[3]_8021 , n_1804, n_1796, n_1800}), .r_all_nxt
-       ({UNCONNECTED168, UNCONNECTED167, dco_c_s_rall_nxt[13:8],
-       UNCONNECTED166, dco_c_s_rall_nxt[6:0]}), .row_nxt
-       ({dco_c_s_row_nxt[15:1], UNCONNECTED169}), .col_nxt
+  row_col_cod_245 row_col_cod_s(.rst (UNCONNECTED_HIER_Z288), .en
+       (UNCONNECTED_HIER_Z289), .clk (UNCONNECTED_HIER_Z290), .word
+       ({n_766, n_1797, n_1795, n_1799, \dco_c_s_word[3]_8021 , n_1804,
+       n_1796, n_1800}), .r_all_nxt ({UNCONNECTED168, UNCONNECTED167,
+       dco_c_s_rall_nxt[13:8], UNCONNECTED166, dco_c_s_rall_nxt[6:0]}),
+       .row_nxt ({dco_c_s_row_nxt[15:1], UNCONNECTED169}), .col_nxt
        (dco_c_s_col_nxt));
   arith_shift_right_vlog_unsigned sra_265_36(.A (integral), .SH (beta),
        .Z (integral_beta));
@@ -7525,32 +7664,32 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        (aux1_count[3]), .QB (n_38));
   DBFRBELD \aux1_count_reg[4] (.RB (n_85), .CKB (clk), .D (n_286), .Q
        (aux1_count[4]), .QB (n_13));
-  DBFRSBELD \aux1_reg[0] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_276), .Q (aux1[0]), .QB (n_31));
-  DBFRSBELD \aux1_reg[10] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_275), .Q (aux1[10]), .QB (n_24));
-  DBFRSBELD \aux1_reg[11] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_274), .Q (aux1[11]), .QB (n_36));
-  DBFRSBELD \aux1_reg[12] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_273), .Q (aux1[12]), .QB (n_14));
-  DBFRSBELD \aux1_reg[1] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_272), .Q (aux1[1]), .QB (n_18));
-  DBFRSBELD \aux1_reg[2] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_271), .Q (aux1[2]), .QB (n_26));
-  DBFRSBELD \aux1_reg[3] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_270), .Q (aux1[3]), .QB (n_6));
-  DBFRSBELD \aux1_reg[4] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_269), .Q (aux1[4]), .QB (n_11));
-  DBFRSBELD \aux1_reg[5] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_268), .Q (aux1[5]), .QB (n_20));
-  DBFRSBELD \aux1_reg[6] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_267), .Q (aux1[6]), .QB (n_22));
-  DBFRSBELD \aux1_reg[7] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_264), .Q (aux1[7]), .QB (n_5));
-  DBFRSBELD \aux1_reg[8] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_266), .Q (aux1[8]), .QB (n_9));
-  DBFRSBELD \aux1_reg[9] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_265), .Q (aux1[9]), .QB (n_34));
+  DBFRSBELD \aux1_reg[0] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_276), .Q (aux1[0]), .QB (n_31));
+  DBFRSBELD \aux1_reg[10] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_275), .Q (aux1[10]), .QB (n_24));
+  DBFRSBELD \aux1_reg[11] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_274), .Q (aux1[11]), .QB (n_36));
+  DBFRSBELD \aux1_reg[12] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_273), .Q (aux1[12]), .QB (n_14));
+  DBFRSBELD \aux1_reg[1] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_272), .Q (aux1[1]), .QB (n_18));
+  DBFRSBELD \aux1_reg[2] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_271), .Q (aux1[2]), .QB (n_26));
+  DBFRSBELD \aux1_reg[3] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_270), .Q (aux1[3]), .QB (n_6));
+  DBFRSBELD \aux1_reg[4] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_269), .Q (aux1[4]), .QB (n_11));
+  DBFRSBELD \aux1_reg[5] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_268), .Q (aux1[5]), .QB (n_20));
+  DBFRSBELD \aux1_reg[6] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_267), .Q (aux1[6]), .QB (n_22));
+  DBFRSBELD \aux1_reg[7] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_264), .Q (aux1[7]), .QB (n_5));
+  DBFRSBELD \aux1_reg[8] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_266), .Q (aux1[8]), .QB (n_9));
+  DBFRSBELD \aux1_reg[9] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_265), .Q (aux1[9]), .QB (n_34));
   DBFRBELD \aux2_count_reg[0] (.RB (n_85), .CKB (clk), .D (n_294), .Q
        (aux2_count[0]), .QB (n_15));
   DBFRBELD \aux2_count_reg[1] (.RB (n_85), .CKB (clk), .D (n_292), .Q
@@ -7561,35 +7700,35 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        (aux2_count[3]), .QB (UNCONNECTED205));
   DBFRBELD \aux2_count_reg[4] (.RB (n_85), .CKB (clk), .D (n_302), .Q
        (aux2_count[4]), .QB (UNCONNECTED206));
-  DBFRSBELD \aux2_reg[0] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_262), .Q (aux2[0]), .QB (n_32));
-  DBFRSBELD \aux2_reg[10] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_261), .Q (aux2[10]), .QB (n_37));
-  DBFRSBELD \aux2_reg[11] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_263), .Q (aux2[11]), .QB (n_17));
-  DBFRSBELD \aux2_reg[12] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_260), .Q (aux2[12]), .QB (n_40));
-  DBFRSBELD \aux2_reg[1] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_259), .Q (aux2[1]), .QB (n_21));
-  DBFRSBELD \aux2_reg[2] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_258), .Q (aux2[2]), .QB (n_12));
-  DBFRSBELD \aux2_reg[3] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_257), .Q (aux2[3]), .QB (n_28));
-  DBFRSBELD \aux2_reg[4] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_256), .Q (aux2[4]), .QB (n_25));
-  DBFRSBELD \aux2_reg[5] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_255), .Q (aux2[5]), .QB (n_19));
-  DBFRSBELD \aux2_reg[6] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_254), .Q (aux2[6]), .QB (n_39));
-  DBFRSBELD \aux2_reg[7] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_253), .Q (aux2[7]), .QB (n_41));
-  DBFRSBELD \aux2_reg[8] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_251), .Q (aux2[8]), .QB (n_8));
-  DBFRSBELD \aux2_reg[9] (.RB (logic_1_1_net), .SB (n_85), .CKB (clk),
-       .D (n_252), .Q (aux2[9]), .QB (n_33));
+  DBFRSBELD \aux2_reg[0] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_262), .Q (aux2[0]), .QB (n_32));
+  DBFRSBELD \aux2_reg[10] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_261), .Q (aux2[10]), .QB (n_37));
+  DBFRSBELD \aux2_reg[11] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_263), .Q (aux2[11]), .QB (n_17));
+  DBFRSBELD \aux2_reg[12] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_260), .Q (aux2[12]), .QB (n_40));
+  DBFRSBELD \aux2_reg[1] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_259), .Q (aux2[1]), .QB (n_21));
+  DBFRSBELD \aux2_reg[2] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_258), .Q (aux2[2]), .QB (n_12));
+  DBFRSBELD \aux2_reg[3] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_257), .Q (aux2[3]), .QB (n_28));
+  DBFRSBELD \aux2_reg[4] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_256), .Q (aux2[4]), .QB (n_25));
+  DBFRSBELD \aux2_reg[5] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_255), .Q (aux2[5]), .QB (n_19));
+  DBFRSBELD \aux2_reg[6] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_254), .Q (aux2[6]), .QB (n_39));
+  DBFRSBELD \aux2_reg[7] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_253), .Q (aux2[7]), .QB (n_41));
+  DBFRSBELD \aux2_reg[8] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_251), .Q (aux2[8]), .QB (n_8));
+  DBFRSBELD \aux2_reg[9] (.RB (dco_c_l_rall[4]), .SB (n_85), .CKB
+       (clk), .D (n_252), .Q (aux2[9]), .QB (n_33));
   DBFRBELD channel_lock_reg(.RB (n_57), .CKB (clk), .D (n_237), .Q
        (channel_lock), .QB (UNCONNECTED207));
-  DBFRSBELD dco_pd_state_reg(.RB (logic_1_1_net), .SB (n_57), .CKB
+  DBFRSBELD dco_pd_state_reg(.RB (dco_c_l_rall[4]), .SB (n_57), .CKB
        (clk), .D (n_182), .Q (dco_pd_state), .QB (UNCONNECTED208));
   DBFRBHLD en_integral_reg(.RB (n_57), .CKB (clk), .D (n_178), .Q
        (en_integral), .QB (n_715));
@@ -7923,29 +8062,29 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        (integral_last[9]), .QB (UNCONNECTED318));
   DBFRBELD lock_detect_reg(.RB (n_85), .CKB (clk), .D (n_329), .Q
        (lock_detect), .QB (n_35));
-  DBFRSBELD \lock_detect_word_reg[0] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_337), .Q (lock_detect_word[0]), .QB
+  DBFRSBELD \lock_detect_word_reg[0] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_337), .Q (lock_detect_word[0]), .QB
        (UNCONNECTED319));
-  DBFRSBELD \lock_detect_word_reg[1] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_334), .Q (lock_detect_word[1]), .QB
+  DBFRSBELD \lock_detect_word_reg[1] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_334), .Q (lock_detect_word[1]), .QB
        (UNCONNECTED320));
-  DBFRSBELD \lock_detect_word_reg[2] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_338), .Q (lock_detect_word[2]), .QB
+  DBFRSBELD \lock_detect_word_reg[2] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_338), .Q (lock_detect_word[2]), .QB
        (UNCONNECTED321));
-  DBFRSBELD \lock_detect_word_reg[3] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_336), .Q (lock_detect_word[3]), .QB
+  DBFRSBELD \lock_detect_word_reg[3] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_336), .Q (lock_detect_word[3]), .QB
        (UNCONNECTED322));
-  DBFRSBELD \lock_detect_word_reg[4] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_335), .Q (lock_detect_word[4]), .QB
+  DBFRSBELD \lock_detect_word_reg[4] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_335), .Q (lock_detect_word[4]), .QB
        (UNCONNECTED323));
-  DBFRSBELD \lock_detect_word_reg[5] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_333), .Q (lock_detect_word[5]), .QB
+  DBFRSBELD \lock_detect_word_reg[5] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_333), .Q (lock_detect_word[5]), .QB
        (UNCONNECTED324));
-  DBFRSBELD \lock_detect_word_reg[6] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_332), .Q (lock_detect_word[6]), .QB
+  DBFRSBELD \lock_detect_word_reg[6] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_332), .Q (lock_detect_word[6]), .QB
        (UNCONNECTED325));
-  DBFRSBELD \lock_detect_word_reg[7] (.RB (logic_1_1_net), .SB (n_85),
-       .CKB (clk), .D (n_331), .Q (lock_detect_word[7]), .QB
+  DBFRSBELD \lock_detect_word_reg[7] (.RB (dco_c_l_rall[4]), .SB
+       (n_85), .CKB (clk), .D (n_331), .Q (lock_detect_word[7]), .QB
        (UNCONNECTED326));
   DBFRBELD \otw_l_fixed_reg[0] (.RB (n_57), .CKB (clk), .D (n_224), .Q
        (otw_l_fixed[0]), .QB (UNCONNECTED327));
@@ -8058,7 +8197,7 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        (rst_accum), .QB (UNCONNECTED366));
   DBFRBELD rst_lock_detect_reg(.RB (n_57), .CKB (clk), .D (n_206), .Q
        (rst_lock_detect), .QB (UNCONNECTED367));
-  DBFRSBELD \state_rx_reg[0] (.RB (logic_1_1_net), .SB (n_57), .CKB
+  DBFRSBELD \state_rx_reg[0] (.RB (dco_c_l_rall[4]), .SB (n_57), .CKB
        (clk), .D (n_300), .Q (state_rx[0]), .QB (UNCONNECTED368));
   DBFRBELD \state_rx_reg[1] (.RB (n_57), .CKB (clk), .D (n_289), .Q
        (state_rx[1]), .QB (UNCONNECTED369));
@@ -8068,9 +8207,10 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
        (state_rx[3]), .QB (n_439));
   DBFRBELD \state_rx_reg[4] (.RB (n_57), .CKB (clk), .D (n_297), .Q
        (state_rx[4]), .QB (n_419));
-  DBFRSBELD tdc_pd_inj_state_reg(.RB (logic_1_1_net), .SB (n_57), .CKB
-       (clk), .D (n_238), .Q (tdc_pd_inj_state), .QB (UNCONNECTED371));
-  DBFRSBELD tdc_pd_state_reg(.RB (logic_1_1_net), .SB (n_57), .CKB
+  DBFRSBELD tdc_pd_inj_state_reg(.RB (dco_c_l_rall[4]), .SB (n_57),
+       .CKB (clk), .D (n_238), .Q (tdc_pd_inj_state), .QB
+       (UNCONNECTED371));
+  DBFRSBELD tdc_pd_state_reg(.RB (dco_c_l_rall[4]), .SB (n_57), .CKB
        (clk), .D (n_241), .Q (tdc_pd_state), .QB (UNCONNECTED372));
   DBZRBELD \time_count_reg[0] (.RB (n_57), .CKB (clk), .D (n_213), .TD
        (n_227), .SEL (time_count[0]), .Q (time_count[0]), .QB
@@ -8581,6 +8721,6 @@ module adpll_ctr0(rst, en, clk, FCW, adpll_mode, channel_lock,
   AN4B1ELD g8838(.I1 (otw_int_round[4]), .I2 (n_501), .I3 (n_1741), .B1
        (n_1772), .O (n_1813));
   XNR2HLD g8839(.I1 (n_467), .I2 (n_489), .O (n_1814));
-  TIE1DLD tie_1_cell(.O (logic_1_1_net));
+  TIE1DLD tie_1_cell(.O (dco_c_l_rall[4]));
 endmodule
 
