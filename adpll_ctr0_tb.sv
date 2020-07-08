@@ -233,8 +233,14 @@ module adpll_ctr0_tb;
 	  data_mod <= $urandom%2;
      end
 
-   initial #end_time_fs $finish;
-
+   initial #end_time_fs begin 
+		$fclose(dco_ckv_time.txt);
+		$fclose(clkn_time.txt);
+		$fclose(dco_s_word.txt);
+		$fclose(tdc_word.txt);
+		
+		$finish;
+	end
       
    always #(end_time_fs /10) $write("Loading progress: %d percent \n", 
 				    int'(100 * $time  / end_time_fs));
