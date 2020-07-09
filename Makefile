@@ -2,7 +2,7 @@ ADPLL_OPERATION = 3 # PD = 0, TEST = 1, RX = 2, TX = 3
 FREQ_CHANNEL = 2433.500 # Channel freq in MHz
 SIM_TIME = 100 # simulation time in us
 DCO_PN = 1 # dco phase noise flag
-INIT_TIME_RM = 0 # initial transient time to remove in us (display purposes)
+INIT_TIME_RM = 25 # initial transient time to remove in us (display purposes)
 DEFINE = -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN) -DADPLL_OPERATION=$(ADPLL_OPERATION)
 
 SRC_DIR = .

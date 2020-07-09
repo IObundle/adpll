@@ -29,7 +29,8 @@ module row_col_cod_5x5 #(
    
 
    always @ word begin
-      r_all_nxt = r_all;
+	  r_all_nxt[4] = 1'b1;
+      r_all_nxt[3:0] = r_all[3:0];
       row_nxt = row;
       col_nxt = col;
 

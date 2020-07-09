@@ -29,7 +29,7 @@ module row_col_cod #(
    
 
    always @ word begin
-      //r_all_nxt = r_all;
+      r_all_nxt[SIZE-1] = 1'b1;
       //row_nxt = row;
       //col_nxt = col;
 
