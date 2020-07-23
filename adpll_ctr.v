@@ -1,11 +1,10 @@
 `timescale 1fs / 1fs
-`include "adpll.vh"
+`include "adpll_defines.v"
 
 ///////////////////////////////////////////////////////////////////////////////
-// Date: 03/03/2020
 // Module: adpll_ctr.v
 // Project: WSN DCO Model 
-// Description:  adpll0 with a CPU interface
+// Description:  adpll0 with CPU interface
 //               
 //				 
 
@@ -49,10 +48,7 @@ module adpll_ctr(
    wire signed [7:0]  dco_c_s_word;
    wire [11:0] 	      tdc_word;
    
-   // soft reset pulse
-   wire 	      rst_int;
-   assign rst_int = rst | rst_soft;
-    
+   
 
    // cpu interface ready signal
    always @(posedge clk, posedge rst)
@@ -88,17 +84,23 @@ module adpll_ctr(
    reg [2:0] 	      tdc_ctr_freq;
    reg [1:0] 	      dco_osc_gain;
 
+   // soft reset pulse
+   wire 	      rst_int;
+   assign rst_int = rst | rst_soft;
    ///////////////////////////////////////////////////////////////////
    /// CPU Adress decoder 
    ///////////////////////////////////////////////////////////////////
    
    wire 	      channel_lock;
+   wire               channel_sat; 	      
    
    // Read
-   always @*
-     address == `ADPLL_LOCK
-     assign  data_out = (address == `ADPLL_LOCK) ? 
+   //always @*
+    //address == `ADPLL_LOCK
+   assign  data_out = (address == `ADPLL_LOCK) ? 
 			{{31{1'b0}}, channel_lock} : {{32{1'b1}};
+   assign  data_out = (address == `ADPLL_SAT) ? 
+			{{31{1'b0}}, channel_sat} : {{32{1'b1}};
 
    // Write  
    always @ (posedge clk, posedge rst)
@@ -156,6 +158,7 @@ module adpll_ctr(
    adpll_ctr0 adpll_ctr0(/*AUTOINST*/
 			 // Outputs
 			 .channel_lock	(channel_lock),
+			 .channel_sat          (channel_sat),
 			 .dco_pd		(dco_pd),
 			 .dco_c_l_rall	(dco_c_l_rall[4:0]),
 			 .dco_c_l_row		(dco_c_l_row[4:0]),

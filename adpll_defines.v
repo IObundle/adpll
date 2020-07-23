@@ -2,6 +2,7 @@
 
 
 `define ADPLL_LOCK (`ADPLL_ADDR_W'd0)  // read
+`define ADPLL_SAT (`ADPLL_ADDR_W'd23)  // read
 
 `define ADPLL_SOFT_RST (`ADPLL_ADDR_W'd1) //write
 `define FCW (`ADPLL_ADDR_W'd2) //write
