@@ -12,12 +12,12 @@ module adpll_ctr(
 		 input 			   rst,
 		 input 			   clk,
 		 //CPU interface
-		 input 			   sel,
-		 output reg 		   ready,
-		 input 			   write,
+		 input 			   valid,
 		 input [`ADPLL_ADDR_W-1:0] address,
-		 input [31:0] 		   data_in,
-		 output [31:0] 		   data_out, // only one register
+		 input [31:0] 		   wdata,
+		 input 			   wstrb,
+		 output [31:0] 		   rdata,
+		 output reg 		   ready,
 		 
 		 // serial input
 		 input 			   data_mod, // data to be modulated
@@ -34,12 +34,13 @@ module adpll_ctr(
 		 output [15:0] 		   dco_c_s_rall,
 		 output [15:0] 		   dco_c_s_row,
 		 output [15:0] 		   dco_c_s_col,
+
 		 //analog tdc interface
 		 output 		   tdc_pd,
 		 output 		   tdc_pd_inj,
 		 output [2:0] 		   tdc_ctr_freq,
 		 input [6:0] 		   tdc_ripple_count,
-		 input [15:0] 		   tdc_phase,
+		 input [15:0] 		   tdc_phase
   			      
 		 );
 
@@ -55,7 +56,7 @@ module adpll_ctr(
      if(rst)
        ready <= 1'b0;
      else 
-       ready <= sel;
+       ready <= valid;
    
    ///////////////////////////////////////////////////////////////////
    /// List of accesible registers 
@@ -97,9 +98,9 @@ module adpll_ctr(
    // Read
    //always @*
     //address == `ADPLL_LOCK
-   assign  data_out = (address == `ADPLL_LOCK) ? 
+   assign  rdata = (address == `ADPLL_LOCK) ? 
 			{{31{1'b0}}, channel_lock} : {{32{1'b1}};
-   assign  data_out = (address == `ADPLL_SAT) ? 
+   assign  rdata = (address == `ADPLL_SAT) ? 
 			{{31{1'b0}}, channel_sat} : {{32{1'b1}};
 
    // Write  
@@ -127,30 +128,30 @@ module adpll_ctr(
 	tdc_pd_inj_test <= 1'b1;
 	tdc_ctr_freq <= 3'b100;
 	dco_osc_gain <= 2'b10;
-     end else if(sel && write)	
+     end else if(valid && wstrb)	
        case (address)
-	  `ADPLL_SOFT_RST: rst_soft <= data_in[0];
-	  `FCW: FCW <= data_in[`FCWW-1:0];
-	  `ADPLL_MODE: adpll_mode <= data_in[1:0];
-	  `ADPLL_EN: en <= data_in[0];
-	  `ALPHA_L: alpha_l <= data_in[3:0];
-          `ALPHA_M: alpha_m <= data_in[3:0];
-          `ALPHA_S_RX: alpha_s_rx <= data_in[3:0];
-          `ALPHA_S_TX: alpha_s_tx <= data_in[3:0];
-	  `BETA: beta <= data_in[3:0];
-          `LAMBDA_RX: lambda_rx <= data_in[2:0];
-          `LAMBDA_TX: lambda_tx <= data_in[2:0];
-          `IIR_N_RX: iir_n_rx <= data_in[1:0];
-	  `IIR_N_TX: iir_n_tx <= data_in[1:0];
-          `FCW_MOD: FCW_mod <= data_in[4:0];
-          `DCO_C_L_WORD_TEST: dco_c_l_word_test <= data_in[4:0];
-          `DCO_C_M_WORD_TEST: dco_c_m_word_test <= data_in[7:0];
-	  `DCO_C_S_WORD_TEST: dco_c_s_word_test <= data_in[7:0];
-          `DCO_PD_TEST: dco_pd_test = data_in[0];
-          `TDC_PD_TEST: tdc_pd_test = data_in[0];
-          `TDC_PD_INJ_TEST: tdc_pd_inj_test = data_in[0];
-	  `TDC_CTR_FREQ: tdc_ctr_freq = data_in[2:0];
-          `DCO_OSC_GAIN: dco_osc_gain = data_in[1:0];
+	  `ADPLL_SOFT_RST: rst_soft <= wdata[0];
+	  `FCW: FCW <= wdata[`FCWW-1:0];
+	  `ADPLL_MODE: adpll_mode <= wdata[1:0];
+	  `ADPLL_EN: en <= wdata[0];
+	  `ALPHA_L: alpha_l <= wdata[3:0];
+          `ALPHA_M: alpha_m <= wdata[3:0];
+          `ALPHA_S_RX: alpha_s_rx <= wdata[3:0];
+          `ALPHA_S_TX: alpha_s_tx <= wdata[3:0];
+	  `BETA: beta <= wdata[3:0];
+          `LAMBDA_RX: lambda_rx <= wdata[2:0];
+          `LAMBDA_TX: lambda_tx <= wdata[2:0];
+          `IIR_N_RX: iir_n_rx <= wdata[1:0];
+	  `IIR_N_TX: iir_n_tx <= wdata[1:0];
+          `FCW_MOD: FCW_mod <= wdata[4:0];
+          `DCO_C_L_WORD_TEST: dco_c_l_word_test <= wdata[4:0];
+          `DCO_C_M_WORD_TEST: dco_c_m_word_test <= wdata[7:0];
+	  `DCO_C_S_WORD_TEST: dco_c_s_word_test <= wdata[7:0];
+          `DCO_PD_TEST: dco_pd_test = wdata[0];
+          `TDC_PD_TEST: tdc_pd_test = wdata[0];
+          `TDC_PD_INJ_TEST: tdc_pd_inj_test = wdata[0];
+	  `TDC_CTR_FREQ: tdc_ctr_freq = wdata[2:0];
+          `DCO_OSC_GAIN: dco_osc_gain = wdata[1:0];
           default:;
        endcase
 
