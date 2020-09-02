@@ -9,4 +9,4 @@ VHDR+=$(wildcard $(ADPLL_INC_DIR)/*.vh)
 
 #sources
 ADPLL_SRC_DIR:=$(ADPLL_DIR)/hardware/src
-VSRC+=$(wildcard $(ADPLL_HW_DIR)/src/*.v)
+VSRC+=$(wildcard $(ADPLL_HW_DIR)/src/*.v) $(wildcard $(ADPLL_DIR)/synth/*.v)
