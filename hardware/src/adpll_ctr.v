@@ -1,5 +1,5 @@
 `timescale 1fs / 1fs
-`include "adpll_defines.v"
+`include "adpll_defines.vh"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Module: adpll_ctr.v
