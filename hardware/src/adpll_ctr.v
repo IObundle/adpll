@@ -99,9 +99,7 @@ module adpll_ctr(
    //always @*
     //address == `ADPLL_LOCK
    assign  rdata = (address == `ADPLL_LOCK) ? 
-			{{31{1'b0}}, channel_lock} : {{32{1'b1}};
-   assign  rdata = (address == `ADPLL_SAT) ? 
-			{{31{1'b0}}, channel_sat} : {{32{1'b1}};
+			{{31{1'b0}}, channel_lock} : ((address == `ADPLL_SAT) ? {{31{1'b0}}, channel_sat} : {{32{1'b1}});
 
    // Write  
    always @ (posedge clk, posedge rst)
