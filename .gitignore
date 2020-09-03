@@ -7,4 +7,4 @@ params.m
 xcelium.d
 dump.vcd
 *.txt
-
+__pycache__/
