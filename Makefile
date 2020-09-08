@@ -6,6 +6,7 @@ INIT_TIME_RM = 25 # initial transient time to remove in us (display purposes)
 DEFINE = -DFREQ_CHANNEL=$(FREQ_CHANNEL) -DSIM_TIME=$(SIM_TIME) -DDCO_PN=$(DCO_PN) -DADPLL_OPERATION=$(ADPLL_OPERATION)
 
 SRC_DIR = .
+PY_DIR = $(SRC_DIR)/software/python
 
 SRC = \
 	$(SRC_DIR)/hardware/src/row_col_cod.v \
@@ -55,8 +56,8 @@ xcelium_pr_adpll_ctr0_tb:
 
 
 plots_adpll_ctr0_tb:
-	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 $(SRC_DIR)/software/rx_calc.py $(INIT_TIME_RM); fi;
-	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(SRC_DIR)/software/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) ; fi;
+	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
+	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
 clean_xcelium:
 	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.log
