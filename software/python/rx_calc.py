@@ -22,6 +22,7 @@ sys.path.insert(0, current_dir + str('/utils_py'))
 import pn_calcs_adpll
 import mplcursors
 
+current_dir = current_dir[:-7]
 
 start_time = time.time()
 
