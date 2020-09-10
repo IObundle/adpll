@@ -4,7 +4,8 @@ INC_DIR = $(HW_DIR)/include
 SRC_DIR = $(HW_DIR)/src
 TB_DIR = $(HW_DIR)/testbench
 SYNTH_DIR = $(HW_DIR)/synth
-PY_DIR = $(ROOT_DIR)/software/python
+SW_DIR = $(ROOT_DIR)/software
+PY_DIR = $(SW_DIR)/python
 
 defmacro:=-D
 
@@ -63,6 +64,7 @@ xcelium_pr_adpll_ctr0_tb:
 
 
 plots_adpll_ctr0_tb:
+	cp $(SW_DIR)/*.txt .
 	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
