@@ -45,7 +45,6 @@ XSFLAGS = -errormax 15 -status
 icarus_adpll_ctr0_tb:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
 	./a.out
-	make plots_adpll_ctr0_tb
 
 xcelium_adpll_ctr0_tb:
 	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
@@ -62,11 +61,14 @@ xcelium_pr_adpll_ctr0_tb:
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-
 plots_adpll_ctr0_tb:
 	cp $(SW_DIR)/*.txt .
 	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
+
+self-checker:
+	cp $(SW_DIR)/*.txt .
+	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
 
 clean_xcelium:
 	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.log
