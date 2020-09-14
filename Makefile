@@ -12,7 +12,7 @@ defmacro:=-D
 include $(ROOT_DIR)/adpll.mk
 
 INCLUDE=-I$(INC_DIR)
-INCLUDE2=-incdir $(ROOT_DIR)
+INCLUDE2=-incdir$(ROOT_DIR)
 
 DEFINE2=-DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN)
 
@@ -41,6 +41,14 @@ CFLAGS = -Wall -g2005-sv
 XCFLAGS = -errormax 15 -status -update -linedebug -SV
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
+
+ifeq ($(MAKECMDGOALS),)
+TRGT=icarus_adpll_ctr0_tb
+else
+TRGT=$(MAKECMDGOALS)
+endif
+
+run: $(TRGT) self-checker
 
 icarus_adpll_ctr0_tb:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
@@ -71,10 +79,15 @@ self-checker:
 	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
 
 clean_xcelium:
-	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.log
 	@rm -rf xcelium.d
-clean:
-	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt
+clean: clean_xcelium
+	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt *.log
 
-.PHONY: icarus_adpll_ctr0_tb xcelium_adpll_ctr0_tb xcelium_synth_adpll_ctr0_tb xcelium_pr_adpll_ctr0_tb plots_adpll_ctr0_tb clean_xcelium clean
+.PHONY: icarus_adpll_ctr0_tb \
+        xcelium_adpll_ctr0_tb \
+        xcelium_synth_adpll_ctr0_tb \
+        xcelium_pr_adpll_ctr0_tb \
+        plots_adpll_ctr0_tb \
+        self-checker \
+        clean_xcelium clean
 

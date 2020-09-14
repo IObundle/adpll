@@ -1,28 +1,25 @@
-// Memory map
-#define ADPLL_ALPHA_L            0
-#define ADPLL_ALPHA_M            1
-#define ADPLL_ALPHA_S_RX         2
-#define ADPLL_ALPHA_S_TX         3
-#define ADPLL_BETA               4
-#define ADPLL_LAMBDA_RX          5
-#define ADPLL_LAMBDA_TX          6
-#define ADPLL_IIR_N_RX           7
-#define ADPLL_IIR_N_TX           8
-#define ADPLL_FCW_MOD            9
-#define ADPLL_DCO_C_L_WORD_TEST 10
-#define ADPLL_DCO_C_M_WORD_TEST 11
-#define ADPLL_DCO_C_S_WORD_TEST 12
-#define ADPLL_DCO_PD_TEST       13
-#define ADPLL_TDC_PD_TEST       14
-#define ADPLL_TDC_PD_INJ_TEST   15
-#define ADPLL_CTR_FREQ_TEST     16
-#define ADPLL_DCO_OSC_TEST      17
-#define ADPLL_SOFT_RST          18
-
 // Functions
 
 // Initialize ADPLL
 void adpll_init(int base_address);
+
+// Get lock
+int adpll_lock(void);
+
+// Get sat
+int adpll_sat(void);
+
+// Set software reset
+void adpll_set_soft_rst(char value);
+
+// Set FCW
+void adpll_set_fcw(char value);
+
+// Set mode
+void adpll_set_mode(char value);
+
+// Set enable
+void adpll_set_en(char value);
 
 // Set alpha l
 void adpll_set_alpha_l(char value);
@@ -73,17 +70,20 @@ void adpll_set_tdc_pd_test(char value);
 void adpll_set_tdc_pd_inj_test(char value);
 
 // Set control frequency test
-void adpll_set_ctr_freq_test(char value);
+void adpll_set_tdc_ctr_freq(char value);
 
-// Set DCO osc test
-void adpll_set_dco_osc_test(char value);
-
-// Set software reset
-void adpll_set_soft_rst(char value);
+// Set DCO osc gain
+void adpll_set_dco_osc_gain(char value);
 
 // Software reset
 #define adpll_soft_rst() {adpll_set_soft_rst(1);\
                           adpll_set_soft_rst(0);}
+
+// Enable ADPLL
+#define adpll_enable() adpll_set_en(1)
+
+// Disable ADPLL
+#define adpll_disable() adpll_set_en(0)
 
 void adpll_config(char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,

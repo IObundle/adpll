@@ -102,7 +102,7 @@ module adpll_ctr(
 			{{31{1'b0}}, channel_lock} : ((address == `ADPLL_SAT) ? {{31{1'b0}}, channel_sat} : {32{1'b1}});
 
    // Write  
-   always @ (posedge clk, posedge rst)
+   always @ (posedge clk, posedge rst_int)
      if(rst_int) begin
 	rst_soft <= 1'b0;
 	FCW <= `FCWW'h2620000; //2440 MHz
@@ -117,7 +117,7 @@ module adpll_ctr(
 	lambda_tx <= 3'd2;
 	iir_n_rx <= 2'd3;
 	iir_n_tx <= 2'd2;
-	FCW_mod <= 5'b01001;//298kHz
+	FCW_mod <= 5'b01001;//288kHz
 	dco_c_l_word_test <= 5'sd0;
 	dco_c_m_word_test <= 8'sd0;
 	dco_c_s_word_test <= 8'sd0;
@@ -171,7 +171,7 @@ module adpll_ctr(
 			 .tdc_pd		(tdc_pd),
 			 .tdc_pd_inj		(tdc_pd_inj),
 			 // Inputs
-			 .rst			(rst),
+			 .rst			(rst_int),
 			 .en			(en),
 			 .clk			(clk),
 			 .FCW			(FCW[`FCWW-1:0]),

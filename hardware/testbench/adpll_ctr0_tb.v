@@ -200,7 +200,7 @@ module adpll_ctr0_tb;
       lambda_tx = 3'd2;
       iir_n_rx = 2'd3;
       iir_n_tx = 2'd2;
-      FCW_mod = 5'b01001;//298kHz
+      FCW_mod = 5'b01001;//288kHz
       dco_c_l_word_test = 5'sd0;
       dco_c_m_word_test = 8'sd0;
       dco_c_s_word_test = 8'sd0;
