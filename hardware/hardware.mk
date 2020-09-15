@@ -1,4 +1,5 @@
 ADPLL_HW_DIR:=$(ADPLL_DIR)/hardware
+ADPLL_PY_DIR:=$(ADPLL_DIR)/software/python
 
 #include
 ADPLL_INC_DIR:=$(ADPLL_HW_DIR)/include

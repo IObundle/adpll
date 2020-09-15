@@ -111,15 +111,18 @@ void adpll_set_dco_osc_gain(char value) {
   IO_SET(adpll, DCO_OSC_GAIN, (int)value);
 }
 
-void adpll_config(char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
+void adpll_config(char fcw, char mode,
+                  char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,
                   char lambda_rx, char lambda_tx,
                   char iir_n_rx, char iir_n_tx,
                   char FCW_mod,
                   char dco_c_l_word_test, char dco_c_m_word_test, char dco_c_s_word_test,
-                  char dco_pd_test,
-                  char tdc_pd_test, char tdc_pd_inj_test) {
+                  char dco_pd_test, char dco_osc_gain,
+                  char tdc_pd_test, char tdc_pd_inj_test, char tdc_ctr_freq) {
 
+  adpll_set_fcw(fcw);
+  adpll_set_mode(mode);
   adpll_set_alpha_l(alpha_l);
   adpll_set_alpha_m(alpha_m);
   adpll_set_alpha_s_rx(alpha_s_rx);
@@ -136,6 +139,8 @@ void adpll_config(char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
   adpll_set_dco_pd_test(dco_pd_test);
   adpll_set_tdc_pd_test(tdc_pd_test);
   adpll_set_tdc_pd_inj_test(tdc_pd_inj_test);
+  adpll_set_tdc_ctr_freq(tdc_ctr_freq);
+  adpll_set_dco_osc_gain(dco_osc_gain);
 
   return;
 }

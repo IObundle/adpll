@@ -102,8 +102,8 @@ module adpll_ctr(
 			{{31{1'b0}}, channel_lock} : ((address == `ADPLL_SAT) ? {{31{1'b0}}, channel_sat} : {32{1'b1}});
 
    // Write  
-   always @ (posedge clk, posedge rst_int)
-     if(rst_int) begin
+   always @ (posedge clk, posedge rst)
+     if(rst) begin
 	rst_soft <= 1'b0;
 	FCW <= `FCWW'h2620000; //2440 MHz
 	adpll_mode <= 2'b0;

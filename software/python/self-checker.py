@@ -5,14 +5,8 @@ import math
 #third party
 import numpy as np
 #local
-#import sys
+import sys
 #sys.path.append('/mnt/c/Users/marco/Desktop/WSN-Project/ADPLL/utils/py')
-import os,sys,inspect
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-#parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, current_dir + str('/utils_py')) 
-
-current_dir = current_dir[:-7]
 
 start_time = time.time()
 
@@ -26,7 +20,7 @@ freq_channel = float(sys.argv[2])
 ################################################################################
 ## Open file of negedge clk time
 
-with open(os.path.join(current_dir, 'clkn_time.txt'),'r+') as myFile: 
+with open('clkn_time.txt','r+') as myFile:
         contents = myFile.read()
 #print(contents)
 clkn_time = np.asarray(contents.split())
@@ -38,7 +32,7 @@ idx = idx[0][0]
 clkn_time = clkn_time[idx:] #removes initial transient
 
 ## Open file contanining tdc word
-with open(os.path.join(current_dir,'tdc_word.txt'),'r+') as myFile:
+with open('tdc_word.txt','r+') as myFile:
         contents = myFile.read()
 tdc_word = np.asarray(contents.split())
 tdc_word = np.where(tdc_word=='x', 0 , tdc_word) 
@@ -56,7 +50,7 @@ else:
 
 ################################################################################
 ## Open file contanining ckv period
-with open(os.path.join(current_dir,'dco_ckv_time.txt'),'r+') as myFile:
+with open('dco_ckv_time.txt','r+') as myFile:
         contents = myFile.read()
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)

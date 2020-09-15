@@ -81,22 +81,20 @@ module adpll_ctr0_tb;
 	    );
 
    
-    integer	  fp1;
-   integer 	  time_last;
-
-   initial fp1 = $fopen("software/dco_ckv_time.txt","w");
+   integer	  fp1;
+   initial fp1 = $fopen("dco_ckv_time.txt","w");
    always @ (posedge dco0.ckv) $fwrite(fp1, "%0d ", $time);
 
    integer	  fp2;  
-   initial fp2 = $fopen("software/tdc_word.txt","w");
+   initial fp2 = $fopen("tdc_word.txt","w");
    always @ (negedge clk) $fwrite(fp2, "%0d ", adpll0.tdc_word);
 
    integer	  fp3;  
-   initial fp3 = $fopen("software/clkn_time.txt","w");
+   initial fp3 = $fopen("clkn_time.txt","w");
    always @ (negedge clk) $fwrite(fp3, "%0d ", $time);
 
    integer	  fp4;  
-   initial fp4 = $fopen("software/dco_s_word.txt","w");
+   initial fp4 = $fopen("dco_s_word.txt","w");
    //always @ (negedge clk) $fwrite(fp4, "%0d ", adpll0.dco_c_s_word);   
    always @ (negedge clk) $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum );
 

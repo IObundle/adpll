@@ -76,8 +76,10 @@ void adpll_set_tdc_ctr_freq(char value);
 void adpll_set_dco_osc_gain(char value);
 
 // Software reset
-#define adpll_soft_rst() {adpll_set_soft_rst(1);\
-                          adpll_set_soft_rst(0);}
+#define adpll_soft_rst() ({\
+      adpll_set_soft_rst(1);\
+      adpll_set_soft_rst(0);\
+    })
 
 // Enable ADPLL
 #define adpll_enable() adpll_set_en(1)
@@ -85,11 +87,12 @@ void adpll_set_dco_osc_gain(char value);
 // Disable ADPLL
 #define adpll_disable() adpll_set_en(0)
 
-void adpll_config(char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
+void adpll_config(char fcw, char mode,
+                  char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,
                   char lambda_rx, char lambda_tx,
                   char iir_n_rx, char iir_n_tx,
                   char FCW_mod,
                   char dco_c_l_word_test, char dco_c_m_word_test, char dco_s_l_word_test,
-                  char dco_pd_test,
-                  char tdc_pd_test, char tdc_pd_inj_test);
+                  char dco_pd_test, char dco_osc_gain,
+                  char tdc_pd_test, char tdc_pd_inj_test, char tdc_ctr_freq);

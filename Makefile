@@ -75,13 +75,12 @@ plots_adpll_ctr0_tb:
 	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
 self-checker:
-	cp $(SW_DIR)/*.txt .
 	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
 
 clean_xcelium:
 	@rm -rf xcelium.d
 clean: clean_xcelium
-	@rm -f  *~ *.vcd \#*\# a.out params.m  *.hex *.txt *.log
+	@rm -f  *~ *.vcd \#*\# a.out params.m *.hex *.txt *.log
 
 .PHONY: icarus_adpll_ctr0_tb \
         xcelium_adpll_ctr0_tb \
