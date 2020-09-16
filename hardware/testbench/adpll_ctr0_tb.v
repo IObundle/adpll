@@ -171,8 +171,7 @@ module adpll_ctr0_tb;
 //////////////////////////////////////////////////////////////////////////
    
    //32 MHz clock
-   always #15625000 clk = ~clk; 
-   reg [1:0] 	  testt;
+   always #15625000 clk = ~clk;
    
    initial begin
       $dumpfile("dump.vcd");
