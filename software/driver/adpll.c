@@ -27,8 +27,8 @@ void adpll_set_soft_rst(char value) {
   IO_SET(adpll, ADPLL_SOFT_RST, (int)value);
 }
 
-void adpll_set_fcw(char value) {
-  IO_SET(adpll, FCW, (int)value);
+void adpll_set_fcw(int value) {
+  IO_SET(adpll, FCW, value);
 }
 
 void adpll_set_mode(char value) {
@@ -111,7 +111,7 @@ void adpll_set_dco_osc_gain(char value) {
   IO_SET(adpll, DCO_OSC_GAIN, (int)value);
 }
 
-void adpll_config(char fcw, char mode,
+void adpll_config(int fcw, char mode,
                   char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,
                   char lambda_rx, char lambda_tx,

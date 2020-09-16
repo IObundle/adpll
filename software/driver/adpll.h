@@ -13,7 +13,7 @@ int adpll_sat(void);
 void adpll_set_soft_rst(char value);
 
 // Set FCW
-void adpll_set_fcw(char value);
+void adpll_set_fcw(int value);
 
 // Set mode
 void adpll_set_mode(char value);
@@ -87,7 +87,7 @@ void adpll_set_dco_osc_gain(char value);
 // Disable ADPLL
 #define adpll_disable() adpll_set_en(0)
 
-void adpll_config(char fcw, char mode,
+void adpll_config(int fcw, char mode,
                   char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,
                   char lambda_rx, char lambda_tx,
