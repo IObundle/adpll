@@ -34,7 +34,7 @@ module adpll_tb
 
    // Simulation
    input         channel_lock,
-   input         tdc_word
+   input [11:0]  tdc_word
    );
 
    reg [4:0]     time_count;

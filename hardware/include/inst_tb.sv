@@ -1,6 +1,6 @@
 
    wire channel_lock = uut.adpll_ctr0.adpll_ctr0.channel_lock;
-   wire tdc_word = uut.adpll_ctr0.adpll_ctr0.tdc_word;
+   wire [11:0] tdc_word = uut.adpll_ctr0.adpll_ctr0.tdc_word;
    adpll_tb adpll_tb0
      (
       .clk (clk),
