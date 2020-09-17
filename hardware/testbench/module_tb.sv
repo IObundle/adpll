@@ -34,7 +34,8 @@ module adpll_tb
 
    // Simulation
    input         channel_lock,
-   input [11:0]  tdc_word
+   input [11:0]  tdc_word,
+   input         en
    );
 
    reg [4:0]     time_count;
@@ -65,19 +66,27 @@ module adpll_tb
 
    integer       fp1;
    initial fp1 = $fopen("dco_ckv_time.txt","w");
-   always @ (posedge dco0.ckv) $fwrite(fp1, "%0d ", $time);
+   always @ (posedge dco0.ckv)
+     if (channel_lock)
+       $fwrite(fp1, "%0d ", $time);
 
    integer       fp2;  
    initial fp2 = $fopen("tdc_word.txt","w");
-   always @ (negedge clk) $fwrite(fp2, "%0d ", tdc_word);
+   always @ (negedge clk)
+     if (channel_lock)
+       $fwrite(fp2, "%0d ", tdc_word);
 
    integer       fp3;  
    initial fp3 = $fopen("clkn_time.txt","w");
-   always @ (negedge clk) $fwrite(fp3, "%0d ", $time);
+   always @ (negedge clk)
+     if (channel_lock)
+       $fwrite(fp3, "%0d ", $time);
 
    integer       fp4;  
    initial fp4 = $fopen("dco_s_word.txt","w");
-   always @ (negedge clk) $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum);
+   always @ (negedge clk)
+     if (channel_lock)
+       $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum);
 
    // Instantiate TDC module
    tdc_analog tdc_analog0
@@ -105,6 +114,25 @@ module adpll_tb
    initial begin
       data_mod = 0;
       time_count = 0;
+   end
+
+   // Compute ADPLL settling time
+   wire adpll_on = en? 1'b1: 1'b0;
+   reg  adpll_on_reg;
+   wire pos_adpll_on = adpll_on & ~adpll_on_reg;
+   always @(posedge clk) begin
+      adpll_on_reg <= adpll_on;
+   end
+
+   real       settling_time = 0;
+   always @* begin
+      if (pos_adpll_on) begin
+         settling_time = $realtime/1e9;
+      end
+      if (channel_lock) begin
+         settling_time = $realtime/1e9 - settling_time;
+         $write("Settling time = %.3fus\n", settling_time);
+      end
    end
 
    always @(posedge clk)
