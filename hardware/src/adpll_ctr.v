@@ -48,6 +48,12 @@ module adpll_ctr
     input [15:0]              tdc_phase
     );
 
+   // Add half of clock period of delay
+   reg                        valid_int;
+   always @(negedge clk, posedge rst) begin
+      valid_int <= valid;
+   end
+
    wire signed [4:0]          dco_c_l_word;
    wire signed [7:0]          dco_c_m_word;
    wire signed [7:0]          dco_c_s_word;
@@ -57,7 +63,7 @@ module adpll_ctr
      if (rst)
        ready <= 1'b0;
      else
-       ready <= valid;
+       ready <= valid_int;
    end
 
    ///////////////////////////////////////////////////////////////////
@@ -128,7 +134,7 @@ module adpll_ctr
         tdc_pd_inj_test <= 1'b1;
         tdc_ctr_freq <= 3'b100;
         dco_osc_gain <= 2'b10;
-     end else if (valid & wstrb) begin
+     end else if (valid_int & wstrb) begin
         case (address)
           `ADPLL_SOFT_RST: rst_soft <= wdata[0];
           `FCW: FCW <= wdata[`FCWW-1:0];
