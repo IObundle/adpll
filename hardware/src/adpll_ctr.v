@@ -9,9 +9,6 @@
 //				 
 
 module adpll_ctr
-  #(
-    parameter DATA_W = 32
-    )
    (
     input                     rst,
     input                     clk,
@@ -19,9 +16,9 @@ module adpll_ctr
     // CPU interface
     input                     valid,
     input [`ADPLL_ADDR_W-1:0] address,
-    input [DATA_W-1:0]        wdata,
+    input [`ADPLL_DATA_W-1:0] wdata,
     input                     wstrb,
-    output [DATA_W-1:0]       rdata,
+    output [1:0]              rdata,
     output reg                ready,
 
     // Serial input
@@ -105,9 +102,9 @@ module adpll_ctr
    wire                       channel_sat;
 
    // Read
-   assign rdata = (address == `ADPLL_LOCK)? {{(DATA_W-1){1'b0}}, channel_lock}:
-                  (address == `ADPLL_SAT)? {{(DATA_W-1){1'b0}}, channel_sat}:
-                  {DATA_W{1'b1}};
+   assign rdata = (address == `ADPLL_LOCK)? {{1'b0}, channel_lock}:
+                  (address == `ADPLL_SAT)? {{1'b0}, channel_sat}:
+                  {2'b11};
 
    // Write
    always @ (posedge clk, posedge rst) begin

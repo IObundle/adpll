@@ -32,6 +32,8 @@
 `define INTW 12 // FCW integer part word width
 `define FRAW 14 // FCW fractional part word width
 
+// FCW width it's the biggest register width that CPU can access
+`define ADPLL_DATA_W `FCWW
 
 //`define DEBUG_CAD //if enabled, debug flags can be visualized
 
