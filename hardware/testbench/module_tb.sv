@@ -24,6 +24,7 @@ module adpll_tb
    input [15:0]  dco_c_s_rall,
    input [15:0]  dco_c_s_row,
    input [15:0]  dco_c_s_col,
+   output        dco_ckv,
 
    // Analog TDC interface
    input         tdc_pd,
@@ -42,6 +43,8 @@ module adpll_tb
 
    wire          ckv;
    real          osc_period_fs;
+
+   assign dco_ckv = ckv;
 
    // Instantiate DCO module
    dco dco0

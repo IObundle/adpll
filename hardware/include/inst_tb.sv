@@ -14,6 +14,7 @@
    wire [15:0] dco_c_s_rall;
    wire [15:0] dco_c_s_row;
    wire [15:0] dco_c_s_col;
+   wire        dco_ckv;
 
    // Analog TDC interface
    wire        tdc_pd;
@@ -79,6 +80,7 @@
       .dco_c_s_rall(dco_c_s_rall),
       .dco_c_s_row(dco_c_s_row),
       .dco_c_s_col(dco_c_s_col),
+      .dco_ckv(dco_ckv),
 
       // Analog TDC interface
       .tdc_pd(tdc_pd),
