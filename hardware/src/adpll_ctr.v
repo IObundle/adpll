@@ -45,7 +45,7 @@ module adpll_ctr
     input [15:0]              tdc_phase
     );
 
-   // Add half of clock period of delay
+   // Add half of clock period of delay for iob-soc --> ADPLL communication
    reg                        valid_int;
    always @(negedge clk, posedge rst) begin
       valid_int <= valid;
@@ -56,11 +56,17 @@ module adpll_ctr
    wire signed [7:0]          dco_c_s_word;
 
    // CPU interface ready signal
+   reg                        ready_int;
    always @(posedge clk, posedge rst) begin
      if (rst)
-       ready <= 1'b0;
+       ready_int <= 1'b0;
      else
-       ready <= valid_int;
+       ready_int <= valid_int;
+   end
+
+   // Add half of clock period of delay for ADPLL --> iob-soc communication
+   always @(negedge clk, posedge rst) begin
+      ready <= ready_int;
    end
 
    ///////////////////////////////////////////////////////////////////
