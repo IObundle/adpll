@@ -45,28 +45,16 @@ module adpll_ctr
     input [15:0]              tdc_phase
     );
 
-   // Add half of clock period of delay for iob-soc --> ADPLL communication
-   reg                        valid_int;
-   always @(negedge clk, posedge rst) begin
-      valid_int <= valid;
-   end
-
    wire signed [4:0]          dco_c_l_word;
    wire signed [7:0]          dco_c_m_word;
    wire signed [7:0]          dco_c_s_word;
 
    // CPU interface ready signal
-   reg                        ready_int;
-   always @(posedge clk, posedge rst) begin
-     if (rst)
-       ready_int <= 1'b0;
-     else
-       ready_int <= valid_int;
-   end
-
-   // Add half of clock period of delay for ADPLL --> iob-soc communication
    always @(negedge clk, posedge rst) begin
-      ready <= ready_int;
+     if (rst)
+       ready <= 1'b0;
+     else
+       ready <= valid;
    end
 
    ///////////////////////////////////////////////////////////////////
@@ -113,7 +101,7 @@ module adpll_ctr
                   {2'b11};
 
    // Write
-   always @ (posedge clk, posedge rst) begin
+   always @ (negedge clk, posedge rst) begin
      if (rst) begin
         rst_soft <= 1'b0;
         FCW <= `FCWW'h2620000; //2440 MHz
@@ -137,7 +125,7 @@ module adpll_ctr
         tdc_pd_inj_test <= 1'b1;
         tdc_ctr_freq <= 3'b100;
         dco_osc_gain <= 2'b10;
-     end else if (valid_int & wstrb) begin
+     end else if (valid & wstrb) begin
         case (address)
           `ADPLL_SOFT_RST: rst_soft <= wdata[0];
           `FCW: FCW <= wdata[`FCWW-1:0];
