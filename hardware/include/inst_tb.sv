@@ -50,7 +50,7 @@
       .tdc_phase(tdc_phase),
 
       // CPU interface
-      .clk       (~clk),
+      .clk       (clk),
       .rst       (reset),
       .valid     (adpll_valid),
       .address   (adpll_address),
