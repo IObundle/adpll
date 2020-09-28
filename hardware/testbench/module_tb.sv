@@ -42,7 +42,7 @@ module adpll_tb
    reg [4:0]     time_count;
 
    wire          ckv;
-   real          osc_period_fs;
+   wire [31:0]   osc_period_fs;
 
    assign dco_ckv = ckv;
 

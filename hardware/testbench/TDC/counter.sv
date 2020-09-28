@@ -26,6 +26,7 @@ module counter (
 	 d_ff1 d_ff1_div2 (
 			   .d(div2[i]),
 			   .clk(div_clk[i]),
+			   .q(),
 			   .q_bar(div2[i])
 			   );      end
       for(i=1; i<7; i=i+1) 
@@ -36,7 +37,8 @@ module counter (
 	 d_ff1 d_ff1_samp (
 			   .d(div2[i]),
 			   .clk(clk_samp[i]),
-			   .q(count[i])
+			   .q(count[i]),
+			   .q_bar()
 			   );
       end
       

@@ -180,7 +180,7 @@ module dco #(
        
        if (SIGMA_JITTER != 0) begin
 	  // add Gaussian-distributed jitter
-	  jitter = $dist_normal(seed, 0, SIGMA_JITTER);
+	  jitter = $dist_normal(seed, 0, int'(SIGMA_JITTER));
 	  if ($abs(jitter) >= period_fs/2)
 	    jitter = 0;
 	  //$display(" %e, %e",jitter, jitter_prev);
@@ -191,7 +191,7 @@ module dco #(
        	  
        if (SIGMA_WANDER != 0) begin
 	  // add Gaussian-distributed wander
-	  wander = $dist_normal(seed, 0, SIGMA_WANDER);
+	  wander = $dist_normal(seed, 0, int'(SIGMA_WANDER));
 	  
 	  if ($abs(wander) >= period_fs/2)
 	    wander = 0;

@@ -10,20 +10,18 @@
 //       this translates into a offset freq error of about 2.5 kHz
 
 module ring_osc (
-		 input 	[31:0]    osc_period_fs,
+		 input 	[31:0] osc_period_fs,
 		 input 	       en,
 		 output [15:0] inv_out);
 
-
-   real		       inv_delay [15:0];
-   int		       inv_delay_max_idx [15:0]; 	       
-   wire [15:0] 		       inv_in;
+   reg [31:0]          inv_delay [15:0];
+   int                 inv_delay_max_idx [15:0];
+   wire [15:0]         inv_in;
    integer 		       k,j,N;
-   real		       inv_delay_min, inv_delay_max;
-   int	       rand_idx;
-   real        aux;
-   logic     N_rest;
-   
+   reg [31:0]          inv_delay_min, inv_delay_max;
+   int                 rand_idx;
+   real                aux;
+   logic               N_rest;
 
    // Instantiate the inverter chain in open-loop
    generate

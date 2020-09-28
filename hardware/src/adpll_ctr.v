@@ -26,7 +26,7 @@ module adpll_ctr
 
     // Analog DCO interface
     output                    dco_pd,
-    output [1:0]              dco_osc_gain,
+    output reg [1:0]          dco_osc_gain,
     output [4:0]              dco_c_l_rall,
     output [4:0]              dco_c_l_row,
     output [4:0]              dco_c_l_col,
@@ -40,7 +40,7 @@ module adpll_ctr
     // Analog TDC interface
     output                    tdc_pd,
     output                    tdc_pd_inj,
-    output [2:0]              tdc_ctr_freq,
+    output reg [2:0]          tdc_ctr_freq,
     input [6:0]               tdc_ripple_count,
     input [15:0]              tdc_phase
     );
@@ -81,8 +81,6 @@ module adpll_ctr
    reg                        dco_pd_test;
    reg                        tdc_pd_test;
    reg                        tdc_pd_inj_test;
-   reg [2:0]                  tdc_ctr_freq;
-   reg [1:0]                  dco_osc_gain;
 
    // Soft reset pulse
    wire                       rst_int;

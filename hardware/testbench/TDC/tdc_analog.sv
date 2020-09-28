@@ -50,14 +50,16 @@ module tdc_analog (
 	 d_ff1 d_ff1_phase_samp (
 			   .d(osc_phases_aux[i]),
 			   .clk(clk),
-			   .q(phase[i])
+			   .q(phase[i]),
+			   .q_bar()
 			   );      end
       
       for(i=0; i<8; i=i+1) begin: ff_ideal_ret
 	 d_ff2 d_ff1_idealret (
 			   .d(in_ff_ret[i]),
 			   .clk(clk_ff_ret[i]),
-			   .q(out_ff_ret[i])
+			   .q(out_ff_ret[i]),
+			   .q_bar()
 			   );      end
       for(i=0; i<8; i=i+1) begin
 	 if( i==3 || i == 7)
