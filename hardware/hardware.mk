@@ -1,3 +1,5 @@
+include $(ADPLL_DIR)/adpll.mk
+
 ADPLL_HW_DIR:=$(ADPLL_DIR)/hardware
 ADPLL_PY_DIR:=$(ADPLL_DIR)/software/python
 

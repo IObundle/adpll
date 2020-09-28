@@ -1,6 +1,6 @@
 
    // Serial input
-   wire        data_mod;
+   wire        data_mod = tx;
 
    // Analog DCO interface
    wire        dco_pd;

@@ -114,11 +114,6 @@ module adpll_tb
    parameter PD = 2'd0, TEST = 2'd1, RX = 2'd2, TX = 2'd3;
 //////////////////////////////////////////////////////////////////////////
 
-   initial begin
-      data_mod = 0;
-      time_count = 0;
-   end
-
    // Compute ADPLL settling time
    wire adpll_on = en? 1'b1: 1'b0;
    reg  adpll_on_reg;
@@ -137,13 +132,6 @@ module adpll_tb
          $write("Settling time = %.3fus\n", settling_time);
       end
    end
-
-   always @(posedge clk)
-     if(channel_lock && adpll_mode == TX) begin
-	    time_count <= time_count + 1;
-	    if(time_count == 5'd31)
-	      data_mod <= $urandom%2;
-     end
 
    //always #(end_time_fs /10) $write("Loading progress: %d percent \n",
    //                                 int'(100 * $time  / end_time_fs));
