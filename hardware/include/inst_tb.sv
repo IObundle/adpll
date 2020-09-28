@@ -22,9 +22,7 @@
    wire [2:0]  tdc_ctr_freq;
    wire [6:0]  tdc_ripple_count;
    wire [15:0] tdc_phase;
-   adpll_ctr
-
-   adpll_ctr0
+   adpll_ctr adpll_ctr0
      (
       // Serial
       .data_mod(data_mod),
