@@ -87,6 +87,19 @@ void adpll_set_dco_osc_gain(char value);
 // Disable ADPLL
 #define adpll_disable() adpll_set_en(0)
 
+// ADPLL On
+#define adpll_on() ({\
+      adpll_soft_rst();\
+      adpll_enable();\
+    })
+
+// ADPLL Off
+#define adpll_off() ({\
+      adpll_set_mode(PD);\
+      adpll_disable();\
+    })
+
+// ADPLL configure
 void adpll_config(int fcw, char mode,
                   char alpha_l, char alpha_m, char alpha_s_rx, char alpha_s_tx,
                   char beta,

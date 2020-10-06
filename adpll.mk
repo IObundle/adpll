@@ -1,4 +1,9 @@
-# PD = 0, TEST = 1, RX = 2, TX = 3
+# ADPLL operation modes
+PD:=0
+TEST:=1
+RX:=2
+TX:=3
+
 ADPLL_OPERATION=2
 
 # Channel freq in MHz
@@ -13,4 +18,4 @@ DCO_PN=1
 # initial transient time to remove in us (display purposes)
 INIT_TIME_RM=25
 
-DEFINE+=$(defmacro)FREQ_CHANNEL=$(FREQ_CHANNEL) $(defmacro)SIM_TIME=$(SIM_TIME) $(defmacro)DCO_PN=$(DCO_PN) $(defmacro)ADPLL_OPERATION=$(ADPLL_OPERATION)
+DEFINE+=$(defmacro)FREQ_CHANNEL=$(FREQ_CHANNEL) $(defmacro)SIM_TIME=$(SIM_TIME) $(defmacro)DCO_PN=$(DCO_PN) $(defmacro)ADPLL_OPERATION=$(ADPLL_OPERATION) $(defmacro)PD=$(PD) $(defmacro)TEST=$(TEST) $(defmacro)RX=$(RX) $(defmacro)TX=$(TX)
