@@ -10,9 +10,6 @@ int adpll;
 void adpll_init(int base_address) {
   // capture base address
   adpll = base_address;
-
-  // pulse software reset
-  adpll_soft_rst();
 }
 
 int adpll_lock(void) {
