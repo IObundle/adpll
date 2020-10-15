@@ -9,9 +9,6 @@ module adpll_tb
   (
    input         clk,
 
-   // Serial input
-   output reg    data_mod, // data to be modulated
-
    // Analog DCO interface
    input         dco_pd,
    input [1:0]   dco_osc_gain,

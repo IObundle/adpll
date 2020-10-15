@@ -66,7 +66,6 @@
       .clk (clk),
 
       // Analog DCO interface
-      .data_mod(data_mod),
       .dco_pd(dco_pd),
       .dco_osc_gain(dco_osc_gain),
       .dco_c_l_rall(dco_c_l_rall),
