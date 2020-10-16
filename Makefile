@@ -70,9 +70,8 @@ xcelium_pr_adpll_ctr0_tb:
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 plots_adpll_ctr0_tb:
-	cp $(SW_DIR)/*.txt .
-	if [ $(ADPLL_OPERATION) -eq 2 ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
-	if [ $(ADPLL_OPERATION) -eq 3 ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
+	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
 self-checker:
 	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
