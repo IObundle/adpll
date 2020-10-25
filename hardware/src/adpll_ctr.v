@@ -45,10 +45,6 @@ module adpll_ctr
     input [15:0]              tdc_phase
     );
 
-   wire signed [4:0]          dco_c_l_word;
-   wire signed [7:0]          dco_c_m_word;
-   wire signed [7:0]          dco_c_s_word;
-
    // CPU interface ready signal
    always @(negedge clk, posedge rst) begin
      if (rst)
