@@ -1,10 +1,10 @@
-.vcd 
+*.vcd
+*.v
 \#*\# 
 a.out 
 params.m  
 *.hex 
 *.log
 xcelium.d
-dump.vcd
 *.txt
 __pycache__/
