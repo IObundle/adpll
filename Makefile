@@ -11,8 +11,8 @@ defmacro:=-D
 
 include $(ROOT_DIR)/adpll.mk
 
-INCLUDE=-I$(INC_DIR)
-INCLUDE2=-incdir$(ROOT_DIR)
+INCLUDE=-I $(INC_DIR)
+INCLUDE2=-incdir $(INC_DIR)
 
 DEFINE2=-DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN)
 
@@ -42,30 +42,24 @@ XCFLAGS = -errormax 15 -status -update -linedebug -SV
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
 
-ifeq ($(MAKECMDGOALS),)
-TRGT=icarus_adpll_ctr0_tb
-else
-TRGT=$(MAKECMDGOALS)
-endif
+run: $(SIM) self-checker
 
-run: $(TRGT) self-checker
-
-icarus_adpll_ctr0_tb:
+icarus:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
 	./a.out
 
-xcelium_adpll_ctr0_tb:
+xcelium:
 	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-xcelium_synth_adpll_ctr0_tb:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.v
+xcelium_synth:
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-xcelium_pr_adpll_ctr0_tb:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr0_tb.v
+xcelium_pr:
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
