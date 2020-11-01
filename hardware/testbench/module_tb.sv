@@ -6,6 +6,9 @@
 // 
 
 module adpll_tb
+  # (
+     parameter ID = 0
+     )
   (
    input         clk,
 
@@ -64,26 +67,34 @@ module adpll_tb
 	  .period_fs(osc_period_fs)
 	  );
 
-   integer       fp1;
-   initial fp1 = $fopen("dco_ckv_time.txt","w");
+   integer       fp1, fp2, fp3, fp4;
+   string        fname;
+   initial begin
+      $sformat(fname, "dco_ckv_timeSoC%1d.txt", ID);
+      fp1 = $fopen(fname,"w");
+
+      $sformat(fname, "tdc_wordSoC%1d.txt", ID);
+      fp2 = $fopen(fname,"w");
+
+      $sformat(fname, "clkn_timeSoC%1d.txt", ID);
+      fp3 = $fopen(fname,"w");
+
+      $sformat(fname, "dco_s_wordSoC%1d.txt", ID);
+      fp4 = $fopen(fname,"w");
+   end
+
    always @ (posedge dco0.ckv)
      if (channel_lock)
        $fwrite(fp1, "%0d ", $time);
 
-   integer       fp2;  
-   initial fp2 = $fopen("tdc_word.txt","w");
    always @ (negedge clk)
      if (channel_lock)
        $fwrite(fp2, "%0d ", tdc_word);
 
-   integer       fp3;  
-   initial fp3 = $fopen("clkn_time.txt","w");
    always @ (negedge clk)
      if (channel_lock)
        $fwrite(fp3, "%0d ", $time);
 
-   integer       fp4;  
-   initial fp4 = $fopen("dco_s_word.txt","w");
    always @ (negedge clk)
      if (channel_lock)
        $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum);

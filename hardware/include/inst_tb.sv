@@ -61,7 +61,10 @@
    wire channel_lock = adpll_ctr0.adpll_ctr0.channel_lock;
    wire [11:0] tdc_word = adpll_ctr0.adpll_ctr0.tdc_word;
    wire en = adpll_ctr0.en;
-   adpll_tb adpll_tb0
+   adpll_tb #(
+              .ID(ID)
+              )
+   adpll_tb0
      (
       .clk (clk),
 

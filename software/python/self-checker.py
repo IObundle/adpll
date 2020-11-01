@@ -15,12 +15,24 @@ start_time = time.time()
 time_rm_us = float(sys.argv[1])
 
 ##Desired channel freq in MHz
-freq_channel = float(sys.argv[2])
+expr = sys.argv[2]
+if (expr.find('+') != -1):
+        ops = expr.split('+')
+        freq_channel = float(ops[0]) + float(ops[1])
+elif (expr.find('-') != -1):
+        ops = expr.split('-')
+        freq_channel = float(ops[0]) - float(ops[1])
+else:
+        freq_channel = float(expr)
+
+##file names suffix
+if (len(sys.argv) == 4): suffix = sys.argv[3]
+else: suffix = ""
 
 ################################################################################
 ## Open file of negedge clk time
 
-with open('clkn_time.txt','r+') as myFile:
+with open('clkn_time' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 #print(contents)
 clkn_time = np.asarray(contents.split())
@@ -32,7 +44,7 @@ idx = idx[0][0]
 clkn_time = clkn_time[idx:] #removes initial transient
 
 ## Open file contanining tdc word
-with open('tdc_word.txt','r+') as myFile:
+with open('tdc_word' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 tdc_word = np.asarray(contents.split())
 tdc_word = np.where(tdc_word=='x', 0 , tdc_word) 
@@ -50,7 +62,7 @@ else:
 
 ################################################################################
 ## Open file contanining ckv period
-with open('dco_ckv_time.txt','r+') as myFile:
+with open('dco_ckv_time' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)
