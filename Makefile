@@ -42,6 +42,16 @@ XCFLAGS = -errormax 15 -status -update -linedebug -SV
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
 
+ifeq ($(SIM),)
+SIM=icarus
+endif
+
+all: usage
+
+usage:
+	@echo "Usage: make target [parameters]"
+	@echo "       For example, \"make run SIM=icarus\""
+
 run: $(SIM) self-checker
 
 icarus:
@@ -75,10 +85,13 @@ clean_xcelium:
 clean: clean_xcelium
 	@rm -f  *~ *.vcd \#*\# a.out params.m *.hex *.txt *.log
 
-.PHONY: icarus_adpll_ctr0_tb \
-        xcelium_adpll_ctr0_tb \
-        xcelium_synth_adpll_ctr0_tb \
-        xcelium_pr_adpll_ctr0_tb \
+.PHONY: all \
+        usage \
+        run \
+        icarus \
+        xcelium \
+        xcelium_synth \
+        xcelium_pr \
         plots_adpll_ctr0_tb \
         self-checker \
         clean_xcelium clean
