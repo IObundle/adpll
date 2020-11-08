@@ -141,8 +141,8 @@ module dco #(
 
    //negative c gain
    assign c_l = (25-c_l_val_sum) * C_L_LSB; 
-   assign c_m = (255-c_m_val_sum) * C_M_LSB;
-   assign c_s = (255-c_s_val_sum) * C_S_LSB;
+   assign c_m = (255-(c_m_val_sum&255)) * C_M_LSB; // &255 ensures if c_m_val_sum = 256 then c_m corresponds to 255 units
+   assign c_s = (255-(c_s_val_sum&255)) * C_S_LSB;
    assign c_total = c_l + c_m + c_s + C_FIXED; // in fF
    // Calculate DCO ideal period
    assign T_osc_true = 2*pi*$sqrt(c_total * L_IND * 1e6 ); // in fs

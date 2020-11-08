@@ -138,11 +138,11 @@ module adpll_ctr
           `DCO_C_L_WORD_TEST: dco_c_l_word_test <= wdata[4:0];
           `DCO_C_M_WORD_TEST: dco_c_m_word_test <= wdata[7:0];
           `DCO_C_S_WORD_TEST: dco_c_s_word_test <= wdata[7:0];
-          `DCO_PD_TEST: dco_pd_test = wdata[0];
-          `TDC_PD_TEST: tdc_pd_test = wdata[0];
-          `TDC_PD_INJ_TEST: tdc_pd_inj_test = wdata[0];
-          `TDC_CTR_FREQ: tdc_ctr_freq = wdata[2:0];
-          `DCO_OSC_GAIN: dco_osc_gain = wdata[1:0];
+          `DCO_PD_TEST: dco_pd_test <= wdata[0];
+          `TDC_PD_TEST: tdc_pd_test <= wdata[0];
+          `TDC_PD_INJ_TEST: tdc_pd_inj_test <= wdata[0];
+          `TDC_CTR_FREQ: tdc_ctr_freq <= wdata[2:0];
+          `DCO_OSC_GAIN: dco_osc_gain <= wdata[1:0];
           default:;
         endcase
      end

@@ -29,9 +29,12 @@ module row_col_cod_reg #(
       if(rst)begin
 	 //reset for 16x16 c bank with half on and half off
 	 //r_all <= 16'd255;
-	 r_all <= 16'd65280;
-	 row <= 16'd256;
-	 col <= 16'd0;
+	 //r_all <= 16'd65280;
+	 //row <= 16'd256;
+	 //col <= 16'd0;
+	 r_all <= 16'd0;
+	   col <= 16'd0;
+	   row <= 16'd0;
       end
       else if(en)begin
 	 r_all <= r_all_nxt;
