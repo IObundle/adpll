@@ -1,5 +1,5 @@
 *.vcd
-*.v
+./*.v
 \#*\# 
 a.out 
 params.m  
