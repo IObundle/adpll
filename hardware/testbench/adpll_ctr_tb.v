@@ -26,20 +26,6 @@ module adpll_ctr_tb;
    //32 MHz clock
    always #15625000 clk = ~clk;   
    
-   // TX data generation
-   always @(posedge clk)
-      if(channel_lock  && `ADPLL_OPERATION == `TX) begin
-	     time_count <= time_count + 1;
-	     if(time_count == 5'd31)
-	        adpll_data_mod <= $urandom%2;
-     end
-	 
-    initial #end_time_fs begin 		
-		$finish;
-	end
-      
-    always #(end_time_fs /10) $write("Loading progress: %d percent \n", 
-				    int'(100 * $time  / end_time_fs));
    
    initial begin
       $dumpfile("dump.vcd");
@@ -181,4 +167,19 @@ module adpll_ctr_tb;
       .en(en)
       );
 
+	  
+	    // TX data generation
+    always @(posedge clk)
+      if(channel_lock  && `ADPLL_OPERATION == `TX) begin
+	     time_count <= time_count + 1;
+	     if(time_count == 5'd31)
+	        adpll_data_mod <= $urandom%2;
+     end
+	 
+    initial #end_time_fs begin 		
+		$finish;
+	end
+      
+    always #(end_time_fs /10) $write("Loading progress: %d percent \n", 
+				    int'(100 * $time  / end_time_fs));
 endmodule
