@@ -29,7 +29,7 @@ start_time = time.time()
 time_rm_us = float(sys.argv[1])
 ################################################################################
 ## Open file of negedge clk time
-with open('clkn_time.txt','r') as myFile:
+with open('clkn_time_soc0.txt','r') as myFile:
         contents = myFile.read()
 clkn_time = np.asarray(contents.split())
 clkn_time = clkn_time.astype(int)
@@ -41,7 +41,7 @@ clkn_time = clkn_time[idx:] #removes initial transient
 
 
 ## Open file contanining DCO input word of small C bank
-with open('dco_s_word.txt','r') as myFile:
+with open('dco_s_word_soc0.txt','r') as myFile:
         contents = myFile.read()
 dco_s_word = np.asarray(contents.split())
 dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word) 
@@ -69,7 +69,7 @@ plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 
 ############# Open file contanining ckv period ##############
-with open('dco_ckv_time.txt','r') as myFile:
+with open('dco_ckv_time_soc0.txt','r') as myFile:
         contents = myFile.read()
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)

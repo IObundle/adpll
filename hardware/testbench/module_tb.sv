@@ -70,16 +70,16 @@ module adpll_tb
    integer       fp1, fp2, fp3, fp4;
    string        fname;
    initial begin
-      $sformat(fname, "dco_ckv_timeSoC%1d.txt", ID);
+      $sformat(fname, "dco_ckv_time_soc%1d.txt", ID);
       fp1 = $fopen(fname,"w");
 
-      $sformat(fname, "tdc_wordSoC%1d.txt", ID);
+      $sformat(fname, "tdc_word_soc%1d.txt", ID);
       fp2 = $fopen(fname,"w");
 
-      $sformat(fname, "clkn_timeSoC%1d.txt", ID);
+      $sformat(fname, "clkn_time_soc%1d.txt", ID);
       fp3 = $fopen(fname,"w");
 
-      $sformat(fname, "dco_s_wordSoC%1d.txt", ID);
+      $sformat(fname, "dco_s_word_soc%1d.txt", ID);
       fp4 = $fopen(fname,"w");
    end
 

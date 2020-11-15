@@ -56,8 +56,12 @@ run: $(SIM) self-checker
 
 run_cpu: $(SIM) self-checker-cpu
 
-icarus:
+icarus_ctr0:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
+	./a.out
+
+icarus_ctr:
+	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	./a.out
 
 xcelium:
@@ -85,7 +89,7 @@ cpu_pr:
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_cpu_tb
 	xmsim $(XSFLAGS) adpll_cpu_tb
 
-plots_adpll_ctr0_tb:
+plots_adpll:
 	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
