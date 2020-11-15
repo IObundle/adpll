@@ -4,13 +4,13 @@ TEST:=1
 RX:=2
 TX:=3
 
-ADPLL_OPERATION=$(RX)
+ADPLL_OPERATION=$(TX)
 
 # Channel freq in MHz
 FREQ_CHANNEL=2433.500
 
 # simulation time in us
-SIM_TIME=40
+SIM_TIME=80
 
 # dco phase noise flag
 DCO_PN=1

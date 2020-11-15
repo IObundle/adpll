@@ -64,30 +64,35 @@ icarus_ctr:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	./a.out
 
-xcelium:
+xcelium_ctr0:
 	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-xcelium_synth:
+xcelium_ctr:
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmelab $(XEFLAGS) adpll_ctr_tb
+	xmsim $(XSFLAGS) adpll_ctr_tb
+
+xcelium_synth_ctr0:
 	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-xcelium_pr:
+xcelium_synth_ctr:
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmelab $(XEFLAGS) adpll_ctr_tb
+	xmsim $(XSFLAGS) adpll_ctr_tb
+
+xcelium_pr_ctr0:
 	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
-cpu_synth:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_cpu_tb.v
-	xmelab $(XEFLAGS) adpll_cpu_tb
-	xmsim $(XSFLAGS) adpll_cpu_tb
-
-cpu_pr:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_cpu_tb.v
-	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_cpu_tb
-	xmsim $(XSFLAGS) adpll_cpu_tb
+xcelium_pr_ctr:
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr_WC_AN_PR.sdf adpll_ctr_tb
+	xmsim $(XSFLAGS) adpll_ctr_tb
 
 plots_adpll:
 	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
@@ -97,7 +102,7 @@ self-checker:
 	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
 
 self-checker-cpu:
-	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL) SoC0
+	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL) _soc0
 
 clean_xcelium:
 	@rm -rf xcelium.d
