@@ -57,7 +57,12 @@ module adpll_ctr_tb;
       clk = 0;
 	  adpll_data_mod = 0;
 
-      #1e6 rst = 0;
+      // deassert rst
+      repeat (100) @(posedge clk);
+      rst <= 0;
+
+      //wait an arbitray (10) number of cycles
+      repeat (10) @(posedge clk) #1;
       
 
       // configure ADPLL
