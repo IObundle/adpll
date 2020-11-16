@@ -7,10 +7,10 @@ TX:=3
 ADPLL_OPERATION=$(TX)
 
 # Channel freq in MHz
-FREQ_CHANNEL=2433.500
+FREQ_CHANNEL=2473.500
 
 # simulation time in us
-SIM_TIME=80
+SIM_TIME=40
 
 # dco phase noise flag
 DCO_PN=1

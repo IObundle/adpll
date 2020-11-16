@@ -90,7 +90,7 @@ xcelium_pr_ctr0:
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 xcelium_pr_ctr:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr_WC_AN_PR.sdf adpll_ctr_tb
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
