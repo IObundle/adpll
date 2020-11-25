@@ -27,9 +27,25 @@ start_time = time.time()
 
 #time_rm_us = 20 ## <-----------INITIAL TRANSIENT REMOVED
 time_rm_us = float(sys.argv[1])
+
+##Desired channel freq in MHz
+expr = sys.argv[2]
+if (expr.find('+') != -1):
+        ops = expr.split('+')
+        freq_channel = float(ops[0]) + float(ops[1])
+elif (expr.find('-') != -1):
+        ops = expr.split('-')
+        freq_channel = float(ops[0]) - float(ops[1])
+else:
+        freq_channel = float(expr)
+
+##file names suffix
+if (len(sys.argv) == 4): suffix = "_" + sys.argv[3]
+else: suffix = ""
+
 ################################################################################
 ## Open file of negedge clk time
-with open('clkn_time_soc0.txt','r') as myFile:
+with open('clkn_time' + suffix + '.txt','r') as myFile:
         contents = myFile.read()
 clkn_time = np.asarray(contents.split())
 clkn_time = clkn_time.astype(int)
@@ -41,7 +57,7 @@ clkn_time = clkn_time[idx:] #removes initial transient
 
 
 ## Open file contanining DCO input word of small C bank
-with open('dco_s_word_soc0.txt','r') as myFile:
+with open('dco_s_word' + suffix + '.txt','r') as myFile:
         contents = myFile.read()
 dco_s_word = np.asarray(contents.split())
 dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word) 
@@ -69,7 +85,7 @@ plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 
 ############# Open file contanining ckv period ##############
-with open('dco_ckv_time_soc0.txt','r') as myFile:
+with open('dco_ckv_time' + suffix + '.txt','r') as myFile:
         contents = myFile.read()
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)
@@ -109,7 +125,7 @@ plt.xlim(time_rm_us, t_CKV_real[-1]*1e6)
 ################## Spectrum calculation using Lomb-Scarglet Method #############
 # Spectrum calculation using Lomb Scarglet Method
 #Fchannel = 2480e6
-Fchannel = float(sys.argv[2])*1e6
+Fchannel = freq_channel*1e6
 spectrum_f = np.linspace(Fchannel-4e6, Fchannel+4e6,80000)
 #pgram = signal.lombscargle(t_CKV2,CKV2,wf,normalize=True)
 from astropy.timeseries import LombScargle

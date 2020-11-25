@@ -27,10 +27,14 @@ start_time = time.time()
 #time_rm_us = 5 ## <-----------INITIAL TRANSIENT REMOVED
 time_rm_us = float(sys.argv[1])
 
+##file names suffix
+if (len(sys.argv) == 3): suffix = "_" + sys.argv[2]
+else: suffix = ""
+
 ################################################################################
 ## Open file of negedge clk time
 
-with open('clkn_time_soc0.txt','r+') as myFile:
+with open('clkn_time' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 #print(contents)
 clkn_time = np.asarray(contents.split())
@@ -43,7 +47,7 @@ idx = idx[0][0]
 clkn_time = clkn_time[idx:] #removes initial transient
 
 ## Open file contanining tdc word
-with open('tdc_word_soc0.txt','r+') as myFile:
+with open('tdc_word' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 tdc_word = np.asarray(contents.split())
 tdc_word = np.where(tdc_word=='x', 0 , tdc_word) 
@@ -62,7 +66,7 @@ plt.title('TDC output word vs time in us', fontsize=15)
 plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 ## Open file contanining DCO input word of small C bank
-with open('dco_s_word_soc0.txt','r+') as myFile:
+with open('dco_s_word' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 dco_s_word = np.asarray(contents.split())
 dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word) 
@@ -78,7 +82,7 @@ plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 ################################################################################
 ## Open file contanining ckv period
-with open('dco_ckv_time_soc0.txt','r+') as myFile:
+with open('dco_ckv_time' + suffix + '.txt','r+') as myFile:
         contents = myFile.read()
 t_CKV = np.asarray(contents.split())
 t_CKV = t_CKV.astype(int)

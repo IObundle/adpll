@@ -42,9 +42,7 @@ XCFLAGS = -errormax 15 -status -update -linedebug -SV
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
 
-ifeq ($(SIM),)
-SIM=icarus
-endif
+SIM ?=icarus
 
 all: usage
 
@@ -52,9 +50,9 @@ usage:
 	@echo "Usage: make target [parameters]"
 	@echo "       For example, \"make run SIM=icarus\""
 
-run: $(SIM) self-checker
+run: $(SIM)_ctr0 self-checker
 
-run_cpu: $(SIM) self-checker-cpu
+run_cpu: $(SIM)_ctr self-checker-cpu
 
 icarus_ctr0:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
@@ -98,25 +96,30 @@ plots_adpll:
 	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
+plots_adpll_cpu:
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM) soc0; fi;
+	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) soc0; fi;
+
 self-checker:
 	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
 
 self-checker-cpu:
-	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL) _soc0
+	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL) soc0
 
 clean_xcelium:
 	@rm -rf xcelium.d
+
 clean: clean_xcelium
 	@rm -f  *~ *.vcd \#*\# a.out params.m *.hex *.txt *.log
 
 .PHONY: all \
         usage \
-        run \
-        icarus \
-        xcelium \
-        xcelium_synth \
-        xcelium_pr \
-        plots_adpll_ctr0_tb \
-        self-checker \
+        run run_cpu \
+        icarus_ctr0 icarus_ctr \
+        xcelium_ctr0 xcelium_ctr \
+        xcelium_synth_ctr0 xcelium_synth_ctr \
+        xcelium_pr_ctr0 xcelium_pr_ctr \
+        plots_adpll plots_adpll_cpu \
+        self-checker self-checker-cpu \
         clean_xcelium clean
 

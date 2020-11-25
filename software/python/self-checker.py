@@ -26,7 +26,7 @@ else:
         freq_channel = float(expr)
 
 ##file names suffix
-if (len(sys.argv) == 4): suffix = sys.argv[3]
+if (len(sys.argv) == 4): suffix = "_" + sys.argv[3]
 else: suffix = ""
 
 ################################################################################

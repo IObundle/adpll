@@ -10,7 +10,7 @@ ADPLL_OPERATION=$(TX)
 FREQ_CHANNEL=2473.500
 
 # simulation time in us
-SIM_TIME=40
+SIM_TIME=80
 
 # dco phase noise flag
 DCO_PN=1
