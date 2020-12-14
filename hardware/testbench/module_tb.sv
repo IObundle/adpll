@@ -67,6 +67,7 @@ module adpll_tb
 	  .period_fs(osc_period_fs)
 	  );
 
+`ifdef DBG
    integer       fp1, fp2, fp3, fp4;
    string        fname;
    initial begin
@@ -98,6 +99,7 @@ module adpll_tb
    always @ (negedge clk)
      if (channel_lock)
        $fwrite(fp4, "%0d ", (dco0.c_s_val_sum == "x")? "x": dco0.c_s_val_sum);
+`endif
 
    // Instantiate TDC module
    tdc_analog tdc_analog0
