@@ -1,4 +1,5 @@
          // ADPLL CPU interface
+         output                     adpll_reset,
          output                     adpll_valid,
          output [`ADPLL_ADDR_W-1:0] adpll_address,
          output [`ADPLL_DATA_W-1:0] adpll_wdata,

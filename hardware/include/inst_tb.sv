@@ -49,7 +49,7 @@
 
       // CPU interface
       .clk       (clk),
-      .rst       (reset),
+      .rst       (adpll_reset),
       .valid     (adpll_valid),
       .address   (adpll_address),
       .wdata     (adpll_wdata),

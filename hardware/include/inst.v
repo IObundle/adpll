@@ -11,6 +11,7 @@
       end
    end
 
+   assign adpll_reset = reset;
    assign adpll_valid = slaves_req[`valid(`ADPLL)];
    assign adpll_address = slaves_req[`address(`ADPLL,`ADPLL_ADDR_W+2)-2];
    assign adpll_wdata = slaves_req[`wdata(`ADPLL)-(`DATA_W-`ADPLL_DATA_W)];
