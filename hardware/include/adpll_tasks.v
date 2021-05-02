@@ -54,7 +54,12 @@
    endtask // adpll_config
 
    task adpll_on;
-      /adpll_write(`ADPLL_SOFT_RST, 1);
-      //adpll_write(`ADPLL_SOFT_RST, 0);
+      adpll_write(`ADPLL_SOFT_RST, 1);
+      adpll_write(`ADPLL_SOFT_RST, 0);
       adpll_write(`ADPLL_EN, 1);
+   endtask
+
+   task adpll_off;
+      adpll_write(`ADPLL_MODE, `PD);
+      adpll_write(`ADPLL_EN, 0);
    endtask
