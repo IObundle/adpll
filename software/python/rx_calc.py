@@ -51,7 +51,7 @@ while(i < len(sys.argv)) :
         else : usage("unexpected argument '%s'" % sys.argv[i])
         i += 1
 
-if (ams_pn):
+if (not ams_pn):
         ################################################################################
         ## Open file of negedge clk time
 
