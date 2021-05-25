@@ -25,60 +25,80 @@ import mplcursors
 start_time = time.time()
 
 #time_rm_us = 5 ## <-----------INITIAL TRANSIENT REMOVED
-time_rm_us = float(sys.argv[1])
+time_rm_us = 0.0
 
 ##file names suffix
-if (len(sys.argv) == 3): suffix = "_" + sys.argv[2]
-else: suffix = ""
+suffix = ""
 
-################################################################################
-## Open file of negedge clk time
+## phase noise AMS
+ams_pn = 0
 
-with open('clkn_time' + suffix + '.txt','r+') as myFile:
-        contents = myFile.read()
-#print(contents)
-clkn_time = np.asarray(contents.split())
-clkn_time = clkn_time.astype(int)
-clkn_time = clkn_time*1e-15;
-print("clkn_time = ", clkn_time[-1])
-aux = np.abs(clkn_time - time_rm_us*1e-6)
-idx = np.where(aux == np.min(aux));
-idx = idx[0][0]
-clkn_time = clkn_time[idx:] #removes initial transient
+def usage (message) :
+    print ("usage: %s" % message)
+    print ("       ./rx_calc -t <initial time to remove in us> -s <input files suffix> -ams_pn")
+    sys.exit(1)
 
-## Open file contanining tdc word
-with open('tdc_word' + suffix + '.txt','r+') as myFile:
-        contents = myFile.read()
-tdc_word = np.asarray(contents.split())
-tdc_word = np.where(tdc_word=='x', 0 , tdc_word) 
-##tdc_word = tdc_word[tdc_word != 'x']
-tdc_word = tdc_word.astype(int)
-tdc_word = tdc_word[idx:] #removes initial transient
+i = 1
+while(i < len(sys.argv)) :
+        if (sys.argv[i] == "-t") :
+                time_rm_us = float(sys.argv[i+1])
+                i += 1
+        elif (sys.argv[i] == "-s") :
+                suffix = "_" + sys.argv[2]
+                i += 1
+        elif (sys.argv[i] == "-ams_pn") :
+                ams_pn = 1
+        else : usage("unexpected argument '%s'" % sys.argv[i])
+        i += 1
+
+if (ams_pn):
+        ################################################################################
+        ## Open file of negedge clk time
+
+        with open('clkn_time' + suffix + '.txt','r+') as myFile:
+                contents = myFile.read()
+        #print(contents)
+        clkn_time = np.asarray(contents.split())
+        clkn_time = clkn_time.astype(int)
+        clkn_time = clkn_time*1e-15;
+        print("clkn_time = ", clkn_time[-1])
+        aux = np.abs(clkn_time - time_rm_us*1e-6)
+        idx = np.where(aux == np.min(aux));
+        idx = idx[0][0]
+        clkn_time = clkn_time[idx:] #removes initial transient
+
+        ## Open file contanining tdc word
+        with open('tdc_word' + suffix + '.txt','r+') as myFile:
+                contents = myFile.read()
+        tdc_word = np.asarray(contents.split())
+        tdc_word = np.where(tdc_word=='x', 0 , tdc_word)
+        ##tdc_word = tdc_word[tdc_word != 'x']
+        tdc_word = tdc_word.astype(int)
+        tdc_word = tdc_word[idx:] #removes initial transient
 
 
-tdc_word_mean= np.sum(tdc_word) / len(tdc_word); 
-print("TDC_word_mean = ", tdc_word_mean)
+        tdc_word_mean= np.sum(tdc_word) / len(tdc_word);
+        print("TDC_word_mean = ", tdc_word_mean)
 
-plt.subplot(413)
-plt.plot(clkn_time*1e6,tdc_word)
-plt.ticklabel_format(useOffset=False)
-plt.title('TDC output word vs time in us', fontsize=15)
-plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
+        plt.subplot(413)
+        plt.plot(clkn_time*1e6,tdc_word)
+        plt.ticklabel_format(useOffset=False)
+        plt.title('TDC output word vs time in us', fontsize=15)
+        plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
-## Open file contanining DCO input word of small C bank
-with open('dco_s_word' + suffix + '.txt','r+') as myFile:
-        contents = myFile.read()
-dco_s_word = np.asarray(contents.split())
-dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word) 
-dco_s_word = dco_s_word.astype(int)
-dco_s_word = dco_s_word[idx:] #removes initial transient
+        ## Open file contanining DCO input word of small C bank
+        with open('dco_s_word' + suffix + '.txt','r+') as myFile:
+                contents = myFile.read()
+        dco_s_word = np.asarray(contents.split())
+        dco_s_word = np.where(dco_s_word =='x', 0 , dco_s_word)
+        dco_s_word = dco_s_word.astype(int)
+        dco_s_word = dco_s_word[idx:] #removes initial transient
 
-plt.subplot(414)
-plt.plot(clkn_time*1e6,dco_s_word)
-plt.ticklabel_format(useOffset=False)
-plt.title('DCO small cap bank word vs time in us', fontsize=15)
-plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
-
+        plt.subplot(414)
+        plt.plot(clkn_time*1e6,dco_s_word)
+        plt.ticklabel_format(useOffset=False)
+        plt.title('DCO small cap bank word vs time in us', fontsize=15)
+        plt.xlim(clkn_time[0]*1e6, clkn_time[-1]*1e6)
 
 ################################################################################
 ## Open file contanining ckv period

@@ -93,11 +93,11 @@ xcelium_pr_ctr:
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
 plots_adpll:
-	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM); fi;
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM); fi;
 	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
 
 plots_adpll_cpu:
-	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py $(INIT_TIME_RM) soc0; fi;
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM) -s soc0; fi;
 	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) soc0; fi;
 
 self-checker:
