@@ -7,14 +7,19 @@ SYNTH_DIR = $(HW_DIR)/synth
 SW_DIR = $(ROOT_DIR)/software
 PY_DIR = $(SW_DIR)/python
 
+SIM ?=icarus
+
+ifeq ($(SIM),icarus)
 defmacro:=-D
+incdir:=-I
+else
+defmacro:=-define 
+incdir:=-incdir 
+endif
 
 include $(ROOT_DIR)/adpll.mk
 
-INCLUDE=-I $(INC_DIR)
-INCLUDE2=-incdir $(INC_DIR)
-
-DEFINE2=-DEFINE FREQ_CHANNEL=$(FREQ_CHANNEL) -DEFINE SIM_TIME=$(SIM_TIME) -DEFINE ADPLL_OPERATION=$(ADPLL_OPERATION) -DEFINE DCO_PN=$(DCO_PN)
+INCLUDE=$(incdir)$(INC_DIR)
 
 SRC = \
 	$(SRC_DIR)/row_col_cod.v \
@@ -46,8 +51,6 @@ ifneq ($(AMS_PN),)
 EXTRA_ARGS=-ams_pn
 endif
 
-SIM ?=icarus
-
 all: usage
 
 usage:
@@ -67,32 +70,32 @@ icarus_ctr:
 	./a.out
 
 xcelium_ctr0:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 xcelium_ctr:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	xmelab $(XEFLAGS) adpll_ctr_tb
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
 xcelium_synth_ctr0:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 xcelium_synth_ctr:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_synth.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(SRC_DIR)/adpll_ctr.v $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	xmelab $(XEFLAGS) adpll_ctr_tb
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
 xcelium_pr_ctr0:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr0_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/adpll_ctr0_tb.v
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr0_WC_AN_PR.sdf adpll_ctr0_tb
 	xmsim $(XSFLAGS) adpll_ctr0_tb
 
 xcelium_pr_ctr:
-	xmvlog $(XCFLAGS) $(INCLUDE2) $(DEFINE2) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
+	xmvlog $(XCFLAGS) $(INCLUDE) $(DEFINE) $(TB_SRC) $(SYNTH_DIR)/adpll_ctr_PR.v $(SYNTH_DIR)/verilog_libs/fsc0l_d_generic_core_30.lib $(TB_DIR)/module_tb.sv $(TB_DIR)/adpll_ctr_tb.v
 	xmelab $(XEFLAGS) -sdf_cmd_file $(SYNTH_DIR)/adpll_ctr_WC_AN_PR.sdf adpll_ctr_tb
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
