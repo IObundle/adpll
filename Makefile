@@ -1,13 +1,4 @@
-ROOT_DIR = .
-
-# paths
-HW_DIR = $(ROOT_DIR)/hardware
-INC_DIR = $(HW_DIR)/include
-SRC_DIR = $(HW_DIR)/src
-TB_DIR = $(HW_DIR)/testbench
-SYNTH_DIR = $(HW_DIR)/synth
-SW_DIR = $(ROOT_DIR)/software
-PY_DIR = $(SW_DIR)/python
+ROOT_DIR=.
 
 # default simulator (simulators: icarus xcelium)
 SIM ?=icarus
@@ -18,6 +9,15 @@ DBG ?=1
 #############################################################
 # DERIVED FROM PRIMARY PARAMETERS: DO NOT CHANGE
 #############################################################
+
+# paths
+HW_DIR=$(ROOT_DIR)/hardware
+INC_DIR=$(HW_DIR)/include
+SRC_DIR=$(HW_DIR)/src
+TB_DIR=$(HW_DIR)/testbench
+SYNTH_DIR=$(HW_DIR)/synth
+SW_DIR=$(ROOT_DIR)/software
+PY_DIR=$(SW_DIR)/python
 
 ifeq ($(SIM),icarus)
 defmacro:=-D
