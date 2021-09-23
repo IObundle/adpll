@@ -44,7 +44,7 @@ while(i < len(sys.argv)) :
                 time_rm_us = float(sys.argv[i+1])
                 i += 1
         elif (sys.argv[i] == "-s") :
-                suffix = "_" + sys.argv[2]
+                suffix = "_" + sys.argv[i+1]
                 i += 1
         elif (sys.argv[i] == "-ams_pn") :
                 ams_pn = 1

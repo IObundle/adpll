@@ -1,4 +1,6 @@
 ROOT_DIR = .
+
+# paths
 HW_DIR = $(ROOT_DIR)/hardware
 INC_DIR = $(HW_DIR)/include
 SRC_DIR = $(HW_DIR)/src
@@ -7,7 +9,15 @@ SYNTH_DIR = $(HW_DIR)/synth
 SW_DIR = $(ROOT_DIR)/software
 PY_DIR = $(SW_DIR)/python
 
+# default simulator (simulators: icarus xcelium)
 SIM ?=icarus
+
+# debug active by default
+DBG ?=1
+
+#############################################################
+# DERIVED FROM PRIMARY PARAMETERS: DO NOT CHANGE
+#############################################################
 
 ifeq ($(SIM),icarus)
 defmacro:=-D
@@ -15,6 +25,10 @@ incdir:=-I
 else
 defmacro:=-define 
 incdir:=-incdir 
+endif
+
+ifeq ($(DBG),1)
+DEFINE+=$(defmacro)DBG
 endif
 
 include $(ROOT_DIR)/adpll.mk
@@ -53,9 +67,16 @@ endif
 
 all: usage
 
+help: usage
+
 usage:
 	@echo "Usage: make target [parameters]"
-	@echo "       For example, \"make run SIM=icarus\""
+	@echo "       For example, for running the ADPLL only, \"make run SIM=icarus\". For running"
+	@echo "       the ADPLL with the CPU interface, \"make run_cpu SIM=xclelium\"."
+	@echo ""
+	@echo "       Note: To validate the simulation results, use plots_adpll or plots_adpll_cpu"
+	@echo "       as target, according to the simulation made (ADPLL only or ADPLL with the"
+	@echo "       CPU interface)."
 
 run: $(SIM)_ctr0 self-checker
 
@@ -120,7 +141,7 @@ clean: clean_xcelium
 	@rm -f  *~ *.vcd \#*\# a.out params.m *.hex *.txt *.log
 
 .PHONY: all \
-        usage \
+        help usage \
         run run_cpu \
         icarus_ctr0 icarus_ctr \
         xcelium_ctr0 xcelium_ctr \
