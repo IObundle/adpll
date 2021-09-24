@@ -1,16 +1,19 @@
 ROOT_DIR=.
 
-# default simulator (simulators: icarus xcelium)
+# Default simulator (simulators: icarus xcelium)
 SIM ?=icarus
 
-# debug active by default
+# Debug active by default
 DBG ?=1
 
 #############################################################
 # DERIVED FROM PRIMARY PARAMETERS: DO NOT CHANGE
 #############################################################
 
-# paths
+#
+# Paths
+#
+
 HW_DIR=$(ROOT_DIR)/hardware
 INC_DIR=$(HW_DIR)/include
 SRC_DIR=$(HW_DIR)/src
@@ -18,6 +21,10 @@ TB_DIR=$(HW_DIR)/testbench
 SYNTH_DIR=$(HW_DIR)/synth
 SW_DIR=$(ROOT_DIR)/software
 PY_DIR=$(SW_DIR)/python
+
+#
+# Defines
+#
 
 ifeq ($(SIM),icarus)
 defmacro:=-D
@@ -33,7 +40,15 @@ endif
 
 include $(ROOT_DIR)/adpll.mk
 
+#
+# Includes
+#
+
 INCLUDE=$(incdir)$(INC_DIR)
+
+#
+# Sources
+#
 
 SRC = \
 	$(SRC_DIR)/row_col_cod.v \
@@ -52,11 +67,15 @@ TB_SRC = \
 	$(TB_DIR)/DCO/dco.sv \
 	$(TB_DIR)/DCO/c_sel.sv 
 
-#Icarus 
+#
+# Simulation flags
+#
+
+# Icarus
 CC = iverilog
 CFLAGS = -Wall -g2005-sv
 
-#Xcelium
+# Xcelium
 XCFLAGS = -errormax 15 -status -update -linedebug -SV
 XEFLAGS = -errormax 15 -access +wc -status
 XSFLAGS = -errormax 15 -status
@@ -65,6 +84,10 @@ ifneq ($(AMS_PN),)
 EXTRA_ARGS=-ams_pn
 endif
 
+#
+# Targets
+#
+
 all: usage
 
 help: usage
@@ -72,7 +95,7 @@ help: usage
 usage:
 	@echo "Usage: make target [parameters]"
 	@echo "       For example, for running the ADPLL only, \"make run SIM=icarus\". For running"
-	@echo "       the ADPLL with the CPU interface, \"make run_cpu SIM=xclelium\"."
+	@echo "       the ADPLL with the CPU interface, \"make run_cpu SIM=xcelium\"."
 	@echo ""
 	@echo "       Note: To validate the simulation results, use plots_adpll or plots_adpll_cpu"
 	@echo "       as target, according to the simulation made (ADPLL only or ADPLL with the"
