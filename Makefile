@@ -94,16 +94,15 @@ help: usage
 
 usage:
 	@echo "Usage: make target [parameters]"
-	@echo "       For example, for running the ADPLL only, \"make run SIM=icarus\". For running"
-	@echo "       the ADPLL with the CPU interface, \"make run_cpu SIM=xcelium\"."
+	@echo "       For example, for simulating the ADPLL only, run the command \"make sim SIM=icarus\". For"
+	@echo "       simulating the ADPLL with the CPU interface, run the command \"make sim_cpu SIM=xcelium\"."
 	@echo ""
-	@echo "       Note: To validate the simulation results, use plots_adpll or plots_adpll_cpu"
-	@echo "       as target, according to the simulation made (ADPLL only or ADPLL with the"
-	@echo "       CPU interface)."
+	@echo "       Note: To validate the simulation results, use plots_adpll or plots_adpll_cpu as target,"
+	@echo "       according to the simulation made (ADPLL only or ADPLL with the CPU interface)."
 
-run: $(SIM)_ctr0 self-checker
+sim: $(SIM)_ctr0 self-checker
 
-run_cpu: $(SIM)_ctr self-checker-cpu
+sim_cpu: $(SIM)_ctr self-checker-cpu
 
 icarus_ctr0:
 	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) $(SRC) $(TB_SRC) $(SRC_DIR)/adpll_ctr0.v $(TB_DIR)/adpll_ctr0_tb.v
@@ -165,7 +164,7 @@ clean: clean_xcelium
 
 .PHONY: all \
         help usage \
-        run run_cpu \
+        sim sim_cpu \
         icarus_ctr0 icarus_ctr \
         xcelium_ctr0 xcelium_ctr \
         xcelium_synth_ctr0 xcelium_synth_ctr \
