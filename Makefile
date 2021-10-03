@@ -1,7 +1,7 @@
 ROOT_DIR=.
 
 # Default simulator (simulators: icarus xcelium)
-SIM ?=icarus
+SIM ?=xcelium
 
 # Debug active by default
 DBG ?=1
