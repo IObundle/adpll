@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 ################################################################################
 ###
 ###   Calculations for TX EYE diagram and TX settling time behavior
@@ -26,22 +28,40 @@ import mplcursors
 start_time = time.time()
 
 #time_rm_us = 20 ## <-----------INITIAL TRANSIENT REMOVED
-time_rm_us = float(sys.argv[1])
+time_rm_us = 0.0
 
 ##Desired channel freq in MHz
-expr = sys.argv[2]
-if (expr.find('+') != -1):
-        ops = expr.split('+')
-        freq_channel = float(ops[0]) + float(ops[1])
-elif (expr.find('-') != -1):
-        ops = expr.split('-')
-        freq_channel = float(ops[0]) - float(ops[1])
-else:
-        freq_channel = float(expr)
+freq_channel = 2473.500
 
 ##file names suffix
-if (len(sys.argv) == 4): suffix = "_" + sys.argv[3]
-else: suffix = ""
+suffix = ""
+
+def usage (message) :
+    print ("usage: %s" % message)
+    print ("       ./tx_calc -t <initial time to remove in us> -f <channel frequency> -s <input files suffix>")
+    sys.exit(1)
+
+i = 1
+while(i < len(sys.argv)) :
+        if (sys.argv[i] == "-t") :
+                time_rm_us = float(sys.argv[i+1])
+                i += 1
+        elif (sys.argv[i] == "-f") :
+                expr = sys.argv[i+1]
+                if (expr.find('+') != -1):
+                        ops = expr.split('+')
+                        freq_channel = float(ops[0]) + float(ops[1])
+                elif (expr.find('-') != -1):
+                        ops = expr.split('-')
+                        freq_channel = float(ops[0]) - float(ops[1])
+                else:
+                        freq_channel = float(expr)
+                i += 1
+        elif (sys.argv[i] == "-s") :
+                suffix = "_" + sys.argv[i+1]
+                i += 1
+        else : usage("unexpected argument '%s'" % sys.argv[i])
+        i += 1
 
 ################################################################################
 ## Open file of negedge clk time

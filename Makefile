@@ -143,18 +143,18 @@ xcelium_pr_ctr:
 	xmsim $(XSFLAGS) adpll_ctr_tb
 
 plots_adpll:
-	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM) $(EXTRA_ARGS); fi;
-	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL); fi;
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM) $(EXTRA_ARGS); fi;
+	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then $(PY_DIR)/tx_calc.py -t $(INIT_TIME_RM) -f $(FREQ_CHANNEL); fi;
 
 plots_adpll_cpu:
-	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then python3 $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM) -s soc0 $(EXTRA_ARGS); fi;
-	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then python3 $(PY_DIR)/tx_calc.py $(INIT_TIME_RM) $(FREQ_CHANNEL) soc0; fi;
+	if [ $(ADPLL_OPERATION) -eq $(RX) ]; then $(PY_DIR)/rx_calc.py -t $(INIT_TIME_RM) -s soc0 $(EXTRA_ARGS); fi;
+	if [ $(ADPLL_OPERATION) -eq $(TX) ]; then $(PY_DIR)/tx_calc.py -t $(INIT_TIME_RM) -f $(FREQ_CHANNEL) -s soc0; fi;
 
 self-checker:
-	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL)
+	$(PY_DIR)/self-checker.py -t $(INIT_TIME_RM) -f $(FREQ_CHANNEL)
 
 self-checker-cpu:
-	python3 $(PY_DIR)/self-checker.py $(INIT_TIME_RM) $(FREQ_CHANNEL) soc0
+	$(PY_DIR)/self-checker.py -t $(INIT_TIME_RM) -f $(FREQ_CHANNEL) -s soc0
 
 clean_xcelium:
 	@rm -rf xcelium.d
