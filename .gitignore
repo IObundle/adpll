@@ -1,0 +1,10 @@
+*.vcd
+./*.v
+\#*\# 
+a.out 
+params.m  
+*.hex 
+*.log
+xcelium.d
+*.txt
+__pycache__/
